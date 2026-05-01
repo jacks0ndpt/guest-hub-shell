@@ -9,10 +9,14 @@ import TestimonialSection from "@/components/site/TestimonialSection";
 import CTASection from "@/components/site/CTASection";
 import MapPlaceholder from "@/components/site/MapPlaceholder";
 import { Button } from "@/components/ui/button";
-import { heroHotel, property, rooms } from "@/data/mock";
+import { heroHotel } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
+import { useRooms } from "@/hooks/useRooms";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 const Index = () => {
+  const { merged: property } = useProperty();
+  const { rooms } = useRooms();
   usePageMeta(
     `${property.property_name} — Boutique stays in ${property.city}`,
     property.short_description
