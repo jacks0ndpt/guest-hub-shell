@@ -1,10 +1,13 @@
 import SiteLayout from "@/components/site/SiteLayout";
 import RoomCard from "@/components/site/RoomCard";
 import CTASection from "@/components/site/CTASection";
-import { rooms, property } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
+import { useRooms } from "@/hooks/useRooms";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 const Rooms = () => {
+  const { merged: property } = useProperty();
+  const { rooms } = useRooms();
   usePageMeta(`Rooms — ${property.property_name}`, "Browse our 24 rooms, from cozy doubles to mountain-view deluxes.");
   return (
     <SiteLayout>

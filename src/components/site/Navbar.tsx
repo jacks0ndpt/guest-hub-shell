@@ -2,7 +2,8 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { property } from "@/data/mock";
+import { property as mockProperty } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -19,6 +20,8 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const { merged: property } = useProperty();
+  void mockProperty;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
