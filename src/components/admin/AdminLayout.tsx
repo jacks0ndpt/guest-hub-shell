@@ -11,6 +11,7 @@ import {
   LogOut,
   Menu,
   X,
+  QrCode,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -22,6 +23,7 @@ const nav = [
   { to: "/admin/requests", label: "Requests", icon: Inbox },
   { to: "/admin/services", label: "Services", icon: ConciergeBell },
   { to: "/admin/rooms", label: "Rooms", icon: BedDouble },
+  { to: "/admin/qr-codes", label: "QR codes", icon: QrCode },
   { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/reports", label: "Reports", icon: BarChart3 },
   { to: "/admin/settings", label: "Settings", icon: Settings },
