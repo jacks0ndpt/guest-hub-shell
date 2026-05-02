@@ -109,6 +109,14 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/qr-codes"
+              element={
+                <ProtectedRoute>
+                  <AdminQRCodes />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
