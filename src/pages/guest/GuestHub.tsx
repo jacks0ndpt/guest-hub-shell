@@ -13,10 +13,11 @@ import {
   MapPin,
   MessageCircle,
   ChevronRight,
+  type LucideIcon,
 } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
-const ICONS: Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>> = {
+const ICONS: Record<string, LucideIcon> = {
   Sparkles,
   ConciergeBell,
   Plus,
