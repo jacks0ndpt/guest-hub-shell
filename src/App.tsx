@@ -15,6 +15,9 @@ import Contact from "./pages/Contact.tsx";
 import Offers from "./pages/Offers.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
+import GuestHub from "./pages/guest/GuestHub.tsx";
+import RoomQR from "./pages/guest/RoomQR.tsx";
+
 import AdminLogin from "./pages/admin/AdminLogin.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import AdminRequests from "./pages/admin/AdminRequests.tsx";
@@ -23,6 +26,7 @@ import AdminRooms from "./pages/admin/AdminRooms.tsx";
 import AdminContent from "./pages/admin/AdminContent.tsx";
 import AdminReports from "./pages/admin/AdminReports.tsx";
 import AdminSettings from "./pages/admin/AdminSettings.tsx";
+import AdminQRCodes from "./pages/admin/AdminQRCodes.tsx";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +46,10 @@ const App = () => (
             <Route path="/location" element={<Location />} />
             <Route path="/offers" element={<Offers />} />
             <Route path="/contact" element={<Contact />} />
+
+            {/* Guest QR hub (no auth) */}
+            <Route path="/guest" element={<GuestHub />} />
+            <Route path="/r/:qrCodeSlug" element={<RoomQR />} />
 
             {/* Admin */}
             <Route path="/admin/login" element={<AdminLogin />} />
