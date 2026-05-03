@@ -47,11 +47,11 @@ const AdminDashboard = () => {
             .from("guest_requests")
             .select("estimated_value, status")
             .gte("created_at", startOfMonth.toISOString()),
-          supabase.from("guest_requests").select("*", { count: "exact", head: true }).eq("status", "open"),
+          supabase.from("guest_requests").select("*", { count: "exact", head: true }).in("status", ["new", "in_progress", "accepted"]),
           supabase
             .from("guest_requests")
             .select("*", { count: "exact", head: true })
-            .eq("status", "completed"),
+            .eq("status", "done"),
           supabase.from("private_feedback").select("*", { count: "exact", head: true }),
         ]);
 
