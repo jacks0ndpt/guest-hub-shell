@@ -11,30 +11,40 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 type Settings = {
   id?: string;
   property_name: string;
+  property_type: string;
   phone: string;
   email: string;
   whatsapp: string;
   booking_url: string;
   address: string;
+  city: string;
+  country: string;
   checkin_time: string;
   checkout_time: string;
   currency: string;
+  language_default: string;
   primary_color: string;
   secondary_color: string;
+  logo_url: string;
 };
 
 const empty: Settings = {
   property_name: "",
+  property_type: "",
   phone: "",
   email: "",
   whatsapp: "",
   booking_url: "",
   address: "",
+  city: "",
+  country: "",
   checkin_time: "",
   checkout_time: "",
   currency: "EUR",
+  language_default: "en",
   primary_color: "#8b7355",
   secondary_color: "#c9b99a",
+  logo_url: "",
 };
 
 const AdminSettings = () => {
@@ -50,16 +60,21 @@ const AdminSettings = () => {
         setForm({
           id: data.id,
           property_name: data.property_name ?? "",
+          property_type: data.property_type ?? "",
           phone: data.phone ?? "",
           email: data.email ?? "",
           whatsapp: data.whatsapp ?? "",
           booking_url: data.booking_url ?? "",
           address: data.address ?? "",
+          city: data.city ?? "",
+          country: data.country ?? "",
           checkin_time: data.checkin_time ?? "",
           checkout_time: data.checkout_time ?? "",
           currency: data.currency ?? "EUR",
+          language_default: data.language_default ?? "en",
           primary_color: data.primary_color ?? "#8b7355",
           secondary_color: data.secondary_color ?? "#c9b99a",
+          logo_url: data.logo_url ?? "",
         });
       }
       setLoading(false);
@@ -74,7 +89,6 @@ const AdminSettings = () => {
     try {
       const payload = { ...form };
       delete (payload as { id?: string }).id;
-
       const { error } = form.id
         ? await supabase.from("property_settings").update(payload).eq("id", form.id)
         : await supabase.from("property_settings").insert(payload);
@@ -90,6 +104,19 @@ const AdminSettings = () => {
       setSaving(false);
     }
   };
+
+  const field = (id: keyof Settings, label: string, type = "text", placeholder?: string) => (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        value={(form[id] as string) ?? ""}
+        onChange={(e) => set(id, e.target.value as never)}
+      />
+    </div>
+  );
 
   return (
     <AdminLayout>
@@ -108,81 +135,32 @@ const AdminSettings = () => {
           <Card>
             <CardContent className="p-6">
               <form onSubmit={onSubmit} className="space-y-5">
-                <div className="space-y-2">
-                  <Label htmlFor="property_name">Property name</Label>
-                  <Input
-                    id="property_name"
-                    value={form.property_name}
-                    onChange={(e) => set("property_name", e.target.value)}
-                    required
-                  />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {field("property_name", "Property name")}
+                  {field("property_type", "Property type", "text", "Hotel, B&B, Motel…")}
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => set("email", e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="whatsapp">WhatsApp</Label>
-                    <Input
-                      id="whatsapp"
-                      value={form.whatsapp}
-                      onChange={(e) => set("whatsapp", e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="booking_url">Booking URL</Label>
-                    <Input
-                      id="booking_url"
-                      value={form.booking_url}
-                      onChange={(e) => set("booking_url", e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Input id="address" value={form.address} onChange={(e) => set("address", e.target.value)} />
+                  {field("phone", "Phone")}
+                  {field("email", "Email", "email")}
+                  {field("whatsapp", "WhatsApp")}
+                  {field("booking_url", "Booking URL")}
                 </div>
 
                 <div className="grid sm:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="checkin">Check-in time</Label>
-                    <Input
-                      id="checkin"
-                      placeholder="15:00"
-                      value={form.checkin_time}
-                      onChange={(e) => set("checkin_time", e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="checkout">Check-out time</Label>
-                    <Input
-                      id="checkout"
-                      placeholder="11:00"
-                      value={form.checkout_time}
-                      onChange={(e) => set("checkout_time", e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="currency">Currency</Label>
-                    <Input
-                      id="currency"
-                      value={form.currency}
-                      onChange={(e) => set("currency", e.target.value)}
-                    />
-                  </div>
+                  {field("address", "Address")}
+                  {field("city", "City")}
+                  {field("country", "Country")}
                 </div>
+
+                <div className="grid sm:grid-cols-4 gap-4">
+                  {field("checkin_time", "Check-in", "text", "15:00")}
+                  {field("checkout_time", "Check-out", "text", "11:00")}
+                  {field("currency", "Currency")}
+                  {field("language_default", "Default language")}
+                </div>
+
+                {field("logo_url", "Logo URL")}
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -195,10 +173,7 @@ const AdminSettings = () => {
                         onChange={(e) => set("primary_color", e.target.value)}
                         className="h-10 w-16 p-1"
                       />
-                      <Input
-                        value={form.primary_color}
-                        onChange={(e) => set("primary_color", e.target.value)}
-                      />
+                      <Input value={form.primary_color} onChange={(e) => set("primary_color", e.target.value)} />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -211,10 +186,7 @@ const AdminSettings = () => {
                         onChange={(e) => set("secondary_color", e.target.value)}
                         className="h-10 w-16 p-1"
                       />
-                      <Input
-                        value={form.secondary_color}
-                        onChange={(e) => set("secondary_color", e.target.value)}
-                      />
+                      <Input value={form.secondary_color} onChange={(e) => set("secondary_color", e.target.value)} />
                     </div>
                   </div>
                 </div>

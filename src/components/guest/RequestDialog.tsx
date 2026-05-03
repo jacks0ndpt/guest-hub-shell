@@ -55,7 +55,7 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
       guest_name: name.trim() || null,
       guest_contact: contact.trim() || null,
       guest_note: note.trim() || null,
-      status: "open",
+      status: "new",
       estimated_value: item.is_paid_extra ? Number(item.price_estimate ?? 0) : 0,
     };
 
