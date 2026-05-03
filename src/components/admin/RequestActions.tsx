@@ -14,7 +14,7 @@ type Props = {
   onChanged: () => void;
 };
 
-const update = async (id: string, patch: Record<string, unknown>) => {
+const update = async (id: string, patch: { status?: string; completed_at?: string; staff_note?: string | null }) => {
   const { error } = await supabase.from("guest_requests").update(patch).eq("id", id);
   if (error) {
     toast({ title: "Update failed", description: error.message, variant: "destructive" });
