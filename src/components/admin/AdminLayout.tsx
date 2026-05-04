@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   QrCode,
+  ListChecks,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -26,6 +27,7 @@ const nav = [
   { to: "/admin/qr-codes", label: "QR codes", icon: QrCode },
   { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/reports", label: "Reports", icon: BarChart3 },
+  { to: "/admin/mvp-checklist", label: "MVP checklist", icon: ListChecks },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 

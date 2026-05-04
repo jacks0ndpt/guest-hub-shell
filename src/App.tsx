@@ -27,6 +27,7 @@ import AdminContent from "./pages/admin/AdminContent.tsx";
 import AdminReports from "./pages/admin/AdminReports.tsx";
 import AdminSettings from "./pages/admin/AdminSettings.tsx";
 import AdminQRCodes from "./pages/admin/AdminQRCodes.tsx";
+import AdminMVPChecklist from "./pages/admin/AdminMVPChecklist.tsx";
 
 const queryClient = new QueryClient();
 
@@ -114,6 +115,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <AdminQRCodes />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/mvp-checklist"
+              element={
+                <ProtectedRoute>
+                  <AdminMVPChecklist />
                 </ProtectedRoute>
               }
             />
