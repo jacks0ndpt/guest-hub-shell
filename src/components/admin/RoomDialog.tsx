@@ -117,7 +117,27 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
       toast({ title: "Save failed", description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: form.id ? "Room updated" : "Room created" });
+
+    // Auto-create a QR room_code on new rooms if one with the same slug doesn't exist yet.
+    if (!form.id) {
+      const { data: existing } = await supabase
+        .from("room_codes")
+        .select("id")
+        .eq("qr_code_slug", payload.slug)
+        .maybeSingle();
+      if (!existing) {
+        await supabase.from("room_codes").insert({
+          qr_code_slug: payload.slug,
+          room_label: payload.name,
+          is_active: true,
+        });
+      }
+    }
+
+    toast({
+      title: form.id ? "Room updated" : "Room created",
+      description: form.id ? undefined : "A QR code was generated automatically.",
+    });
     onSaved();
     onOpenChange(false);
   };
