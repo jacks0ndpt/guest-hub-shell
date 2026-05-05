@@ -13,10 +13,12 @@ import { heroHotel } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { useRooms } from "@/hooks/useRooms";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { useSiteContent, get } from "@/hooks/useSiteContent";
 
 const Index = () => {
   const { merged: property } = useProperty();
   const { rooms } = useRooms();
+  const { content } = useSiteContent();
   usePageMeta(
     `${property.property_name} — Boutique stays in ${property.city}`,
     property.short_description
@@ -26,27 +28,23 @@ const Index = () => {
     <SiteLayout>
       <HeroSection
         image={heroHotel}
-        eyebrow={`${property.property_type} · ${property.city}, ${property.country}`}
-        title={<>A warm stay between the<br className="hidden md:block" /> mountains and the old town.</>}
-        subtitle={property.short_description}
-        primaryCta={{ label: "Book Direct", href: property.booking_url }}
-        secondaryCta={{ label: "Explore Rooms", href: "/rooms" }}
+        eyebrow={get(content, "hero", "eyebrow") || `${property.property_type} · ${property.city}, ${property.country}`}
+        title={<>{get(content, "hero", "title_line1")}<br className="hidden md:block" /> {get(content, "hero", "title_line2")}</>}
+        subtitle={get(content, "hero", "subtitle") || property.short_description}
+        primaryCta={{ label: get(content, "hero", "primary_cta_label") || "Book Direct", href: property.booking_url }}
+        secondaryCta={{ label: get(content, "hero", "secondary_cta_label") || "Explore Rooms", href: "/rooms" }}
       />
 
       {/* Positioning */}
       <section className="section">
         <div className="container-narrow grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>
-            <p className="eyebrow mb-3">About {property.property_name}</p>
-            <h2 className="text-4xl md:text-5xl">24 quiet rooms. One honest kind of hospitality.</h2>
+            <p className="eyebrow mb-3">{get(content, "about", "eyebrow")} {property.property_name}</p>
+            <h2 className="text-4xl md:text-5xl">{get(content, "about", "title")}</h2>
           </div>
           <div className="space-y-5 text-muted-foreground">
-            <p>
-              We're a small boutique hotel a few minutes from Brașov's old town — built around the idea that a good stay is simple: a quiet room, good coffee, and people who actually know the city.
-            </p>
-            <p>
-              No filler, no theatrics. Just the details that matter, done well — from your arrival to your last morning.
-            </p>
+            <p>{get(content, "about", "paragraph1")}</p>
+            <p>{get(content, "about", "paragraph2")}</p>
           </div>
         </div>
       </section>
@@ -73,8 +71,8 @@ const Index = () => {
       <section className="section">
         <div className="container-narrow">
           <div className="max-w-2xl mb-14">
-            <p className="eyebrow mb-3">Amenities</p>
-            <h2 className="text-4xl md:text-5xl">Everything you need. Nothing you don't.</h2>
+            <p className="eyebrow mb-3">{get(content, "amenities", "eyebrow")}</p>
+            <h2 className="text-4xl md:text-5xl">{get(content, "amenities", "title")}</h2>
           </div>
           <AmenityGrid />
         </div>
@@ -130,10 +128,10 @@ const Index = () => {
       <section className="section bg-secondary/40">
         <div className="container-narrow grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="eyebrow mb-3">Location</p>
-            <h2 className="text-4xl md:text-5xl">Steps from Brașov old town.</h2>
+            <p className="eyebrow mb-3">{get(content, "location", "eyebrow")}</p>
+            <h2 className="text-4xl md:text-5xl">{get(content, "location", "title")}</h2>
             <p className="mt-5 text-muted-foreground max-w-md">
-              6 minutes to Piața Sfatului on foot, 20 minutes to Poiana Brașov ski slopes by car, and the Carpathian ridge visible from most of our rooms.
+              {get(content, "location", "description")}
             </p>
             <Button asChild className="mt-8" variant="outline">
               <Link to="/location">Explore the area <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
