@@ -173,8 +173,38 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
             <Input id="amen" value={amenStr} onChange={(e) => setAmenStr(e.target.value)} placeholder="WiFi, AC, TV" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="img">Main image URL</Label>
-            <Input id="img" value={form.main_image_url ?? ""} onChange={(e) => set("main_image_url", e.target.value)} />
+            <Label htmlFor="img">Main image</Label>
+            {form.main_image_url && (
+              <img
+                src={form.main_image_url}
+                alt="Room preview"
+                className="w-full max-h-48 object-cover rounded-md border border-border"
+              />
+            )}
+            <div className="flex gap-2">
+              <Input
+                id="img"
+                value={form.main_image_url ?? ""}
+                onChange={(e) => set("main_image_url", e.target.value)}
+                placeholder="Paste an image URL or upload"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+              >
+                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                Upload
+              </Button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={onUpload}
+              />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="gal">Gallery image URLs (one per line)</Label>
