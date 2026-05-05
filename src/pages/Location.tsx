@@ -2,10 +2,12 @@ import SiteLayout from "@/components/site/SiteLayout";
 import MapPlaceholder from "@/components/site/MapPlaceholder";
 import CTASection from "@/components/site/CTASection";
 import { MapPin, Car, Train, ParkingCircle } from "lucide-react";
-import { nearbyAttractions, property, transport } from "@/data/mock";
+import { nearbyAttractions, transport } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 const Location = () => {
+  const { merged: property } = useProperty();
   usePageMeta(`Location — ${property.property_name}`, `Find us in ${property.city}, ${property.country}.`);
   return (
     <SiteLayout>

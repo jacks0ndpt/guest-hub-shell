@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Check, Play, X, ThumbsUp, ThumbsDown, StickyNote } from "lucide-react";
+import { Check, Play, X, ThumbsUp, ThumbsDown, StickyNote, RotateCcw } from "lucide-react";
 
 type Props = {
   id: string;
@@ -14,7 +14,7 @@ type Props = {
   onChanged: () => void;
 };
 
-const update = async (id: string, patch: { status?: string; completed_at?: string; staff_note?: string | null }) => {
+const update = async (id: string, patch: { status?: string; completed_at?: string | null; staff_note?: string | null }) => {
   const { error } = await supabase.from("guest_requests").update(patch).eq("id", id);
   if (error) {
     toast({ title: "Update failed", description: error.message, variant: "destructive" });
@@ -75,6 +75,21 @@ const RequestActions = ({ id, status, isPaid, staffNote, onChanged }: Props) => 
       {!isFinal && (
         <Button size="sm" variant="ghost" onClick={() => setStatus("cancelled")}>
           <X className="h-3.5 w-3.5" /> Cancel
+        </Button>
+      )}
+      {isFinal && (
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={async () => {
+            const ok = await update(id, { status: "in_progress", completed_at: null });
+            if (ok) {
+              toast({ title: "Request reopened" });
+              onChanged();
+            }
+          }}
+        >
+          <RotateCcw className="h-3.5 w-3.5" /> Reopen
         </Button>
       )}
       <Popover>

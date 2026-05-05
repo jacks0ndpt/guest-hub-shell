@@ -1,10 +1,11 @@
 import SiteLayout from "@/components/site/SiteLayout";
 import ContactSection from "@/components/site/ContactSection";
 import CTASection from "@/components/site/CTASection";
-import { property } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 const Contact = () => {
+  const { merged: property } = useProperty();
   usePageMeta(`Contact — ${property.property_name}`, "Reach our reception by phone, email, or WhatsApp.");
   return (
     <SiteLayout>

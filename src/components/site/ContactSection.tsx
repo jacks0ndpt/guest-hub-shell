@@ -1,16 +1,19 @@
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { property } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
+import { useSiteContent, get } from "@/hooks/useSiteContent";
 
 export const ContactSection = () => {
+  const { merged: property } = useProperty();
+  const { content } = useSiteContent();
   return (
     <section className="section">
       <div className="container-narrow grid md:grid-cols-2 gap-12 items-start">
         <div>
-          <p className="eyebrow mb-3">Say hello</p>
-          <h2 className="text-4xl md:text-5xl mb-6">We're always happy to help.</h2>
+          <p className="eyebrow mb-3">{get(content, "contact", "eyebrow")}</p>
+          <h2 className="text-4xl md:text-5xl mb-6">{get(content, "contact", "title")}</h2>
           <p className="text-muted-foreground mb-8 max-w-md">
-            Have a question about your stay, a special request, or need a recommendation in Brașov? Reach us any way you like.
+            {get(content, "contact", "description")}
           </p>
           <ul className="space-y-4 text-sm">
             <li className="flex items-center gap-3">

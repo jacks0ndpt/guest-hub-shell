@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Upload, Loader2 } from "lucide-react";
 
 export type RoomRow = {
   id?: string;
@@ -58,6 +59,8 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
   const [amenStr, setAmenStr] = useState("");
   const [galleryStr, setGalleryStr] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const f = initial ? { ...initial } : empty;
@@ -67,6 +70,28 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
   }, [initial, open]);
 
   const set = <K extends keyof RoomRow>(k: K, v: RoomRow[K]) => setForm((p) => ({ ...p, [k]: v }));
+
+  const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${(form.slug || slugify(form.name) || "room")}-${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage.from("room-images").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+    if (upErr) {
+      toast({ title: "Upload failed", description: upErr.message, variant: "destructive" });
+      setUploading(false);
+      return;
+    }
+    const { data } = supabase.storage.from("room-images").getPublicUrl(path);
+    set("main_image_url", data.publicUrl);
+    setUploading(false);
+    toast({ title: "Image uploaded" });
+    if (fileRef.current) fileRef.current.value = "";
+  };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -92,7 +117,27 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
       toast({ title: "Save failed", description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: form.id ? "Room updated" : "Room created" });
+
+    // Auto-create a QR room_code on new rooms if one with the same slug doesn't exist yet.
+    if (!form.id) {
+      const { data: existing } = await supabase
+        .from("room_codes")
+        .select("id")
+        .eq("qr_code_slug", payload.slug)
+        .maybeSingle();
+      if (!existing) {
+        await supabase.from("room_codes").insert({
+          qr_code_slug: payload.slug,
+          room_label: payload.name,
+          is_active: true,
+        });
+      }
+    }
+
+    toast({
+      title: form.id ? "Room updated" : "Room created",
+      description: form.id ? undefined : "A QR code was generated automatically.",
+    });
     onSaved();
     onOpenChange(false);
   };
@@ -148,8 +193,38 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
             <Input id="amen" value={amenStr} onChange={(e) => setAmenStr(e.target.value)} placeholder="WiFi, AC, TV" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="img">Main image URL</Label>
-            <Input id="img" value={form.main_image_url ?? ""} onChange={(e) => set("main_image_url", e.target.value)} />
+            <Label htmlFor="img">Main image</Label>
+            {form.main_image_url && (
+              <img
+                src={form.main_image_url}
+                alt="Room preview"
+                className="w-full max-h-48 object-cover rounded-md border border-border"
+              />
+            )}
+            <div className="flex gap-2">
+              <Input
+                id="img"
+                value={form.main_image_url ?? ""}
+                onChange={(e) => set("main_image_url", e.target.value)}
+                placeholder="Paste an image URL or upload"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+              >
+                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                Upload
+              </Button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={onUpload}
+              />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="gal">Gallery image URLs (one per line)</Label>
