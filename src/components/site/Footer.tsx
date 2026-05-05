@@ -1,22 +1,27 @@
 import { Link } from "react-router-dom";
-import { property } from "@/data/mock";
+import { property as mock } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
+import { useSiteContent, get } from "@/hooks/useSiteContent";
 
 export const Footer = () => {
+  const { merged: property } = useProperty();
+  const { content } = useSiteContent();
+  const tagline = get(content, "footer", "tagline");
   return (
     <footer className="border-t border-border bg-secondary/40">
       <div className="container-narrow py-16 grid gap-10 md:grid-cols-4">
         <div className="md:col-span-2 space-y-4">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-full border border-primary/40 text-primary font-serif">
-              {property.logo_placeholder}
+              {mock.logo_placeholder}
             </span>
             <span className="font-serif text-2xl">{property.property_name}</span>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm">
-            {property.short_description}
+            {tagline || mock.short_description}
           </p>
           <div className="flex gap-4 pt-2">
-            {property.social.map((s) => (
+            {mock.social.map((s) => (
               <a key={s.label} href={s.url} className="text-sm underline-offset-4 hover:underline">
                 {s.label}
               </a>
