@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Upload, Loader2 } from "lucide-react";
 
 export type RoomRow = {
   id?: string;
@@ -58,6 +59,8 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
   const [amenStr, setAmenStr] = useState("");
   const [galleryStr, setGalleryStr] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const f = initial ? { ...initial } : empty;
