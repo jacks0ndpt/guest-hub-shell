@@ -71,6 +71,28 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
 
   const set = <K extends keyof RoomRow>(k: K, v: RoomRow[K]) => setForm((p) => ({ ...p, [k]: v }));
 
+  const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${(form.slug || slugify(form.name) || "room")}-${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage.from("room-images").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+    if (upErr) {
+      toast({ title: "Upload failed", description: upErr.message, variant: "destructive" });
+      setUploading(false);
+      return;
+    }
+    const { data } = supabase.storage.from("room-images").getPublicUrl(path);
+    set("main_image_url", data.publicUrl);
+    setUploading(false);
+    toast({ title: "Image uploaded" });
+    if (fileRef.current) fileRef.current.value = "";
+  };
+
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
