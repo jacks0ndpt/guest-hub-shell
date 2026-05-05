@@ -77,7 +77,14 @@ export const Navbar = () => {
         </nav>
 
         <div className="hidden lg:block">
-          <Button asChild variant={transparent ? "outline" : "default"} size="sm">
+          <Button
+            asChild
+            size="sm"
+            className={cn(
+              transparent &&
+                "bg-background text-foreground hover:bg-background/90"
+            )}
+          >
             <a href={property.booking_url}>Book Direct</a>
           </Button>
         </div>
