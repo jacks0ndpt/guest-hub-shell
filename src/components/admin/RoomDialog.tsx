@@ -14,6 +14,7 @@ import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Upload, Loader2 } from "lucide-react";
+import MultiImageUploader from "./MultiImageUploader";
 
 export type RoomRow = {
   id?: string;
