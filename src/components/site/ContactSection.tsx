@@ -1,11 +1,40 @@
+import { useState } from "react";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProperty } from "@/hooks/useProperty";
 import { useSiteContent, get } from "@/hooks/useSiteContent";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 export const ContactSection = () => {
   const { merged: property } = useProperty();
   const { content } = useSiteContent();
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [sending, setSending] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      toast({ title: "Please fill in name, email and message.", variant: "destructive" });
+      return;
+    }
+    setSending(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: form.name,
+      email: form.email,
+      subject: form.subject || null,
+      message: form.message,
+      status: "new",
+    });
+    setSending(false);
+    if (error) {
+      toast({ title: "Could not send", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Message sent", description: "We'll be in touch shortly." });
+    setForm({ name: "", email: "", subject: "", message: "" });
+  };
+
   return (
     <section className="section">
       <div className="container-narrow grid md:grid-cols-2 gap-12 items-start">
@@ -37,31 +66,54 @@ export const ContactSection = () => {
           </ul>
         </div>
 
-        <form
-          className="bg-card rounded-lg p-6 md:p-8 shadow-card space-y-4"
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className="bg-card rounded-lg p-6 md:p-8 shadow-card space-y-4" onSubmit={submit}>
           <h3 className="font-serif text-2xl">Send a message</h3>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="eyebrow block mb-1.5">Name</label>
-              <input className="w-full h-11 px-3 rounded-md border border-input bg-background" placeholder="Your name" />
+              <input
+                required
+                value={form.name}
+                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                className="w-full h-11 px-3 rounded-md border border-input bg-background"
+                placeholder="Your name"
+              />
             </div>
             <div>
               <label className="eyebrow block mb-1.5">Email</label>
-              <input type="email" className="w-full h-11 px-3 rounded-md border border-input bg-background" placeholder="you@example.com" />
+              <input
+                required
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                className="w-full h-11 px-3 rounded-md border border-input bg-background"
+                placeholder="you@example.com"
+              />
             </div>
           </div>
           <div>
             <label className="eyebrow block mb-1.5">Subject</label>
-            <input className="w-full h-11 px-3 rounded-md border border-input bg-background" placeholder="Booking inquiry" />
+            <input
+              value={form.subject}
+              onChange={(e) => setForm((p) => ({ ...p, subject: e.target.value }))}
+              className="w-full h-11 px-3 rounded-md border border-input bg-background"
+              placeholder="Booking inquiry"
+            />
           </div>
           <div>
             <label className="eyebrow block mb-1.5">Message</label>
-            <textarea rows={5} className="w-full px-3 py-2 rounded-md border border-input bg-background" placeholder="Tell us about your stay..." />
+            <textarea
+              required
+              rows={5}
+              value={form.message}
+              onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
+              className="w-full px-3 py-2 rounded-md border border-input bg-background"
+              placeholder="Tell us about your stay..."
+            />
           </div>
-          <Button type="submit" className="w-full">Send inquiry</Button>
-          <p className="text-xs text-muted-foreground">This demo form is not yet connected — a real backend will be added later.</p>
+          <Button type="submit" disabled={sending} className="w-full">
+            {sending ? "Sending…" : "Send inquiry"}
+          </Button>
         </form>
       </div>
     </section>
@@ -69,3 +121,4 @@ export const ContactSection = () => {
 };
 
 export default ContactSection;
+
