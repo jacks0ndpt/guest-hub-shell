@@ -16,7 +16,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import { useSiteContent, get } from "@/hooks/useSiteContent";
 
 const Index = () => {
-  const { merged: property } = useProperty();
+  const { merged: property, property: dbProp } = useProperty();
   const { rooms } = useRooms();
   const { content } = useSiteContent();
   usePageMeta(
@@ -27,7 +27,7 @@ const Index = () => {
   return (
     <SiteLayout>
       <HeroSection
-        image={heroHotel}
+        image={dbProp?.hero_image_url || heroHotel}
         eyebrow={get(content, "hero", "eyebrow") || `${property.property_type} · ${property.city}, ${property.country}`}
         title={<>{get(content, "hero", "title_line1")}<br className="hidden md:block" /> {get(content, "hero", "title_line2")}</>}
         subtitle={get(content, "hero", "subtitle") || property.short_description}
