@@ -13,6 +13,8 @@ import {
   X,
   QrCode,
   ListChecks,
+  Mail,
+  Tag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -22,8 +24,10 @@ import { cn } from "@/lib/utils";
 const nav = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/requests", label: "Requests", icon: Inbox },
+  { to: "/admin/messages", label: "Messages", icon: Mail },
   { to: "/admin/services", label: "Services", icon: ConciergeBell },
   { to: "/admin/rooms", label: "Rooms", icon: BedDouble },
+  { to: "/admin/offers", label: "Offers", icon: Tag },
   { to: "/admin/qr-codes", label: "QR codes", icon: QrCode },
   { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/reports", label: "Reports", icon: BarChart3 },
