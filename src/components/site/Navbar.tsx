@@ -6,11 +6,11 @@ import { property as mockProperty } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { cn } from "@/lib/utils";
 
-const links = [
+const baseLinks = [
   { to: "/", label: "Home" },
   { to: "/rooms", label: "Rooms" },
   { to: "/gallery", label: "Gallery" },
-  { to: "/offers", label: "Offers" },
+  { to: "/offers", label: "Offers", offersOnly: true as const },
   { to: "/location", label: "Location" },
   { to: "/contact", label: "Contact" },
 ];
@@ -20,8 +20,10 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
-  const { merged: property } = useProperty();
+  const { merged: property, property: dbProp } = useProperty();
   void mockProperty;
+  const offersEnabled = dbProp?.offers_page_enabled ?? true;
+  const links = baseLinks.filter((l) => !l.offersOnly || offersEnabled);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
