@@ -58,7 +58,7 @@ type Props = {
 const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
   const [form, setForm] = useState<RoomRow>(empty);
   const [amenStr, setAmenStr] = useState("");
-  const [galleryStr, setGalleryStr] = useState("");
+  const [gallery, setGallery] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -67,7 +67,7 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
     const f = initial ? { ...initial } : empty;
     setForm(f);
     setAmenStr((f.amenities ?? []).join(", "));
-    setGalleryStr((f.gallery_image_urls ?? []).join("\n"));
+    setGallery(f.gallery_image_urls ?? []);
   }, [initial, open]);
 
   const set = <K extends keyof RoomRow>(k: K, v: RoomRow[K]) => setForm((p) => ({ ...p, [k]: v }));
@@ -106,7 +106,7 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
       bed_type: form.bed_type || null,
       amenities: amenStr.split(",").map((s) => s.trim()).filter(Boolean),
       main_image_url: form.main_image_url || null,
-      gallery_image_urls: galleryStr.split("\n").map((s) => s.trim()).filter(Boolean),
+      gallery_image_urls: gallery,
       is_active: form.is_active,
       sort_order: form.sort_order ?? 0,
     };
@@ -228,8 +228,13 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="gal">Gallery image URLs (one per line)</Label>
-            <Textarea id="gal" rows={3} value={galleryStr} onChange={(e) => setGalleryStr(e.target.value)} />
+            <Label>Gallery images</Label>
+            <MultiImageUploader
+              bucket="room-images"
+              pathPrefix={`gallery/${form.slug || slugify(form.name) || "room"}`}
+              values={gallery}
+              onChange={setGallery}
+            />
           </div>
           <div className="grid grid-cols-2 gap-3 items-end">
             <div className="space-y-2">
