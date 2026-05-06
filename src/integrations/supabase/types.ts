@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          replied_at: string | null
+          replied_by: string | null
+          reply_text: string | null
+          status: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          replied_at?: string | null
+          replied_by?: string | null
+          reply_text?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          replied_at?: string | null
+          replied_by?: string | null
+          reply_text?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       guest_requests: {
         Row: {
           completed_at: string | null
@@ -77,6 +119,48 @@ export type Database = {
           },
         ]
       }
+      offers: {
+        Row: {
+          badge: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          perks: string[] | null
+          slug: string
+          sort_order: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          perks?: string[] | null
+          slug: string
+          sort_order?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          badge?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          perks?: string[] | null
+          slug?: string
+          sort_order?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       private_feedback: {
         Row: {
           comment: string | null
@@ -126,9 +210,11 @@ export type Database = {
           created_at: string
           currency: string | null
           email: string | null
+          hero_image_url: string | null
           id: string
           language_default: string | null
           logo_url: string | null
+          offers_page_enabled: boolean
           phone: string | null
           primary_color: string | null
           property_name: string
@@ -147,9 +233,11 @@ export type Database = {
           created_at?: string
           currency?: string | null
           email?: string | null
+          hero_image_url?: string | null
           id?: string
           language_default?: string | null
           logo_url?: string | null
+          offers_page_enabled?: boolean
           phone?: string | null
           primary_color?: string | null
           property_name: string
@@ -168,9 +256,11 @@ export type Database = {
           created_at?: string
           currency?: string | null
           email?: string | null
+          hero_image_url?: string | null
           id?: string
           language_default?: string | null
           logo_url?: string | null
+          offers_page_enabled?: boolean
           phone?: string | null
           primary_color?: string | null
           property_name?: string
@@ -357,6 +447,36 @@ export type Database = {
           content?: Json
           section_key?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      site_gallery: {
+        Row: {
+          alt: string | null
+          category: string
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean
+          sort_order: number | null
+        }
+        Insert: {
+          alt?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          image_url: string
+          is_active?: boolean
+          sort_order?: number | null
+        }
+        Update: {
+          alt?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          sort_order?: number | null
         }
         Relationships: []
       }
