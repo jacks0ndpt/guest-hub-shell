@@ -14,8 +14,17 @@ export const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const { merged: property, property: dbProp } = useProperty();
+  const { t } = useTranslation();
   void mockProperty;
   const offersEnabled = dbProp?.offers_page_enabled ?? true;
+  const baseLinks = [
+    { to: "/", label: t("nav.home") },
+    { to: "/rooms", label: t("nav.rooms") },
+    { to: "/gallery", label: t("nav.gallery") },
+    { to: "/offers", label: t("nav.offers"), offersOnly: true as const },
+    { to: "/location", label: t("nav.location") },
+    { to: "/contact", label: t("nav.contact") },
+  ];
   const links = baseLinks.filter((l) => !l.offersOnly || offersEnabled);
 
   useEffect(() => {
