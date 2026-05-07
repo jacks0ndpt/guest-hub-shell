@@ -80,7 +80,8 @@ export const Navbar = () => {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-2">
+          <LanguageSwitcher />
           <Button
             asChild
             size="sm"
@@ -89,7 +90,7 @@ export const Navbar = () => {
                 "bg-background text-foreground hover:bg-background/90"
             )}
           >
-            <a href={property.booking_url}>Book Direct</a>
+            <a href={property.booking_url} target="_blank" rel="noopener noreferrer">{t("nav.bookDirect")}</a>
           </Button>
         </div>
 
