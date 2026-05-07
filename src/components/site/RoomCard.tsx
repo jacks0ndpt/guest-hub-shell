@@ -57,11 +57,11 @@ export const RoomCard = ({ room }: { room: Room }) => {
         <div className="flex items-center gap-2 pt-2">
           <Button asChild variant="outline" className="flex-1">
             <Link to={`/rooms/${room.slug}`}>
-              View details <ArrowRight className="ml-1.5 h-4 w-4" />
+              {t("common.viewDetails")} <ArrowRight className="ml-1.5 h-4 w-4" />
             </Link>
           </Button>
           <Button asChild className="flex-1">
-            <a href={property.booking_url}>Book</a>
+            <a href={property.booking_url} target="_blank" rel="noopener noreferrer">{t("nav.bookDirect")}</a>
           </Button>
         </div>
       </div>
