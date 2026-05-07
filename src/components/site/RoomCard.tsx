@@ -38,7 +38,7 @@ export const RoomCard = ({ room }: { room: Room }) => {
 
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t border-border pt-4">
           <span className="inline-flex items-center gap-1.5">
-            <Users className="h-4 w-4" /> {room.capacity} guests
+            <Users className="h-4 w-4" /> {room.capacity} {t("common.guests")}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <BedDouble className="h-4 w-4" /> {room.bed_type}
