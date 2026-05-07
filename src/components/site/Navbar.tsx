@@ -1,19 +1,12 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { property as mockProperty } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { cn } from "@/lib/utils";
-
-const baseLinks = [
-  { to: "/", label: "Home" },
-  { to: "/rooms", label: "Rooms" },
-  { to: "/gallery", label: "Gallery" },
-  { to: "/offers", label: "Offers", offersOnly: true as const },
-  { to: "/location", label: "Location" },
-  { to: "/contact", label: "Contact" },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
