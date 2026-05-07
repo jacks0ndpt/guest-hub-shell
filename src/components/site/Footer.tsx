@@ -32,18 +32,18 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h4 className="eyebrow mb-4">Explore</h4>
+          <h4 className="eyebrow mb-4">{t("footer.explore")}</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/rooms" className="hover:text-primary">Rooms</Link></li>
-            <li><Link to="/gallery" className="hover:text-primary">Gallery</Link></li>
-            <li><Link to="/offers" className="hover:text-primary">Offers</Link></li>
-            <li><Link to="/location" className="hover:text-primary">Location</Link></li>
-            <li><Link to="/contact" className="hover:text-primary">Contact</Link></li>
+            <li><Link to="/rooms" className="hover:text-primary">{t("nav.rooms")}</Link></li>
+            <li><Link to="/gallery" className="hover:text-primary">{t("nav.gallery")}</Link></li>
+            <li><Link to="/offers" className="hover:text-primary">{t("nav.offers")}</Link></li>
+            <li><Link to="/location" className="hover:text-primary">{t("nav.location")}</Link></li>
+            <li><Link to="/contact" className="hover:text-primary">{t("nav.contact")}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="eyebrow mb-4">Contact</h4>
+          <h4 className="eyebrow mb-4">{t("footer.contact")}</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li>{property.address}</li>
             <li>{property.city}, {property.country}</li>
@@ -54,8 +54,13 @@ export const Footer = () => {
       </div>
       <div className="border-t border-border">
         <div className="container-narrow py-6 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} {property.property_name}. All rights reserved.</p>
-          <p>Check-in {property.checkin_time} · Check-out {property.checkout_time}</p>
+          <p>© {new Date().getFullYear()} {property.property_name}. {t("footer.rights")}</p>
+          <div className="flex items-center gap-4">
+            <p>{t("footer.checkin")} {property.checkin_time} · {t("footer.checkout")} {property.checkout_time}</p>
+            <Link to="/admin/login" className="hover:text-foreground opacity-60 hover:opacity-100 transition-opacity">
+              {t("footer.staff")}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
