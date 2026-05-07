@@ -1,19 +1,12 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { property as mockProperty } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { cn } from "@/lib/utils";
-
-const baseLinks = [
-  { to: "/", label: "Home" },
-  { to: "/rooms", label: "Rooms" },
-  { to: "/gallery", label: "Gallery" },
-  { to: "/offers", label: "Offers", offersOnly: true as const },
-  { to: "/location", label: "Location" },
-  { to: "/contact", label: "Contact" },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -21,8 +14,17 @@ export const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const { merged: property, property: dbProp } = useProperty();
+  const { t } = useTranslation();
   void mockProperty;
   const offersEnabled = dbProp?.offers_page_enabled ?? true;
+  const baseLinks = [
+    { to: "/", label: t("nav.home") },
+    { to: "/rooms", label: t("nav.rooms") },
+    { to: "/gallery", label: t("nav.gallery") },
+    { to: "/offers", label: t("nav.offers"), offersOnly: true as const },
+    { to: "/location", label: t("nav.location") },
+    { to: "/contact", label: t("nav.contact") },
+  ];
   const links = baseLinks.filter((l) => !l.offersOnly || offersEnabled);
 
   useEffect(() => {
@@ -78,7 +80,8 @@ export const Navbar = () => {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-2">
+          <LanguageSwitcher />
           <Button
             asChild
             size="sm"
@@ -87,7 +90,7 @@ export const Navbar = () => {
                 "bg-background text-foreground hover:bg-background/90"
             )}
           >
-            <a href={property.booking_url}>Book Direct</a>
+            <a href={property.booking_url} target="_blank" rel="noopener noreferrer">{t("nav.bookDirect")}</a>
           </Button>
         </div>
 
@@ -115,8 +118,9 @@ export const Navbar = () => {
                 {l.label}
               </NavLink>
             ))}
+            <div className="pt-2"><LanguageSwitcher variant="outline" /></div>
             <Button asChild className="mt-2 w-full">
-              <a href={property.booking_url}>Book Direct</a>
+              <a href={property.booking_url} target="_blank" rel="noopener noreferrer">{t("nav.bookDirect")}</a>
             </Button>
           </div>
         </div>

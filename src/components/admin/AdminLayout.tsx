@@ -15,31 +15,36 @@ import {
   ListChecks,
   Mail,
   Tag,
+  Users as UsersIcon,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useProperty } from "@/hooks/useProperty";
 import { cn } from "@/lib/utils";
-
-const nav = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/admin/requests", label: "Requests", icon: Inbox },
-  { to: "/admin/messages", label: "Messages", icon: Mail },
-  { to: "/admin/services", label: "Services", icon: ConciergeBell },
-  { to: "/admin/rooms", label: "Rooms", icon: BedDouble },
-  { to: "/admin/offers", label: "Offers", icon: Tag },
-  { to: "/admin/qr-codes", label: "QR codes", icon: QrCode },
-  { to: "/admin/content", label: "Content", icon: FileText },
-  { to: "/admin/reports", label: "Reports", icon: BarChart3 },
-  { to: "/admin/mvp-checklist", label: "MVP checklist", icon: ListChecks },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { signOut, user } = useAuth();
   const { property } = useProperty();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const nav = [
+    { to: "/admin", label: t("admin.dashboard"), icon: LayoutDashboard, end: true },
+    { to: "/admin/requests", label: t("admin.requests"), icon: Inbox },
+    { to: "/admin/messages", label: t("admin.messages"), icon: Mail },
+    { to: "/admin/services", label: t("admin.services"), icon: ConciergeBell },
+    { to: "/admin/rooms", label: t("admin.rooms"), icon: BedDouble },
+    { to: "/admin/offers", label: t("admin.offers"), icon: Tag },
+    { to: "/admin/qr-codes", label: t("admin.qrCodes"), icon: QrCode },
+    { to: "/admin/content", label: t("admin.content"), icon: FileText },
+    { to: "/admin/reports", label: t("admin.reports"), icon: BarChart3 },
+    { to: "/admin/mvp-checklist", label: t("admin.mvpChecklist"), icon: ListChecks },
+    { to: "/admin/users", label: t("admin.users"), icon: UsersIcon },
+    { to: "/admin/settings", label: t("admin.settings"), icon: Settings },
+  ];
 
   const handleSignOut = async () => {
     await signOut();
@@ -50,7 +55,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     <>
       <div className="px-6 py-6 border-b border-border">
         <Link to="/admin" className="block">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Admin</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">{t("admin.admin")}</p>
           <p className="font-serif text-xl mt-1 truncate">
             {property?.property_name ?? "Hotel GuestHub"}
           </p>
@@ -82,7 +87,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
           {user?.email ?? "Demo session"}
         </p>
         <Button variant="outline" size="sm" className="w-full justify-start" onClick={handleSignOut}>
-          <LogOut className="h-4 w-4" /> Sign out
+          <LogOut className="h-4 w-4" /> {t("admin.signOut")}
         </Button>
       </div>
     </>
@@ -123,9 +128,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
               {property?.property_name ?? "Hotel GuestHub"}
             </p>
           </div>
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-            View site →
-          </Link>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
+              {t("admin.viewSite")} →
+            </Link>
+          </div>
         </header>
         <main className="flex-1 p-4 lg:p-8">{children}</main>
       </div>

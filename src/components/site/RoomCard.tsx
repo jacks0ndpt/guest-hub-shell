@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { Users, BedDouble, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Room } from "@/data/mock";
-import { property } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
+import { useTranslation } from "react-i18next";
 
 export const RoomCard = ({ room }: { room: Room }) => {
+  const { merged: property } = useProperty();
+  const { t } = useTranslation();
   return (
     <article className="group overflow-hidden rounded-lg bg-card shadow-card transition-shadow hover:shadow-soft">
       <Link to={`/rooms/${room.slug}`} className="block relative aspect-[4/3] overflow-hidden">
@@ -35,7 +38,7 @@ export const RoomCard = ({ room }: { room: Room }) => {
 
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t border-border pt-4">
           <span className="inline-flex items-center gap-1.5">
-            <Users className="h-4 w-4" /> {room.capacity} guests
+            <Users className="h-4 w-4" /> {room.capacity} {t("common.guests")}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <BedDouble className="h-4 w-4" /> {room.bed_type}
@@ -54,11 +57,11 @@ export const RoomCard = ({ room }: { room: Room }) => {
         <div className="flex items-center gap-2 pt-2">
           <Button asChild variant="outline" className="flex-1">
             <Link to={`/rooms/${room.slug}`}>
-              View details <ArrowRight className="ml-1.5 h-4 w-4" />
+              {t("common.viewDetails")} <ArrowRight className="ml-1.5 h-4 w-4" />
             </Link>
           </Button>
           <Button asChild className="flex-1">
-            <a href={property.booking_url}>Book</a>
+            <a href={property.booking_url} target="_blank" rel="noopener noreferrer">{t("nav.bookDirect")}</a>
           </Button>
         </div>
       </div>

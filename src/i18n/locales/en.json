@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "Home",
+    "rooms": "Rooms",
+    "gallery": "Gallery",
+    "offers": "Offers",
+    "location": "Location",
+    "contact": "Contact",
+    "bookDirect": "Book Direct",
+    "staffLogin": "Staff login"
+  },
+  "common": {
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "submit": "Submit",
+    "send": "Send",
+    "close": "Close",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No",
+    "from": "From",
+    "perNight": "/night",
+    "guests": "guests",
+    "viewDetails": "View details",
+    "bookThisRoom": "Book this room",
+    "askQuestion": "Ask a question",
+    "language": "Language",
+    "english": "English",
+    "romanian": "Română"
+  },
+  "footer": {
+    "explore": "Explore",
+    "contact": "Contact",
+    "checkin": "Check-in",
+    "checkout": "Check-out",
+    "rights": "All rights reserved.",
+    "staff": "Staff"
+  },
+  "room": {
+    "allRooms": "All rooms",
+    "about": "About this room",
+    "amenities": "Amenities",
+    "gallery": "Gallery",
+    "youMightAlsoLike": "You might also like",
+    "readyMakeYours": "Ready to make it yours?"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "requests": "Requests",
+    "messages": "Messages",
+    "services": "Services",
+    "rooms": "Rooms",
+    "offers": "Offers",
+    "qrCodes": "QR codes",
+    "content": "Content",
+    "reports": "Reports",
+    "mvpChecklist": "MVP checklist",
+    "users": "Users",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "viewSite": "View site",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Create admin account",
+    "email": "Email",
+    "password": "Password",
+    "needAccount": "Need an account? Sign up",
+    "haveAccount": "Already have an account? Sign in",
+    "backToWebsite": "← Back to website",
+    "welcomeBack": "Welcome back",
+    "firstAdminNote": "The first account to sign up is automatically made admin. Subsequent signups need approval from an existing admin."
+  }
+}

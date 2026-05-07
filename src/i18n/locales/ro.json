@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "rooms": "Camere",
+    "gallery": "Galerie",
+    "offers": "Oferte",
+    "location": "Locație",
+    "contact": "Contact",
+    "bookDirect": "Rezervă direct",
+    "staffLogin": "Autentificare personal"
+  },
+  "common": {
+    "loading": "Se încarcă…",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "create": "Creează",
+    "submit": "Trimite",
+    "send": "Trimite",
+    "close": "Închide",
+    "back": "Înapoi",
+    "yes": "Da",
+    "no": "Nu",
+    "from": "De la",
+    "perNight": "/noapte",
+    "guests": "oaspeți",
+    "viewDetails": "Vezi detalii",
+    "bookThisRoom": "Rezervă această cameră",
+    "askQuestion": "Pune o întrebare",
+    "language": "Limbă",
+    "english": "English",
+    "romanian": "Română"
+  },
+  "footer": {
+    "explore": "Explorează",
+    "contact": "Contact",
+    "checkin": "Check-in",
+    "checkout": "Check-out",
+    "rights": "Toate drepturile rezervate.",
+    "staff": "Personal"
+  },
+  "room": {
+    "allRooms": "Toate camerele",
+    "about": "Despre această cameră",
+    "amenities": "Facilități",
+    "gallery": "Galerie",
+    "youMightAlsoLike": "Ai putea să mai placi și",
+    "readyMakeYours": "Gata să fie a ta?"
+  },
+  "admin": {
+    "dashboard": "Panou",
+    "requests": "Cereri",
+    "messages": "Mesaje",
+    "services": "Servicii",
+    "rooms": "Camere",
+    "offers": "Oferte",
+    "qrCodes": "Coduri QR",
+    "content": "Conținut",
+    "reports": "Rapoarte",
+    "mvpChecklist": "Listă MVP",
+    "users": "Utilizatori",
+    "settings": "Setări",
+    "signOut": "Deconectare",
+    "viewSite": "Vezi site",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signIn": "Autentificare",
+    "signUp": "Creează cont administrator",
+    "email": "Email",
+    "password": "Parolă",
+    "needAccount": "Nu ai cont? Înregistrează-te",
+    "haveAccount": "Ai deja cont? Autentifică-te",
+    "backToWebsite": "← Înapoi la site",
+    "welcomeBack": "Bine ai revenit",
+    "firstAdminNote": "Primul cont înregistrat devine automat administrator. Conturile ulterioare necesită aprobarea unui administrator existent."
+  }
+}

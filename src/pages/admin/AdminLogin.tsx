@@ -37,7 +37,7 @@ const AdminLogin = () => {
         toast({
           title: "Account created",
           description:
-            "Confirm your email if required, then ask an existing admin to grant you the admin role.",
+            "If you are the first signup, you have been granted admin automatically. Otherwise, ask an existing admin to grant you the admin role from the Users page.",
         });
       }
     } catch (err) {

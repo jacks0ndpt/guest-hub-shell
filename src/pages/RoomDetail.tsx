@@ -101,7 +101,7 @@ const RoomDetail = () => {
               <p>Check-out by {property.checkout_time}</p>
             </div>
             <Button asChild size="lg" className="w-full mt-6">
-              <a href={property.booking_url}>Book this room</a>
+              <a href={property.booking_url} target="_blank" rel="noopener noreferrer">Book this room</a>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full mt-2">
               <Link to="/contact">Ask a question</Link>
