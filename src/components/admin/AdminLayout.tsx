@@ -128,9 +128,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
               {property?.property_name ?? "Hotel GuestHub"}
             </p>
           </div>
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-            View site →
-          </Link>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
+              {t("admin.viewSite")} →
+            </Link>
+          </div>
         </header>
         <main className="flex-1 p-4 lg:p-8">{children}</main>
       </div>
