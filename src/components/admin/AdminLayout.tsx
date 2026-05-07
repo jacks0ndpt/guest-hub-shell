@@ -87,7 +87,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
           {user?.email ?? "Demo session"}
         </p>
         <Button variant="outline" size="sm" className="w-full justify-start" onClick={handleSignOut}>
-          <LogOut className="h-4 w-4" /> Sign out
+          <LogOut className="h-4 w-4" /> {t("admin.signOut")}
         </Button>
       </div>
     </>
