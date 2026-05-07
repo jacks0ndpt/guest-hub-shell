@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { property as mock } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { useSiteContent, get } from "@/hooks/useSiteContent";
@@ -6,6 +7,7 @@ import { useSiteContent, get } from "@/hooks/useSiteContent";
 export const Footer = () => {
   const { merged: property } = useProperty();
   const { content } = useSiteContent();
+  const { t } = useTranslation();
   const tagline = get(content, "footer", "tagline");
   return (
     <footer className="border-t border-border bg-secondary/40">
