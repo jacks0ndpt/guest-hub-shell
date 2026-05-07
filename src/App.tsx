@@ -30,6 +30,7 @@ import AdminQRCodes from "./pages/admin/AdminQRCodes.tsx";
 import AdminMVPChecklist from "./pages/admin/AdminMVPChecklist.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
 import AdminOffers from "./pages/admin/AdminOffers.tsx";
+import AdminUsers from "./pages/admin/AdminUsers.tsx";
 
 const queryClient = new QueryClient();
 
