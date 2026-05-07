@@ -118,8 +118,9 @@ export const Navbar = () => {
                 {l.label}
               </NavLink>
             ))}
+            <div className="pt-2"><LanguageSwitcher variant="outline" /></div>
             <Button asChild className="mt-2 w-full">
-              <a href={property.booking_url}>Book Direct</a>
+              <a href={property.booking_url} target="_blank" rel="noopener noreferrer">{t("nav.bookDirect")}</a>
             </Button>
           </div>
         </div>
