@@ -55,7 +55,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     <>
       <div className="px-6 py-6 border-b border-border">
         <Link to="/admin" className="block">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Admin</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">{t("admin.admin")}</p>
           <p className="font-serif text-xl mt-1 truncate">
             {property?.property_name ?? "Hotel GuestHub"}
           </p>
