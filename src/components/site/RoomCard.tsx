@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { Users, BedDouble, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Room } from "@/data/mock";
-import { property } from "@/data/mock";
+import { useProperty } from "@/hooks/useProperty";
+import { useTranslation } from "react-i18next";
 
 export const RoomCard = ({ room }: { room: Room }) => {
+  const { merged: property } = useProperty();
+  const { t } = useTranslation();
   return (
     <article className="group overflow-hidden rounded-lg bg-card shadow-card transition-shadow hover:shadow-soft">
       <Link to={`/rooms/${room.slug}`} className="block relative aspect-[4/3] overflow-hidden">
