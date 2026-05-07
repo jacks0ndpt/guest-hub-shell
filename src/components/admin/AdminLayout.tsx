@@ -15,25 +15,14 @@ import {
   ListChecks,
   Mail,
   Tag,
+  Users as UsersIcon,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useProperty } from "@/hooks/useProperty";
 import { cn } from "@/lib/utils";
-
-const nav = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/admin/requests", label: "Requests", icon: Inbox },
-  { to: "/admin/messages", label: "Messages", icon: Mail },
-  { to: "/admin/services", label: "Services", icon: ConciergeBell },
-  { to: "/admin/rooms", label: "Rooms", icon: BedDouble },
-  { to: "/admin/offers", label: "Offers", icon: Tag },
-  { to: "/admin/qr-codes", label: "QR codes", icon: QrCode },
-  { to: "/admin/content", label: "Content", icon: FileText },
-  { to: "/admin/reports", label: "Reports", icon: BarChart3 },
-  { to: "/admin/mvp-checklist", label: "MVP checklist", icon: ListChecks },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { signOut, user } = useAuth();
