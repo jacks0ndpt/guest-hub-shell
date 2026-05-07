@@ -28,7 +28,23 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { signOut, user } = useAuth();
   const { property } = useProperty();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const nav = [
+    { to: "/admin", label: t("admin.dashboard"), icon: LayoutDashboard, end: true },
+    { to: "/admin/requests", label: t("admin.requests"), icon: Inbox },
+    { to: "/admin/messages", label: t("admin.messages"), icon: Mail },
+    { to: "/admin/services", label: t("admin.services"), icon: ConciergeBell },
+    { to: "/admin/rooms", label: t("admin.rooms"), icon: BedDouble },
+    { to: "/admin/offers", label: t("admin.offers"), icon: Tag },
+    { to: "/admin/qr-codes", label: t("admin.qrCodes"), icon: QrCode },
+    { to: "/admin/content", label: t("admin.content"), icon: FileText },
+    { to: "/admin/reports", label: t("admin.reports"), icon: BarChart3 },
+    { to: "/admin/mvp-checklist", label: t("admin.mvpChecklist"), icon: ListChecks },
+    { to: "/admin/users", label: t("admin.users"), icon: UsersIcon },
+    { to: "/admin/settings", label: t("admin.settings"), icon: Settings },
+  ];
 
   const handleSignOut = async () => {
     await signOut();
