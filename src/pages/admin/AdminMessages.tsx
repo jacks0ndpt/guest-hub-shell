@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -29,7 +30,8 @@ const statusColor: Record<string, string> = {
 };
 
 const AdminMessages = () => {
-  usePageMeta("Messages — Admin", "Inbox of guest messages from the contact page.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.messagesPage.title")} — ${t("admin.admin")}`, "");
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<Msg | null>(null);
@@ -67,13 +69,13 @@ const AdminMessages = () => {
     });
     setSending(false);
     if (error) {
-      toast({ title: "Reply failed", description: error.message, variant: "destructive" });
+      toast({ title: t("admin.messagesPage.replyFailed"), description: error.message, variant: "destructive" });
       return;
     }
     if (data?.warning) {
-      toast({ title: "Saved (no email sent)", description: data.warning });
+      toast({ title: t("admin.messagesPage.savedNoEmail"), description: data.warning });
     } else {
-      toast({ title: "Reply sent", description: `Email delivered to ${active.email}.` });
+      toast({ title: t("admin.messagesPage.replySent"), description: t("admin.messagesPage.deliveredTo", { email: active.email }) });
     }
     setActive(null);
     setReply("");
@@ -91,24 +93,24 @@ const AdminMessages = () => {
     load();
   };
 
+  const statusLabel = (s: string) => t(`admin.messagesPage.status${s.charAt(0).toUpperCase()}${s.slice(1)}`, { defaultValue: s });
+
   return (
     <AdminLayout>
       <div className="space-y-6 max-w-6xl">
         <header>
-          <p className="eyebrow">Messages</p>
-          <h1 className="font-serif text-4xl mt-1">Guest inbox</h1>
-          <p className="text-muted-foreground mt-2">
-            Messages submitted from the public contact page. Reply by email directly from here.
-          </p>
+          <p className="eyebrow">{t("admin.messagesPage.eyebrow")}</p>
+          <h1 className="font-serif text-4xl mt-1">{t("admin.messagesPage.title")}</h1>
+          <p className="text-muted-foreground mt-2">{t("admin.messagesPage.subtitle")}</p>
         </header>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : msgs.length === 0 ? (
           <Card>
             <CardContent className="p-10 text-center text-muted-foreground">
               <Inbox className="h-8 w-8 mx-auto mb-3 opacity-60" />
-              No messages yet.
+              {t("admin.messagesPage.noMessages")}
             </CardContent>
           </Card>
         ) : (
@@ -124,10 +126,10 @@ const AdminMessages = () => {
                 >
                   <div className="flex items-start justify-between gap-2">
                     <p className="font-medium truncate">{m.name}</p>
-                    <Badge className={statusColor[m.status] ?? ""}>{m.status}</Badge>
+                    <Badge className={statusColor[m.status] ?? ""}>{statusLabel(m.status)}</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground truncate">{m.email}</p>
-                  <p className="text-sm mt-2 truncate">{m.subject || "(no subject)"}</p>
+                  <p className="text-sm mt-2 truncate">{m.subject || t("admin.messagesPage.noSubject")}</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     {new Date(m.created_at).toLocaleString()}
                   </p>
@@ -138,13 +140,13 @@ const AdminMessages = () => {
             <Card>
               <CardContent className="p-6">
                 {!active ? (
-                  <p className="text-muted-foreground">Select a message to read and reply.</p>
+                  <p className="text-muted-foreground">{t("admin.messagesPage.selectMessage")}</p>
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <p className="font-serif text-2xl">{active.subject || "(no subject)"}</p>
+                      <p className="font-serif text-2xl">{active.subject || t("admin.messagesPage.noSubject")}</p>
                       <p className="text-sm text-muted-foreground">
-                        From {active.name} · {active.email} ·{" "}
+                        {t("admin.messagesPage.from")} {active.name} · {active.email} ·{" "}
                         {new Date(active.created_at).toLocaleString()}
                       </p>
                     </div>
@@ -152,28 +154,28 @@ const AdminMessages = () => {
                       {active.message}
                     </div>
                     <div className="space-y-2">
-                      <p className="eyebrow">Your reply</p>
+                      <p className="eyebrow">{t("admin.messagesPage.yourReply")}</p>
                       <Textarea
                         rows={6}
                         value={reply}
                         onChange={(e) => setReply(e.target.value)}
-                        placeholder="Type your reply…"
+                        placeholder={t("admin.messagesPage.replyPlaceholder")}
                       />
                     </div>
                     <div className="flex gap-2 justify-end flex-wrap">
                       <Button variant="ghost" onClick={() => remove(active.id)}>
-                        <Trash2 className="h-4 w-4" /> Delete
+                        <Trash2 className="h-4 w-4" /> {t("common.delete")}
                       </Button>
                       <Button variant="outline" onClick={() => archive(active.id)}>
-                        Archive
+                        {t("admin.messagesPage.archive")}
                       </Button>
                       <Button onClick={send} disabled={sending || reply.trim().length < 1}>
-                        <Mail className="h-4 w-4" /> {sending ? "Sending…" : "Send reply"}
+                        <Mail className="h-4 w-4" /> {sending ? t("admin.messagesPage.sending") : t("admin.messagesPage.sendReply")}
                       </Button>
                     </div>
                     {active.replied_at && (
                       <p className="text-xs text-muted-foreground">
-                        Last replied {new Date(active.replied_at).toLocaleString()}
+                        {t("admin.messagesPage.lastReplied")} {new Date(active.replied_at).toLocaleString()}
                       </p>
                     )}
                   </div>

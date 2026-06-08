@@ -1,6 +1,7 @@
 import { ChangeEvent, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Loader2, Upload, X, GripVertical } from "lucide-react";
+import { Loader2, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const MultiImageUploader = ({ bucket, pathPrefix = "", values, onChange }: Props) => {
+  const { t } = useTranslation();
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -25,7 +27,7 @@ export const MultiImageUploader = ({ bucket, pathPrefix = "", values, onChange }
       const path = `${pathPrefix}${pathPrefix ? "-" : ""}${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
       const { error } = await supabase.storage.from(bucket).upload(path, file);
       if (error) {
-        toast({ title: `Failed to upload ${file.name}`, description: error.message, variant: "destructive" });
+        toast({ title: `${t("common.uploadFailed")}: ${file.name}`, description: error.message, variant: "destructive" });
         continue;
       }
       const { data } = supabase.storage.from(bucket).getPublicUrl(path);
@@ -55,7 +57,7 @@ export const MultiImageUploader = ({ bucket, pathPrefix = "", values, onChange }
               type="button"
               onClick={() => remove(i)}
               className="absolute top-1 right-1 bg-background/90 rounded-full p-1"
-              aria-label="Remove"
+              aria-label={t("common.remove")}
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -68,7 +70,7 @@ export const MultiImageUploader = ({ bucket, pathPrefix = "", values, onChange }
       </div>
       <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploading}>
         {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-        Upload images
+        {t("common.uploadImages")}
       </Button>
       <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={onFiles} />
     </div>

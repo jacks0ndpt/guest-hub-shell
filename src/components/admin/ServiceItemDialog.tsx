@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dialog,
   DialogContent,
@@ -53,6 +54,7 @@ const empty: ServiceItemRow = {
 };
 
 const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }: Props) => {
+  const { t } = useTranslation();
   const [form, setForm] = useState<ServiceItemRow>(empty);
   const [saving, setSaving] = useState(false);
 
@@ -81,10 +83,10 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
       : await supabase.from("service_items").insert(payload);
     setSaving(false);
     if (error) {
-      toast({ title: "Save failed", description: error.message, variant: "destructive" });
+      toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: form.id ? "Service updated" : "Service created" });
+    toast({ title: form.id ? t("admin.serviceDialog.updated") : t("admin.serviceDialog.created") });
     onSaved();
     onOpenChange(false);
   };
@@ -94,19 +96,17 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">
-            {form.id ? "Edit service" : "New service"}
+            {form.id ? t("admin.serviceDialog.edit") : t("admin.serviceDialog.new")}
           </DialogTitle>
-          <DialogDescription>
-            Active items appear in the GuestHub for guests.
-          </DialogDescription>
+          <DialogDescription>{t("admin.serviceDialog.desc")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">{t("admin.serviceDialog.title")}</Label>
             <Input id="title" value={form.title} onChange={(e) => set("title", e.target.value)} required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="desc">Description</Label>
+            <Label htmlFor="desc">{t("admin.serviceDialog.description")}</Label>
             <Textarea
               id="desc"
               rows={2}
@@ -116,14 +116,14 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Category</Label>
+              <Label>{t("admin.serviceDialog.category")}</Label>
               <Select
                 value={form.category_id ?? "none"}
                 onValueChange={(v) => set("category_id", v === "none" ? null : v)}
               >
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">— None —</SelectItem>
+                  <SelectItem value="none">{t("common.none")}</SelectItem>
                   {categories.map((c) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
@@ -131,7 +131,7 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="price">Price estimate (€)</Label>
+              <Label htmlFor="price">{t("admin.serviceDialog.priceEstimate")}</Label>
               <Input
                 id="price"
                 type="number"
@@ -142,7 +142,7 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="sort">Sort order</Label>
+              <Label htmlFor="sort">{t("common.sortOrder")}</Label>
               <Input
                 id="sort"
                 type="number"
@@ -153,11 +153,11 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
           </div>
           <div className="space-y-3 rounded-md border border-border p-3">
             <div className="flex items-center justify-between">
-              <Label htmlFor="paid">Paid extra</Label>
+              <Label htmlFor="paid">{t("admin.serviceDialog.paidExtra")}</Label>
               <Switch id="paid" checked={form.is_paid_extra} onCheckedChange={(v) => set("is_paid_extra", v)} />
             </div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="staff">Requires staff confirmation</Label>
+              <Label htmlFor="staff">{t("admin.serviceDialog.staffConfirmation")}</Label>
               <Switch
                 id="staff"
                 checked={form.requires_staff_confirmation}
@@ -165,12 +165,12 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
               />
             </div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="active">Active</Label>
+              <Label htmlFor="active">{t("common.active")}</Label>
               <Switch id="active" checked={form.is_active} onCheckedChange={(v) => set("is_active", v)} />
             </div>
           </div>
           <Button type="submit" disabled={saving} className="w-full">
-            {saving ? "Saving…" : "Save"}
+            {saving ? t("common.saving") : t("common.save")}
           </Button>
         </form>
       </DialogContent>

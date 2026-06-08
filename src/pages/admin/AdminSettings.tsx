@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,7 +49,8 @@ const empty: Settings = {
 };
 
 const AdminSettings = () => {
-  usePageMeta("Settings — Admin", "Edit property name, contacts and brand colors.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.settingsPage.title")} — ${t("admin.admin")}`, "");
   const [form, setForm] = useState<Settings>(empty);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -93,11 +95,11 @@ const AdminSettings = () => {
         ? await supabase.from("property_settings").update(payload).eq("id", form.id)
         : await supabase.from("property_settings").insert(payload);
       if (error) throw error;
-      toast({ title: "Settings saved" });
+      toast({ title: t("admin.settingsPage.saved") });
     } catch (err) {
       toast({
-        title: "Save failed",
-        description: err instanceof Error ? err.message : "Try again.",
+        title: t("common.saveFailed"),
+        description: err instanceof Error ? err.message : t("common.tryAgain"),
         variant: "destructive",
       });
     } finally {
@@ -122,49 +124,47 @@ const AdminSettings = () => {
     <AdminLayout>
       <div className="space-y-6 max-w-3xl">
         <header>
-          <p className="eyebrow">Settings</p>
-          <h1 className="font-serif text-4xl mt-1">Property settings</h1>
-          <p className="text-muted-foreground mt-2">
-            These values power the public website and guest experience.
-          </p>
+          <p className="eyebrow">{t("admin.settingsPage.eyebrow")}</p>
+          <h1 className="font-serif text-4xl mt-1">{t("admin.settingsPage.title")}</h1>
+          <p className="text-muted-foreground mt-2">{t("admin.settingsPage.subtitle")}</p>
         </header>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : (
           <Card>
             <CardContent className="p-6">
               <form onSubmit={onSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
-                  {field("property_name", "Property name")}
-                  {field("property_type", "Property type", "text", "Hotel, B&B, Motel…")}
+                  {field("property_name", t("admin.settingsPage.propertyName"))}
+                  {field("property_type", t("admin.settingsPage.propertyType"), "text", "Hotel, B&B, Motel…")}
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  {field("phone", "Phone")}
-                  {field("email", "Email", "email")}
-                  {field("whatsapp", "WhatsApp")}
-                  {field("booking_url", "Booking URL")}
+                  {field("phone", t("admin.settingsPage.phone"))}
+                  {field("email", t("admin.settingsPage.email"), "email")}
+                  {field("whatsapp", t("admin.settingsPage.whatsapp"))}
+                  {field("booking_url", t("admin.settingsPage.bookingUrl"))}
                 </div>
 
                 <div className="grid sm:grid-cols-3 gap-4">
-                  {field("address", "Address")}
-                  {field("city", "City")}
-                  {field("country", "Country")}
+                  {field("address", t("admin.settingsPage.address"))}
+                  {field("city", t("admin.settingsPage.city"))}
+                  {field("country", t("admin.settingsPage.country"))}
                 </div>
 
                 <div className="grid sm:grid-cols-4 gap-4">
-                  {field("checkin_time", "Check-in", "text", "15:00")}
-                  {field("checkout_time", "Check-out", "text", "11:00")}
-                  {field("currency", "Currency")}
-                  {field("language_default", "Default language")}
+                  {field("checkin_time", t("admin.settingsPage.checkin"), "text", "15:00")}
+                  {field("checkout_time", t("admin.settingsPage.checkout"), "text", "11:00")}
+                  {field("currency", t("admin.settingsPage.currency"))}
+                  {field("language_default", t("admin.settingsPage.defaultLanguage"))}
                 </div>
 
-                {field("logo_url", "Logo URL")}
+                {field("logo_url", t("admin.settingsPage.logoUrl"))}
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="primary">Primary color</Label>
+                    <Label htmlFor="primary">{t("admin.settingsPage.primaryColor")}</Label>
                     <div className="flex items-center gap-3">
                       <Input
                         id="primary"
@@ -177,7 +177,7 @@ const AdminSettings = () => {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="secondary">Secondary color</Label>
+                    <Label htmlFor="secondary">{t("admin.settingsPage.secondaryColor")}</Label>
                     <div className="flex items-center gap-3">
                       <Input
                         id="secondary"
@@ -193,7 +193,7 @@ const AdminSettings = () => {
 
                 <div className="pt-2">
                   <Button type="submit" disabled={saving}>
-                    {saving ? "Saving…" : "Save settings"}
+                    {saving ? t("common.saving") : t("admin.settingsPage.save")}
                   </Button>
                 </div>
               </form>

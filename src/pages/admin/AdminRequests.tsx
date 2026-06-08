@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -41,24 +42,25 @@ const STATUS_COLORS: Record<string, string> = {
   rejected: "bg-destructive/15 text-destructive",
 };
 
-const STATUS_LABEL: Record<string, string> = {
-  new: "New",
-  in_progress: "In progress",
-  accepted: "Accepted",
-  done: "Done",
-  cancelled: "Cancelled",
-  rejected: "Rejected",
-};
-
 const AdminRequests = () => {
-  usePageMeta("Guest requests — Admin", "Review and manage guest requests.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.requestsPage.title")} — ${t("admin.admin")}`, "");
+
+  const STATUS_LABEL: Record<string, string> = {
+    new: t("admin.requestsPage.statusNew"),
+    in_progress: t("admin.requestsPage.statusInProgress"),
+    accepted: t("admin.requestsPage.statusAccepted"),
+    done: t("admin.requestsPage.statusDone"),
+    cancelled: t("admin.requestsPage.statusCancelled"),
+    rejected: t("admin.requestsPage.statusRejected"),
+  };
+
   const [rows, setRows] = useState<RequestRow[]>([]);
   const [items, setItems] = useState<Record<string, ItemMeta>>({});
   const [rooms, setRooms] = useState<Record<string, string>>({});
   const [cats, setCats] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
-  // Filters
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [roomFilter, setRoomFilter] = useState<string>("all");
   const [catFilter, setCatFilter] = useState<string>("all");
@@ -128,21 +130,20 @@ const AdminRequests = () => {
       <div className="space-y-6 max-w-7xl">
         <header className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="eyebrow">Requests</p>
-            <h1 className="font-serif text-4xl mt-1">Guest requests</h1>
-            <p className="text-muted-foreground mt-2">Live feed from in-room QR codes.</p>
+            <p className="eyebrow">{t("admin.requestsPage.eyebrow")}</p>
+            <h1 className="font-serif text-4xl mt-1">{t("admin.requestsPage.title")}</h1>
+            <p className="text-muted-foreground mt-2">{t("admin.requestsPage.subtitle")}</p>
           </div>
-          <Button variant="outline" onClick={load}>Refresh</Button>
+          <Button variant="outline" onClick={load}>{t("common.refresh")}</Button>
         </header>
 
-        {/* Filters */}
         <div className="rounded-lg border border-border bg-card p-4 grid gap-3 md:grid-cols-2 lg:grid-cols-6">
           <div>
-            <Label className="text-xs text-muted-foreground">Status</Label>
+            <Label className="text-xs text-muted-foreground">{t("admin.requestsPage.status")}</Label>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">{t("common.all")}</SelectItem>
                 {Object.entries(STATUS_LABEL).map(([v, l]) => (
                   <SelectItem key={v} value={v}>{l}</SelectItem>
                 ))}
@@ -150,23 +151,23 @@ const AdminRequests = () => {
             </Select>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Room</Label>
+            <Label className="text-xs text-muted-foreground">{t("admin.requestsPage.room")}</Label>
             <Select value={roomFilter} onValueChange={setRoomFilter}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">{t("common.all")}</SelectItem>
                 {Object.entries(rooms).map(([id, label]) => (
-                  <SelectItem key={id} value={id}>Room {label}</SelectItem>
+                  <SelectItem key={id} value={id}>{t("admin.qrPage.room")} {label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Category</Label>
+            <Label className="text-xs text-muted-foreground">{t("admin.requestsPage.category")}</Label>
             <Select value={catFilter} onValueChange={setCatFilter}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">{t("common.all")}</SelectItem>
                 {Object.entries(cats).map(([id, name]) => (
                   <SelectItem key={id} value={id}>{name}</SelectItem>
                 ))}
@@ -174,56 +175,55 @@ const AdminRequests = () => {
             </Select>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Date</Label>
+            <Label className="text-xs text-muted-foreground">{t("admin.requestsPage.date")}</Label>
             <Select value={datePreset} onValueChange={setDatePreset}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All time</SelectItem>
-                <SelectItem value="today">Today</SelectItem>
-                <SelectItem value="month">This month</SelectItem>
+                <SelectItem value="all">{t("admin.requestsPage.allTime")}</SelectItem>
+                <SelectItem value="today">{t("admin.requestsPage.today")}</SelectItem>
+                <SelectItem value="month">{t("admin.requestsPage.thisMonth")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Sort</Label>
+            <Label className="text-xs text-muted-foreground">{t("admin.requestsPage.sort")}</Label>
             <Select value={sort} onValueChange={(v) => setSort(v as "new" | "old")}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="new">Newest first</SelectItem>
-                <SelectItem value="old">Oldest first</SelectItem>
+                <SelectItem value="new">{t("admin.requestsPage.newestFirst")}</SelectItem>
+                <SelectItem value="old">{t("admin.requestsPage.oldestFirst")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="flex items-end gap-2 pb-1">
             <Switch id="paid" checked={paidOnly} onCheckedChange={setPaidOnly} />
-            <Label htmlFor="paid" className="text-sm">Paid extras only</Label>
+            <Label htmlFor="paid" className="text-sm">{t("admin.requestsPage.paidOnly")}</Label>
           </div>
         </div>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : filtered.length === 0 ? (
           <div className="rounded-lg border border-dashed border-border bg-background p-12 text-center">
             <Inbox className="h-8 w-8 mx-auto text-muted-foreground" strokeWidth={1.5} />
-            <p className="font-serif text-xl mt-4">No guest requests yet</p>
+            <p className="font-serif text-xl mt-4">{t("admin.requestsPage.noRequests")}</p>
             <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
-              Requests submitted through the QR GuestHub will appear here.
+              {t("admin.requestsPage.noRequestsHint")}
             </p>
           </div>
         ) : (
           <>
-            {/* Desktop table */}
             <div className="hidden lg:block rounded-lg border border-border bg-card overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
                   <tr>
-                    <th className="px-4 py-3">Room</th>
-                    <th className="px-4 py-3">Service</th>
-                    <th className="px-4 py-3">Guest</th>
-                    <th className="px-4 py-3">Status</th>
-                    <th className="px-4 py-3">Value</th>
-                    <th className="px-4 py-3">Created</th>
-                    <th className="px-4 py-3">Actions</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableRoom")}</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableService")}</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableGuest")}</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableStatus")}</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableValue")}</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableCreated")}</th>
+                    <th className="px-4 py-3">{t("admin.requestsPage.tableActions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -236,9 +236,9 @@ const AdminRequests = () => {
                           <span className="font-medium">{r.room_code_id ? rooms[r.room_code_id] ?? "—" : "—"}</span>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="font-medium">{it?.title ?? "Service"}</p>
+                          <p className="font-medium">{it?.title ?? t("admin.requestsPage.service")}</p>
                           <p className="text-xs text-muted-foreground">
-                            {catName ?? "—"}{it?.is_paid_extra && " · Paid"}
+                            {catName ?? "—"}{it?.is_paid_extra && ` · ${t("admin.requestsPage.paid")}`}
                           </p>
                           {r.guest_note && <p className="text-xs mt-1 max-w-xs">{r.guest_note}</p>}
                         </td>
@@ -280,7 +280,6 @@ const AdminRequests = () => {
               </table>
             </div>
 
-            {/* Mobile cards */}
             <div className="lg:hidden space-y-3">
               {filtered.map((r) => {
                 const it = r.service_item_id ? items[r.service_item_id] : undefined;
@@ -288,21 +287,21 @@ const AdminRequests = () => {
                 return (
                   <div key={r.id} className="rounded-lg border border-border bg-card p-4 space-y-2">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-medium">{it?.title ?? "Service"}</p>
+                      <p className="font-medium">{it?.title ?? t("admin.requestsPage.service")}</p>
                       <Badge className={STATUS_COLORS[r.status] ?? ""} variant="secondary">
                         {STATUS_LABEL[r.status] ?? r.status}
                       </Badge>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Room {r.room_code_id ? rooms[r.room_code_id] : "?"} · {catName ?? "—"}
-                      {it?.is_paid_extra && " · Paid"}
+                      {t("admin.qrPage.room")} {r.room_code_id ? rooms[r.room_code_id] : "?"} · {catName ?? "—"}
+                      {it?.is_paid_extra && ` · ${t("admin.requestsPage.paid")}`}
                     </p>
                     {(r.guest_name || r.guest_contact) && (
                       <p className="text-xs">{r.guest_name}{r.guest_contact ? ` · ${r.guest_contact}` : ""}</p>
                     )}
                     {r.guest_note && <p className="text-sm">{r.guest_note}</p>}
                     {r.staff_note && (
-                      <p className="text-xs text-muted-foreground italic">Staff: “{r.staff_note}”</p>
+                      <p className="text-xs text-muted-foreground italic">{t("admin.requestsPage.staff")}: “{r.staff_note}”</p>
                     )}
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>{new Date(r.created_at).toLocaleString()}</span>

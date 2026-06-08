@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Inbox,
   Clock,
@@ -17,33 +18,34 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import { useTodayMetrics } from "@/hooks/useReports";
 
 const AdminDashboard = () => {
-  usePageMeta("Dashboard — Admin", "Overview of guest requests, services and feedback.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.dashboardPage.title")} — ${t("admin.admin")}`, "");
   const { merged } = useProperty();
   const m = useTodayMetrics();
   const symbol = merged.currency === "EUR" ? "€" : merged.currency === "USD" ? "$" : "";
 
   const cards = [
-    { label: "Open requests today", value: m.openToday, icon: Clock },
-    { label: "Requests this month", value: m.monthRequests, icon: Inbox },
-    { label: "Estimated upsell (mo)", value: `${symbol}${m.monthUpsell.toFixed(0)}`, icon: TrendingUp },
-    { label: "Private feedback (mo)", value: m.feedbackCount, icon: MessageSquare },
+    { label: t("admin.dashboardPage.openRequestsToday"), value: m.openToday, icon: Clock },
+    { label: t("admin.dashboardPage.requestsThisMonth"), value: m.monthRequests, icon: Inbox },
+    { label: t("admin.dashboardPage.estimatedUpsell"), value: `${symbol}${m.monthUpsell.toFixed(0)}`, icon: TrendingUp },
+    { label: t("admin.dashboardPage.privateFeedback"), value: m.feedbackCount, icon: MessageSquare },
   ];
 
   const quickActions = [
-    { to: "/admin/requests", label: "View Requests", icon: Inbox },
-    { to: "/admin/services", label: "Manage Services", icon: ConciergeBell },
-    { to: "/admin/reports", label: "View Reports", icon: BarChart3 },
-    { to: "/admin/qr-codes", label: "QR Codes", icon: QrCode },
+    { to: "/admin/requests", label: t("admin.dashboardPage.viewRequests"), icon: Inbox },
+    { to: "/admin/services", label: t("admin.dashboardPage.manageServices"), icon: ConciergeBell },
+    { to: "/admin/reports", label: t("admin.dashboardPage.viewReports"), icon: BarChart3 },
+    { to: "/admin/qr-codes", label: t("admin.dashboardPage.qrCodes"), icon: QrCode },
   ];
 
   return (
     <AdminLayout>
       <div className="space-y-8 max-w-6xl">
         <header>
-          <p className="eyebrow">Overview</p>
-          <h1 className="font-serif text-4xl mt-1">Dashboard</h1>
+          <p className="eyebrow">{t("admin.dashboardPage.eyebrow")}</p>
+          <h1 className="font-serif text-4xl mt-1">{t("admin.dashboardPage.title")}</h1>
           <p className="text-muted-foreground mt-2">
-            Snapshot of activity at {merged.property_name}.
+            {t("admin.dashboardPage.subtitle", { name: merged.property_name })}
           </p>
         </header>
 
@@ -62,7 +64,7 @@ const AdminDashboard = () => {
         </section>
 
         <section>
-          <h2 className="font-serif text-2xl mb-4">Quick actions</h2>
+          <h2 className="font-serif text-2xl mb-4">{t("admin.dashboardPage.quickActions")}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {quickActions.map((q) => (
               <Button key={q.to} asChild variant="outline" className="h-auto py-4 justify-start">
@@ -77,12 +79,12 @@ const AdminDashboard = () => {
         </section>
 
         <section className="rounded-lg border border-border bg-secondary/30 p-6">
-          <h3 className="font-serif text-xl">Ready to validate with hotel owners?</h3>
+          <h3 className="font-serif text-xl">{t("admin.dashboardPage.readyToValidate")}</h3>
           <p className="text-sm text-muted-foreground mt-2">
-            Run through the MVP checklist before your first demo.
+            {t("admin.dashboardPage.runChecklist")}
           </p>
           <Button asChild className="mt-4" size="sm">
-            <Link to="/admin/mvp-checklist">Open MVP checklist <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/admin/mvp-checklist">{t("admin.dashboardPage.openChecklist")} <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         </section>
       </div>

@@ -1,13 +1,16 @@
 import { useState, FormEvent } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const AdminLogin = () => {
+  const { t } = useTranslation();
   usePageMeta("Admin Login — Hotel GuestHub", "Sign in to manage your property.");
   const { user, isAdmin, signIn, signUp, loading } = useAuth();
   const navigate = useNavigate();
@@ -29,21 +32,20 @@ const AdminLogin = () => {
       if (mode === "login") {
         const { error } = await signIn(email, password);
         if (error) throw error;
-        toast({ title: "Welcome back" });
+        toast({ title: t("auth.welcomeBack") });
         navigate("/admin", { replace: true });
       } else {
         const { error } = await signUp(email, password);
         if (error) throw error;
         toast({
-          title: "Account created",
-          description:
-            "If you are the first signup, you have been granted admin automatically. Otherwise, ask an existing admin to grant you the admin role from the Users page.",
+          title: t("auth.accountCreated"),
+          description: t("auth.accountCreatedDesc"),
         });
       }
     } catch (err) {
       toast({
-        title: "Authentication failed",
-        description: err instanceof Error ? err.message : "Please try again.",
+        title: t("auth.authFailed"),
+        description: err instanceof Error ? err.message : t("common.tryAgain"),
         variant: "destructive",
       });
     } finally {
@@ -56,31 +58,32 @@ const AdminLogin = () => {
       <div className="hidden lg:flex flex-col justify-between p-12 bg-ink text-background">
         <Link to="/" className="font-serif text-2xl">Hotel GuestHub</Link>
         <div className="space-y-4 max-w-sm">
-          <p className="eyebrow text-background/60">Property admin</p>
+          <p className="eyebrow text-background/60">{t("auth.propertyAdmin")}</p>
           <h1 className="text-4xl font-serif leading-tight">
-            Manage your stay experience, from one place.
+            {t("auth.manageStay")}
           </h1>
           <p className="text-background/70">
-            Requests, services, rooms, and content — all editable, all yours.
+            {t("auth.manageDesc")}
           </p>
         </div>
         <p className="text-xs text-background/50">© {new Date().getFullYear()} Hotel GuestHub</p>
       </div>
       <div className="flex items-center justify-center p-6 lg:p-12">
         <form onSubmit={onSubmit} className="w-full max-w-sm space-y-6">
+          <div className="flex justify-end">
+            <LanguageSwitcher />
+          </div>
           <div>
             <h2 className="font-serif text-3xl">
-              {mode === "login" ? "Sign in" : "Create admin account"}
+              {mode === "login" ? t("auth.signIn") : t("auth.signUp")}
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
-              {mode === "login"
-                ? "Use your admin email and password."
-                : "After signup, an existing admin must grant you the admin role."}
+              {mode === "login" ? t("auth.useCredentials") : t("auth.afterSignup")}
             </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("auth.email")}</Label>
             <Input
               id="email"
               type="email"
@@ -91,7 +94,7 @@ const AdminLogin = () => {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <Input
               id="password"
               type="password"
@@ -104,7 +107,7 @@ const AdminLogin = () => {
           </div>
 
           <Button type="submit" className="w-full" disabled={submitting}>
-            {submitting ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
+            {submitting ? t("common.pleaseWait") : mode === "login" ? t("auth.signIn") : t("auth.createAccount")}
           </Button>
 
           <button
@@ -112,13 +115,11 @@ const AdminLogin = () => {
             onClick={() => setMode((m) => (m === "login" ? "signup" : "login"))}
             className="text-sm text-muted-foreground hover:text-foreground w-full text-center"
           >
-            {mode === "login"
-              ? "Need an account? Sign up"
-              : "Already have an account? Sign in"}
+            {mode === "login" ? t("auth.needAccount") : t("auth.haveAccount")}
           </button>
 
           <p className="text-xs text-muted-foreground text-center">
-            <Link to="/" className="underline underline-offset-4">← Back to website</Link>
+            <Link to="/" className="underline underline-offset-4">{t("auth.backToWebsite")}</Link>
           </p>
         </form>
       </div>
