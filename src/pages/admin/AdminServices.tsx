@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,8 @@ import {
 type Category = { id: string; name: string };
 
 const AdminServices = () => {
-  usePageMeta("Services — Admin", "Manage your service categories and items.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.servicesPage.title")} — ${t("admin.admin")}`, "");
   const [items, setItems] = useState<ServiceItemRow[]>([]);
   const [cats, setCats] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,14 +49,14 @@ const AdminServices = () => {
 
   const toggleActive = async (i: ServiceItemRow, active: boolean) => {
     const { error } = await supabase.from("service_items").update({ is_active: active }).eq("id", i.id!);
-    if (error) toast({ title: "Failed", description: error.message, variant: "destructive" });
+    if (error) toast({ title: t("admin.servicesPage.failed"), description: error.message, variant: "destructive" });
     else load();
   };
 
   const remove = async (id: string) => {
     const { error } = await supabase.from("service_items").delete().eq("id", id);
-    if (error) toast({ title: "Failed", description: error.message, variant: "destructive" });
-    else { toast({ title: "Service deleted" }); load(); }
+    if (error) toast({ title: t("admin.servicesPage.failed"), description: error.message, variant: "destructive" });
+    else { toast({ title: t("admin.servicesPage.deleted") }); load(); }
   };
 
   const grouped: { cat: Category | null; items: ServiceItemRow[] }[] = [
@@ -67,26 +69,24 @@ const AdminServices = () => {
       <div className="space-y-6 max-w-5xl">
         <header className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="eyebrow">Services</p>
-            <h1 className="font-serif text-4xl mt-1">Service items</h1>
-            <p className="text-muted-foreground mt-2">
-              Items guests can request via the QR GuestHub.
-            </p>
+            <p className="eyebrow">{t("admin.servicesPage.eyebrow")}</p>
+            <h1 className="font-serif text-4xl mt-1">{t("admin.servicesPage.title")}</h1>
+            <p className="text-muted-foreground mt-2">{t("admin.servicesPage.subtitle")}</p>
           </div>
           <Button onClick={() => { setEditing(null); setOpen(true); }}>
-            <Plus className="h-4 w-4" /> New item
+            <Plus className="h-4 w-4" /> {t("admin.servicesPage.newItem")}
           </Button>
         </header>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : grouped.length === 0 ? (
-          <p className="text-muted-foreground">No service items yet.</p>
+          <p className="text-muted-foreground">{t("admin.servicesPage.noItems")}</p>
         ) : (
           <div className="space-y-8">
             {grouped.map((g) => (
               <section key={g.cat?.id ?? "none"} className="space-y-3">
-                <h2 className="font-serif text-xl">{g.cat?.name ?? "Uncategorized"}</h2>
+                <h2 className="font-serif text-xl">{g.cat?.name ?? t("admin.servicesPage.uncategorized")}</h2>
                 <div className="rounded-lg border border-border bg-card divide-y divide-border">
                   {g.items.map((i) => (
                     <div key={i.id} className="p-4 flex flex-wrap items-center gap-4">
@@ -97,12 +97,12 @@ const AdminServices = () => {
                         )}
                         <div className="flex flex-wrap gap-1.5 mt-2">
                           {i.is_paid_extra ? (
-                            <Badge>Paid · €{Number(i.price_estimate ?? 0).toFixed(2)}</Badge>
+                            <Badge>{t("admin.requestsPage.paid")} · €{Number(i.price_estimate ?? 0).toFixed(2)}</Badge>
                           ) : (
-                            <Badge variant="secondary">Free</Badge>
+                            <Badge variant="secondary">{t("admin.servicesPage.free")}</Badge>
                           )}
                           {i.requires_staff_confirmation && (
-                            <Badge variant="outline">Staff confirm</Badge>
+                            <Badge variant="outline">{t("admin.servicesPage.staffConfirm")}</Badge>
                           )}
                         </div>
                       </div>
@@ -113,11 +113,11 @@ const AdminServices = () => {
                             onCheckedChange={(v) => toggleActive(i, v)}
                           />
                           <span className="text-xs text-muted-foreground">
-                            {i.is_active ? "Active" : "Hidden"}
+                            {i.is_active ? t("common.active") : t("common.hidden")}
                           </span>
                         </div>
                         <Button size="sm" variant="outline" onClick={() => { setEditing(i); setOpen(true); }}>
-                          <Pencil className="h-3.5 w-3.5" /> Edit
+                          <Pencil className="h-3.5 w-3.5" /> {t("common.edit")}
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
@@ -127,14 +127,12 @@ const AdminServices = () => {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Delete “{i.title}”?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This will remove the item permanently. Past requests are kept.
-                              </AlertDialogDescription>
+                              <AlertDialogTitle>{t("admin.servicesPage.deleteTitle", { title: i.title })}</AlertDialogTitle>
+                              <AlertDialogDescription>{t("admin.servicesPage.deleteDesc")}</AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => remove(i.id!)}>Delete</AlertDialogAction>
+                              <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => remove(i.id!)}>{t("common.delete")}</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>

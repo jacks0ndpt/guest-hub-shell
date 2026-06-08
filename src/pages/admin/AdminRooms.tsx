@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +23,8 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const AdminRooms = () => {
-  usePageMeta("Rooms — Admin", "Manage your rooms and their details.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.roomsPage.title")} — ${t("admin.admin")}`, "");
   const [rooms, setRooms] = useState<RoomRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<RoomRow | null>(null);
@@ -41,14 +43,14 @@ const AdminRooms = () => {
 
   const toggleActive = async (r: RoomRow, active: boolean) => {
     const { error } = await supabase.from("rooms").update({ is_active: active }).eq("id", r.id!);
-    if (error) toast({ title: "Failed", description: error.message, variant: "destructive" });
+    if (error) toast({ title: t("admin.servicesPage.failed"), description: error.message, variant: "destructive" });
     else load();
   };
 
   const remove = async (id: string) => {
     const { error } = await supabase.from("rooms").delete().eq("id", id);
-    if (error) toast({ title: "Failed", description: error.message, variant: "destructive" });
-    else { toast({ title: "Room deleted" }); load(); }
+    if (error) toast({ title: t("admin.servicesPage.failed"), description: error.message, variant: "destructive" });
+    else { toast({ title: t("admin.roomsPage.deleted") }); load(); }
   };
 
   return (
@@ -56,21 +58,19 @@ const AdminRooms = () => {
       <div className="space-y-6 max-w-6xl">
         <header className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="eyebrow">Rooms</p>
-            <h1 className="font-serif text-4xl mt-1">Rooms</h1>
-            <p className="text-muted-foreground mt-2">
-              Active rooms appear on the public website.
-            </p>
+            <p className="eyebrow">{t("admin.roomsPage.eyebrow")}</p>
+            <h1 className="font-serif text-4xl mt-1">{t("admin.roomsPage.title")}</h1>
+            <p className="text-muted-foreground mt-2">{t("admin.roomsPage.subtitle")}</p>
           </div>
           <Button onClick={() => { setEditing(null); setOpen(true); }}>
-            <Plus className="h-4 w-4" /> New room
+            <Plus className="h-4 w-4" /> {t("admin.roomsPage.newRoom")}
           </Button>
         </header>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : rooms.length === 0 ? (
-          <p className="text-muted-foreground">No rooms yet.</p>
+          <p className="text-muted-foreground">{t("admin.roomsPage.noRooms")}</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {rooms.map((r) => (
@@ -80,7 +80,7 @@ const AdminRooms = () => {
                     <img src={r.main_image_url} alt={r.name} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full grid place-items-center text-muted-foreground text-sm">
-                      No image
+                      {t("common.noImage")}
                     </div>
                   )}
                 </div>
@@ -91,14 +91,14 @@ const AdminRooms = () => {
                   </div>
                   <p className="text-sm text-muted-foreground line-clamp-2">{r.short_description}</p>
                   <div className="flex flex-wrap gap-2 text-xs">
-                    <Badge variant="secondary">{r.capacity} guests</Badge>
+                    <Badge variant="secondary">{r.capacity} {t("admin.roomsPage.guests")}</Badge>
                     {r.bed_type && <Badge variant="secondary">{r.bed_type}</Badge>}
                   </div>
                   <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
                       <Switch checked={r.is_active} onCheckedChange={(v) => toggleActive(r, v)} />
                       <span className="text-xs text-muted-foreground">
-                        {r.is_active ? "Active" : "Hidden"}
+                        {r.is_active ? t("common.active") : t("common.hidden")}
                       </span>
                     </div>
                     <div className="flex gap-1">
@@ -113,12 +113,12 @@ const AdminRooms = () => {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Delete “{r.name}”?</AlertDialogTitle>
-                            <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+                            <AlertDialogTitle>{t("admin.roomsPage.deleteTitle", { name: r.name })}</AlertDialogTitle>
+                            <AlertDialogDescription>{t("admin.roomsPage.deleteDesc")}</AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => remove(r.id!)}>Delete</AlertDialogAction>
+                            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => remove(r.id!)}>{t("common.delete")}</AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>

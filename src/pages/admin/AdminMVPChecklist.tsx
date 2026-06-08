@@ -1,36 +1,77 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ShieldCheck } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
-const ITEMS = [
-  "Public website complete",
-  "Rooms visible on public site",
-  "GuestHub QR route working",
-  "Guest request submission working",
-  "Admin request board working",
-  "Service catalog editable",
-  "Property settings editable",
-  "Monthly value dashboard working",
-  "QR links ready to print",
-  "Ready to test with first hotel",
+const ITEM_KEYS = [
+  "publicSite",
+  "roomsVisible",
+  "qrRoute",
+  "guestSubmission",
+  "adminBoard",
+  "serviceCatalog",
+  "propertySettings",
+  "valueDashboard",
+  "qrPrint",
+  "readyTest",
 ];
 
-const SECURITY = [
-  "Backend (Lovable Cloud) connected before real client use",
-  "Verify admin authentication works",
-  "Row-level security policies reviewed",
-  "No secrets exposed in client code",
-  "Tested guest request submission end-to-end",
-  "Tested admin-only routes are protected",
-  "Reviewed before publishing",
+const SECURITY_KEYS = [
+  "backendConnected",
+  "verifyAuth",
+  "rlsReviewed",
+  "noSecretsExposed",
+  "endToEndTested",
+  "adminProtected",
+  "reviewedBeforePublish",
 ];
+
+const ITEM_EN: Record<string, string> = {
+  publicSite: "Public website complete",
+  roomsVisible: "Rooms visible on public site",
+  qrRoute: "GuestHub QR route working",
+  guestSubmission: "Guest request submission working",
+  adminBoard: "Admin request board working",
+  serviceCatalog: "Service catalog editable",
+  propertySettings: "Property settings editable",
+  valueDashboard: "Monthly value dashboard working",
+  qrPrint: "QR links ready to print",
+  readyTest: "Ready to test with first hotel",
+  backendConnected: "Backend (Lovable Cloud) connected before real client use",
+  verifyAuth: "Verify admin authentication works",
+  rlsReviewed: "Row-level security policies reviewed",
+  noSecretsExposed: "No secrets exposed in client code",
+  endToEndTested: "Tested guest request submission end-to-end",
+  adminProtected: "Tested admin-only routes are protected",
+  reviewedBeforePublish: "Reviewed before publishing",
+};
+const ITEM_RO: Record<string, string> = {
+  publicSite: "Site public complet",
+  roomsVisible: "Camerele sunt vizibile pe site",
+  qrRoute: "Ruta QR GuestHub funcționează",
+  guestSubmission: "Trimiterea cererilor de oaspeți funcționează",
+  adminBoard: "Panoul de cereri admin funcționează",
+  serviceCatalog: "Catalogul de servicii editabil",
+  propertySettings: "Setările proprietății editabile",
+  valueDashboard: "Tabloul valoric lunar funcționează",
+  qrPrint: "Link-urile QR gata de printat",
+  readyTest: "Gata de testare cu primul hotel",
+  backendConnected: "Backend (Lovable Cloud) conectat înainte de utilizare reală",
+  verifyAuth: "Verificat autentificarea admin",
+  rlsReviewed: "Politici RLS revizuite",
+  noSecretsExposed: "Niciun secret expus în codul client",
+  endToEndTested: "Testat trimiterea cererilor cap la cap",
+  adminProtected: "Testat că rutele admin sunt protejate",
+  reviewedBeforePublish: "Revizuit înainte de publicare",
+};
 
 const KEY = "guesthub.mvp.checklist";
 
 const AdminMVPChecklist = () => {
-  usePageMeta("MVP checklist — Admin", "Validation checklist for Hotel GuestHub demos.");
+  const { t, i18n } = useTranslation();
+  usePageMeta(`${t("admin.mvpPage.title")} — ${t("admin.admin")}`, "");
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -40,25 +81,27 @@ const AdminMVPChecklist = () => {
     } catch {}
   }, []);
 
-  const toggle = (label: string) => {
-    const next = { ...checked, [label]: !checked[label] };
+  const labels = (i18n.resolvedLanguage || "en").startsWith("ro") ? ITEM_RO : ITEM_EN;
+
+  const toggle = (key: string) => {
+    const next = { ...checked, [key]: !checked[key] };
     setChecked(next);
     try {
       localStorage.setItem(KEY, JSON.stringify(next));
     } catch {}
   };
 
-  const renderList = (items: string[]) =>
-    items.map((label) => (
-      <li key={label} className="flex items-start gap-3 py-2.5 border-b border-border last:border-0">
+  const renderList = (keys: string[]) =>
+    keys.map((key) => (
+      <li key={key} className="flex items-start gap-3 py-2.5 border-b border-border last:border-0">
         <Checkbox
-          id={label}
-          checked={!!checked[label]}
-          onCheckedChange={() => toggle(label)}
+          id={key}
+          checked={!!checked[key]}
+          onCheckedChange={() => toggle(key)}
           className="mt-0.5"
         />
-        <label htmlFor={label} className="text-sm cursor-pointer flex-1">
-          {label}
+        <label htmlFor={key} className="text-sm cursor-pointer flex-1">
+          {labels[key]}
         </label>
       </li>
     ));
@@ -67,28 +110,24 @@ const AdminMVPChecklist = () => {
     <AdminLayout>
       <div className="space-y-8 max-w-3xl">
         <header>
-          <p className="eyebrow">MVP</p>
-          <h1 className="font-serif text-4xl mt-1">Validation checklist</h1>
-          <p className="text-muted-foreground mt-2">
-            Walk through these items before showing the product to a hotel owner.
-          </p>
+          <p className="eyebrow">{t("admin.mvpPage.eyebrow")}</p>
+          <h1 className="font-serif text-4xl mt-1">{t("admin.mvpPage.title")}</h1>
+          <p className="text-muted-foreground mt-2">{t("admin.mvpPage.subtitle")}</p>
         </header>
 
         <section className="rounded-lg border border-border bg-card p-6">
-          <h2 className="font-serif text-2xl mb-3">Demo readiness</h2>
-          <ul>{renderList(ITEMS)}</ul>
+          <h2 className="font-serif text-2xl mb-3">{t("admin.mvpPage.demoReadiness")}</h2>
+          <ul>{renderList(ITEM_KEYS)}</ul>
         </section>
 
         <section className="rounded-lg border border-border bg-card p-6">
           <h2 className="font-serif text-2xl mb-3 flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5 text-primary" /> Security &amp; production
+            <ShieldCheck className="h-5 w-5 text-primary" /> {t("admin.mvpPage.security")}
           </h2>
-          <ul>{renderList(SECURITY)}</ul>
+          <ul>{renderList(SECURITY_KEYS)}</ul>
         </section>
 
-        <p className="text-xs text-muted-foreground">
-          Progress is saved locally in your browser. Reset by clearing site data.
-        </p>
+        <p className="text-xs text-muted-foreground">{t("admin.mvpPage.savedLocally")}</p>
       </div>
     </AdminLayout>
   );
