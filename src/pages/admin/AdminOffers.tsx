@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -45,7 +46,8 @@ const slugify = (s: string) =>
   s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 const AdminOffers = () => {
-  usePageMeta("Offers — Admin", "Manage your direct-booking offers.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.offersPage.title")} — ${t("admin.admin")}`, "");
   const [offers, setOffers] = useState<Offer[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageEnabled, setPageEnabled] = useState(true);
@@ -79,7 +81,7 @@ const AdminOffers = () => {
     setPageEnabled(v);
     if (propId) {
       await supabase.from("property_settings").update({ offers_page_enabled: v }).eq("id", propId);
-      toast({ title: v ? "Offers page enabled" : "Offers page hidden" });
+      toast({ title: v ? t("admin.offersPage.enabled") : t("admin.offersPage.disabled") });
     }
   };
 
@@ -98,7 +100,7 @@ const AdminOffers = () => {
     const path = `offers/${form.slug || slugify(form.title) || "offer"}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("site-images").upload(path, file);
     if (error) {
-      toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+      toast({ title: t("common.uploadFailed"), description: error.message, variant: "destructive" });
     } else {
       const { data } = supabase.storage.from("site-images").getPublicUrl(path);
       setForm((p) => ({ ...p, image_url: data.publicUrl }));
@@ -124,9 +126,9 @@ const AdminOffers = () => {
       ? await supabase.from("offers").update(payload).eq("id", form.id)
       : await supabase.from("offers").insert(payload);
     setSaving(false);
-    if (error) toast({ title: "Save failed", description: error.message, variant: "destructive" });
+    if (error) toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
     else {
-      toast({ title: form.id ? "Offer updated" : "Offer created" });
+      toast({ title: form.id ? t("admin.offersPage.updated") : t("admin.offersPage.created") });
       setOpen(false);
       load();
     }
@@ -147,36 +149,32 @@ const AdminOffers = () => {
       <div className="space-y-6 max-w-6xl">
         <header className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="eyebrow">Offers</p>
-            <h1 className="font-serif text-4xl mt-1">Offers & packages</h1>
-            <p className="text-muted-foreground mt-2">
-              Direct-booking offers shown on the public Offers page.
-            </p>
+            <p className="eyebrow">{t("admin.offersPage.eyebrow")}</p>
+            <h1 className="font-serif text-4xl mt-1">{t("admin.offersPage.title")}</h1>
+            <p className="text-muted-foreground mt-2">{t("admin.offersPage.subtitle")}</p>
           </div>
           <Button onClick={() => startEdit()}>
-            <Plus className="h-4 w-4" /> New offer
+            <Plus className="h-4 w-4" /> {t("admin.offersPage.newOffer")}
           </Button>
         </header>
 
         <Card>
           <CardContent className="p-5 flex items-center justify-between gap-4">
             <div>
-              <p className="font-medium">Offers page</p>
-              <p className="text-sm text-muted-foreground">
-                When off, the “Offers” link is hidden and visiting /offers shows nothing.
-              </p>
+              <p className="font-medium">{t("admin.offersPage.offersPage")}</p>
+              <p className="text-sm text-muted-foreground">{t("admin.offersPage.offersPageHint")}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">{pageEnabled ? "Visible" : "Hidden"}</span>
+              <span className="text-sm text-muted-foreground">{pageEnabled ? t("admin.offersPage.visible") : t("common.hidden")}</span>
               <Switch checked={pageEnabled} onCheckedChange={togglePage} />
             </div>
           </CardContent>
         </Card>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : offers.length === 0 ? (
-          <p className="text-muted-foreground">No offers yet.</p>
+          <p className="text-muted-foreground">{t("admin.offersPage.noOffers")}</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {offers.map((o) => (
@@ -197,7 +195,7 @@ const AdminOffers = () => {
                     <div className="flex items-center gap-2">
                       <Switch checked={o.is_active} onCheckedChange={(v) => toggleActive(o, v)} />
                       <span className="text-xs text-muted-foreground">
-                        {o.is_active ? "Active" : "Hidden"}
+                        {o.is_active ? t("common.active") : t("common.hidden")}
                       </span>
                     </div>
                     <div className="flex gap-1">
@@ -219,13 +217,13 @@ const AdminOffers = () => {
           <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="font-serif text-2xl">
-                {form.id ? "Edit offer" : "New offer"}
+                {form.id ? t("admin.offersPage.edit") : t("admin.offersPage.new")}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={save} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label>Title</Label>
+                  <Label>{t("admin.offersPage.fTitle")}</Label>
                   <Input
                     required
                     value={form.title}
@@ -237,27 +235,27 @@ const AdminOffers = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Slug</Label>
+                  <Label>{t("admin.offersPage.fSlug")}</Label>
                   <Input value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: slugify(e.target.value) }))} required />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Badge</Label>
+                <Label>{t("admin.offersPage.fBadge")}</Label>
                 <Input value={form.badge ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge: e.target.value }))} placeholder="Save 15%" />
               </div>
               <div className="space-y-2">
-                <Label>Description</Label>
+                <Label>{t("admin.offersPage.fDescription")}</Label>
                 <Textarea rows={3} value={form.description ?? ""} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
               </div>
               <div className="space-y-2">
-                <Label>Perks (one per line)</Label>
+                <Label>{t("admin.offersPage.fPerks")}</Label>
                 <Textarea rows={4} value={perksStr} onChange={(e) => setPerksStr(e.target.value)} />
               </div>
               <div className="space-y-2">
-                <Label>Image</Label>
+                <Label>{t("common.image")}</Label>
                 {form.image_url && <img src={form.image_url} className="w-full max-h-40 object-cover rounded-md border border-border" />}
                 <div className="flex gap-2">
-                  <Input value={form.image_url ?? ""} onChange={(e) => setForm((p) => ({ ...p, image_url: e.target.value }))} placeholder="Image URL or upload" />
+                  <Input value={form.image_url ?? ""} onChange={(e) => setForm((p) => ({ ...p, image_url: e.target.value }))} placeholder={t("common.imageURLOrUpload")} />
                   <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploading}>
                     {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                   </Button>
@@ -266,16 +264,16 @@ const AdminOffers = () => {
               </div>
               <div className="grid grid-cols-2 gap-3 items-end">
                 <div className="space-y-2">
-                  <Label>Sort order</Label>
+                  <Label>{t("common.sortOrder")}</Label>
                   <Input type="number" value={form.sort_order ?? 0} onChange={(e) => setForm((p) => ({ ...p, sort_order: Number(e.target.value) }))} />
                 </div>
                 <div className="flex items-center justify-between rounded-md border border-border p-2.5">
-                  <Label>Active</Label>
+                  <Label>{t("common.active")}</Label>
                   <Switch checked={form.is_active} onCheckedChange={(v) => setForm((p) => ({ ...p, is_active: v }))} />
                 </div>
               </div>
               <Button type="submit" disabled={saving} className="w-full">
-                {saving ? "Saving…" : "Save offer"}
+                {saving ? t("common.saving") : t("admin.offersPage.save")}
               </Button>
             </form>
           </DialogContent>

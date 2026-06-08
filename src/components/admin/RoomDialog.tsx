@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dialog,
   DialogContent,
@@ -56,6 +57,7 @@ type Props = {
 };
 
 const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
+  const { t } = useTranslation();
   const [form, setForm] = useState<RoomRow>(empty);
   const [amenStr, setAmenStr] = useState("");
   const [gallery, setGallery] = useState<string[]>([]);
@@ -83,14 +85,14 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
       upsert: false,
     });
     if (upErr) {
-      toast({ title: "Upload failed", description: upErr.message, variant: "destructive" });
+      toast({ title: t("common.uploadFailed"), description: upErr.message, variant: "destructive" });
       setUploading(false);
       return;
     }
     const { data } = supabase.storage.from("room-images").getPublicUrl(path);
     set("main_image_url", data.publicUrl);
     setUploading(false);
-    toast({ title: "Image uploaded" });
+    toast({ title: t("common.imageUploaded") });
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -115,11 +117,10 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
       : await supabase.from("rooms").insert(payload);
     setSaving(false);
     if (error) {
-      toast({ title: "Save failed", description: error.message, variant: "destructive" });
+      toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
       return;
     }
 
-    // Auto-create a QR room_code on new rooms if one with the same slug doesn't exist yet.
     if (!form.id) {
       const { data: existing } = await supabase
         .from("room_codes")
@@ -136,8 +137,8 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
     }
 
     toast({
-      title: form.id ? "Room updated" : "Room created",
-      description: form.id ? undefined : "A QR code was generated automatically.",
+      title: form.id ? t("admin.roomDialog.updated") : t("admin.roomDialog.created"),
+      description: form.id ? undefined : t("admin.roomDialog.qrCreated"),
     });
     onSaved();
     onOpenChange(false);
@@ -148,14 +149,14 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
       <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">
-            {form.id ? "Edit room" : "New room"}
+            {form.id ? t("admin.roomDialog.edit") : t("admin.roomDialog.new")}
           </DialogTitle>
-          <DialogDescription>Active rooms appear on the public site.</DialogDescription>
+          <DialogDescription>{t("admin.roomDialog.desc")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t("admin.roomDialog.name")}</Label>
               <Input
                 id="name"
                 value={form.name}
@@ -167,38 +168,38 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="slug">Slug</Label>
+              <Label htmlFor="slug">{t("admin.roomDialog.slug")}</Label>
               <Input id="slug" value={form.slug} onChange={(e) => set("slug", slugify(e.target.value))} required />
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="short">Short description</Label>
+            <Label htmlFor="short">{t("admin.roomDialog.shortDescription")}</Label>
             <Input id="short" value={form.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="long">Long description</Label>
+            <Label htmlFor="long">{t("admin.roomDialog.longDescription")}</Label>
             <Textarea id="long" rows={3} value={form.long_description ?? ""} onChange={(e) => set("long_description", e.target.value)} />
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="cap">Capacity</Label>
+              <Label htmlFor="cap">{t("admin.roomDialog.capacity")}</Label>
               <Input id="cap" type="number" min={1} value={form.capacity ?? 2} onChange={(e) => set("capacity", Number(e.target.value))} />
             </div>
             <div className="space-y-2 col-span-2">
-              <Label htmlFor="bed">Bed type</Label>
+              <Label htmlFor="bed">{t("admin.roomDialog.bedType")}</Label>
               <Input id="bed" value={form.bed_type ?? ""} onChange={(e) => set("bed_type", e.target.value)} />
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="amen">Amenities (comma separated)</Label>
+            <Label htmlFor="amen">{t("admin.roomDialog.amenities")}</Label>
             <Input id="amen" value={amenStr} onChange={(e) => setAmenStr(e.target.value)} placeholder="WiFi, AC, TV" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="img">Main image</Label>
+            <Label htmlFor="img">{t("admin.roomDialog.mainImage")}</Label>
             {form.main_image_url && (
               <img
                 src={form.main_image_url}
-                alt="Room preview"
+                alt=""
                 className="w-full max-h-48 object-cover rounded-md border border-border"
               />
             )}
@@ -207,7 +208,7 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
                 id="img"
                 value={form.main_image_url ?? ""}
                 onChange={(e) => set("main_image_url", e.target.value)}
-                placeholder="Paste an image URL or upload"
+                placeholder={t("admin.roomDialog.pastePlaceholder")}
               />
               <Button
                 type="button"
@@ -216,7 +217,7 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
                 disabled={uploading}
               >
                 {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-                Upload
+                {t("common.upload")}
               </Button>
               <input
                 ref={fileRef}
@@ -228,7 +229,7 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Gallery images</Label>
+            <Label>{t("admin.roomDialog.galleryImages")}</Label>
             <MultiImageUploader
               bucket="room-images"
               pathPrefix={`gallery/${form.slug || slugify(form.name) || "room"}`}
@@ -238,16 +239,16 @@ const RoomDialog = ({ open, onOpenChange, initial, onSaved }: Props) => {
           </div>
           <div className="grid grid-cols-2 gap-3 items-end">
             <div className="space-y-2">
-              <Label htmlFor="sort">Sort order</Label>
+              <Label htmlFor="sort">{t("common.sortOrder")}</Label>
               <Input id="sort" type="number" value={form.sort_order ?? 0} onChange={(e) => set("sort_order", Number(e.target.value))} />
             </div>
             <div className="flex items-center justify-between rounded-md border border-border p-2.5">
-              <Label htmlFor="active">Active</Label>
+              <Label htmlFor="active">{t("common.active")}</Label>
               <Switch id="active" checked={form.is_active} onCheckedChange={(v) => set("is_active", v)} />
             </div>
           </div>
           <Button type="submit" disabled={saving} className="w-full">
-            {saving ? "Saving…" : "Save room"}
+            {saving ? t("common.saving") : t("admin.roomDialog.save")}
           </Button>
         </form>
       </DialogContent>

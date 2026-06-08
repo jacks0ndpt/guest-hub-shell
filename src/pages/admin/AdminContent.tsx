@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -15,29 +16,19 @@ import ImageUploader from "@/components/admin/ImageUploader";
 import MultiImageUploader from "@/components/admin/MultiImageUploader";
 import { Trash2 } from "lucide-react";
 
-const SECTION_LABELS: Record<string, { name: string; description: string }> = {
-  hero: { name: "Hero", description: "Headline and CTAs on the homepage." },
-  about: { name: "About", description: "Short story about the property." },
-  amenities: { name: "Amenities", description: "Heading for the amenities grid." },
-  location: { name: "Location", description: "Location preview on the homepage." },
-  contact: { name: "Contact", description: "Heading and intro on the contact section." },
-  footer: { name: "Footer", description: "Tagline shown in the footer." },
-};
-
 type GalleryRow = { id: string; image_url: string; alt: string | null; category: string; sort_order: number | null; is_active: boolean };
 
 const AdminContent = () => {
-  usePageMeta("Content — Admin", "Edit your website content sections, hero image, and gallery.");
+  const { t } = useTranslation();
+  usePageMeta(`${t("admin.contentPage.title")} — ${t("admin.admin")}`, "");
   const [content, setContent] = useState<SiteContentMap>(DEFAULT_CONTENT);
   const [savingKey, setSavingKey] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Hero image
   const [heroUrl, setHeroUrl] = useState("");
   const [propId, setPropId] = useState<string | null>(null);
   const [heroSaving, setHeroSaving] = useState(false);
 
-  // Gallery
   const [gallery, setGallery] = useState<GalleryRow[]>([]);
 
   const loadAll = async () => {
@@ -69,14 +60,17 @@ const AdminContent = () => {
   const setField = (section: string, key: string, value: string) =>
     setContent((c) => ({ ...c, [section]: { ...c[section], [key]: value } }));
 
+  const sectionName = (s: string) => t(`admin.contentPage.sections.${s}`, { defaultValue: s });
+  const sectionDesc = (s: string) => t(`admin.contentPage.sections.${s}Desc`, { defaultValue: "" });
+
   const saveSection = async (section: string) => {
     setSavingKey(section);
     const { error } = await supabase
       .from("site_content")
       .upsert({ section_key: section, content: content[section] }, { onConflict: "section_key" });
     setSavingKey(null);
-    if (error) toast({ title: "Save failed", description: error.message, variant: "destructive" });
-    else toast({ title: `${SECTION_LABELS[section]?.name ?? section} saved`, description: "Live on the website." });
+    if (error) toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
+    else toast({ title: t("admin.contentPage.sectionSaved", { name: sectionName(section) }), description: t("admin.contentPage.sectionSavedDesc") });
   };
 
   const saveHero = async () => {
@@ -84,8 +78,8 @@ const AdminContent = () => {
     setHeroSaving(true);
     const { error } = await supabase.from("property_settings").update({ hero_image_url: heroUrl || null }).eq("id", propId);
     setHeroSaving(false);
-    if (error) toast({ title: "Save failed", description: error.message, variant: "destructive" });
-    else toast({ title: "Hero image saved" });
+    if (error) toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
+    else toast({ title: t("admin.contentPage.heroSaved") });
   };
 
   const addGalleryImages = async (urls: string[]) => {
@@ -99,7 +93,7 @@ const AdminContent = () => {
       is_active: true,
     }));
     const { error } = await supabase.from("site_gallery").insert(rows);
-    if (error) toast({ title: "Save failed", description: error.message, variant: "destructive" });
+    if (error) toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
     else loadAll();
   };
 
@@ -117,21 +111,19 @@ const AdminContent = () => {
     <AdminLayout>
       <div className="space-y-6 max-w-5xl">
         <header>
-          <p className="eyebrow">Content</p>
-          <h1 className="font-serif text-4xl mt-1">Website content</h1>
-          <p className="text-muted-foreground mt-2">
-            Edit the copy, hero image, and gallery shown on the public website.
-          </p>
+          <p className="eyebrow">{t("admin.contentPage.eyebrow")}</p>
+          <h1 className="font-serif text-4xl mt-1">{t("admin.contentPage.title")}</h1>
+          <p className="text-muted-foreground mt-2">{t("admin.contentPage.subtitle")}</p>
         </header>
 
         {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
+          <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : (
           <Tabs defaultValue="sections">
             <TabsList>
-              <TabsTrigger value="sections">Text sections</TabsTrigger>
-              <TabsTrigger value="hero">Hero image</TabsTrigger>
-              <TabsTrigger value="gallery">Gallery</TabsTrigger>
+              <TabsTrigger value="sections">{t("admin.contentPage.textSections")}</TabsTrigger>
+              <TabsTrigger value="hero">{t("admin.contentPage.heroImage")}</TabsTrigger>
+              <TabsTrigger value="gallery">{t("admin.contentPage.gallery")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="sections" className="space-y-5 mt-5">
@@ -139,8 +131,8 @@ const AdminContent = () => {
                 <Card key={section}>
                   <CardContent className="p-6 space-y-4">
                     <div>
-                      <h2 className="font-serif text-2xl">{SECTION_LABELS[section]?.name ?? section}</h2>
-                      <p className="text-sm text-muted-foreground">{SECTION_LABELS[section]?.description}</p>
+                      <h2 className="font-serif text-2xl">{sectionName(section)}</h2>
+                      <p className="text-sm text-muted-foreground">{sectionDesc(section)}</p>
                     </div>
                     <div className="grid gap-3">
                       {fields.map((f) => (
@@ -156,7 +148,7 @@ const AdminContent = () => {
                     </div>
                     <div className="flex justify-end">
                       <Button onClick={() => saveSection(section)} disabled={savingKey === section}>
-                        {savingKey === section ? "Saving…" : "Save section"}
+                        {savingKey === section ? t("common.saving") : t("admin.contentPage.saveSection")}
                       </Button>
                     </div>
                   </CardContent>
@@ -168,21 +160,19 @@ const AdminContent = () => {
               <Card>
                 <CardContent className="p-6 space-y-4">
                   <div>
-                    <h2 className="font-serif text-2xl">Hero image</h2>
-                    <p className="text-sm text-muted-foreground">
-                      The main background image at the top of the homepage.
-                    </p>
+                    <h2 className="font-serif text-2xl">{t("admin.contentPage.heroImage")}</h2>
+                    <p className="text-sm text-muted-foreground">{t("admin.contentPage.heroDesc")}</p>
                   </div>
                   <ImageUploader
                     bucket="site-images"
                     pathPrefix="hero/hero"
                     value={heroUrl}
                     onChange={setHeroUrl}
-                    label="Homepage hero image"
+                    label={t("admin.contentPage.heroLabel")}
                   />
                   <div className="flex justify-end">
                     <Button onClick={saveHero} disabled={heroSaving}>
-                      {heroSaving ? "Saving…" : "Save hero"}
+                      {heroSaving ? t("common.saving") : t("admin.contentPage.saveHero")}
                     </Button>
                   </div>
                 </CardContent>
@@ -193,10 +183,8 @@ const AdminContent = () => {
               <Card>
                 <CardContent className="p-6 space-y-4">
                   <div>
-                    <h2 className="font-serif text-2xl">Gallery</h2>
-                    <p className="text-sm text-muted-foreground">
-                      Upload images shown on the public Gallery page.
-                    </p>
+                    <h2 className="font-serif text-2xl">{t("admin.contentPage.gallery")}</h2>
+                    <p className="text-sm text-muted-foreground">{t("admin.contentPage.galleryDesc")}</p>
                   </div>
                   <MultiImageUploader
                     bucket="site-images"
@@ -208,30 +196,30 @@ const AdminContent = () => {
               </Card>
 
               {gallery.length === 0 ? (
-                <p className="text-muted-foreground">No images yet.</p>
+                <p className="text-muted-foreground">{t("admin.contentPage.noGallery")}</p>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {gallery.map((g) => (
                     <Card key={g.id} className="overflow-hidden">
                       <img src={g.image_url} alt={g.alt ?? ""} className="aspect-[4/3] w-full object-cover" />
                       <CardContent className="p-3 space-y-2">
-                        <Input placeholder="Alt text" defaultValue={g.alt ?? ""} onBlur={(e) => updateGallery(g.id, { alt: e.target.value })} />
+                        <Input placeholder={t("admin.contentPage.altText")} defaultValue={g.alt ?? ""} onBlur={(e) => updateGallery(g.id, { alt: e.target.value })} />
                         <div className="flex items-center justify-between gap-2">
                           <select
                             className="h-9 text-sm rounded-md border border-input bg-background px-2"
                             defaultValue={g.category}
                             onChange={(e) => updateGallery(g.id, { category: e.target.value })}
                           >
-                            <option value="rooms">Rooms</option>
-                            <option value="lobby">Lobby</option>
-                            <option value="breakfast">Breakfast</option>
-                            <option value="exterior">Exterior</option>
-                            <option value="surroundings">Surroundings</option>
+                            <option value="rooms">{t("admin.contentPage.categories.rooms")}</option>
+                            <option value="lobby">{t("admin.contentPage.categories.lobby")}</option>
+                            <option value="breakfast">{t("admin.contentPage.categories.breakfast")}</option>
+                            <option value="exterior">{t("admin.contentPage.categories.exterior")}</option>
+                            <option value="surroundings">{t("admin.contentPage.categories.surroundings")}</option>
                           </select>
                           <Badge variant={g.is_active ? "default" : "secondary"}>
-                            {g.is_active ? "Active" : "Hidden"}
+                            {g.is_active ? t("common.active") : t("common.hidden")}
                           </Badge>
-                          <Button size="icon" variant="ghost" onClick={() => removeGallery(g.id)} aria-label="Delete">
+                          <Button size="icon" variant="ghost" onClick={() => removeGallery(g.id)} aria-label={t("common.delete")}>
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
