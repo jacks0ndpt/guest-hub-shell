@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import GuestLayout from "@/components/guest/GuestLayout";
 import RequestDialog from "@/components/guest/RequestDialog";
 import FeedbackDialog from "@/components/guest/FeedbackDialog";
@@ -28,9 +29,9 @@ const ICONS: Record<string, LucideIcon> = {
 const iconForCategory = (cat: ServiceCategory) => {
   if (cat.icon && ICONS[cat.icon]) return ICONS[cat.icon];
   const n = cat.name.toLowerCase();
-  if (n.includes("house")) return Sparkles;
+  if (n.includes("house") || n.includes("curăț")) return Sparkles;
   if (n.includes("recept")) return ConciergeBell;
-  if (n.includes("extra") || n.includes("paid")) return Plus;
+  if (n.includes("extra") || n.includes("paid") || n.includes("plătit")) return Plus;
   if (n.includes("local")) return MapPin;
   if (n.includes("feed")) return MessageCircle;
   return ConciergeBell;
@@ -39,7 +40,8 @@ const iconForCategory = (cat: ServiceCategory) => {
 type Props = { initialRoom?: RoomCode | null };
 
 const GuestHub = ({ initialRoom = null }: Props) => {
-  usePageMeta("Guest services", "Request services and help during your stay.");
+  const { t } = useTranslation();
+  usePageMeta(t("guest.metaTitle"), t("guest.metaDesc"));
   const [searchParams, setSearchParams] = useSearchParams();
   const { categories, items } = useGuestHub();
   const { codes } = useRoomCodes();
@@ -51,7 +53,6 @@ const GuestHub = ({ initialRoom = null }: Props) => {
   const [activeCategory, setActiveCategory] = useState<ServiceCategory | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
 
-  // Prefill from ?room=101
   useEffect(() => {
     if (initialRoom || room) return;
     const q = searchParams.get("room");
@@ -81,7 +82,9 @@ const GuestHub = ({ initialRoom = null }: Props) => {
 
   const handleItemClick = (item: ServiceItem, category: ServiceCategory) => {
     if (!room) return;
-    if (category.name.toLowerCase().includes("feedback") || item.title.toLowerCase().includes("feedback")) {
+    const nameLc = category.name.toLowerCase();
+    const titleLc = item.title.toLowerCase();
+    if (nameLc.includes("feedback") || titleLc.includes("feedback")) {
       setFeedbackOpen(true);
       return;
     }
@@ -92,18 +95,18 @@ const GuestHub = ({ initialRoom = null }: Props) => {
   return (
     <GuestLayout roomLabel={room?.room_label}>
       <section className="text-center mb-8">
-        <p className="eyebrow">GuestHub</p>
-        <h1 className="font-serif text-4xl mt-2">How can we help with your stay?</h1>
+        <p className="eyebrow">{t("guest.hubEyebrow")}</p>
+        <h1 className="font-serif text-4xl mt-2">{t("guest.hubTitle")}</h1>
         <p className="text-muted-foreground mt-3 text-sm">
-          Tap a category, send a quick request — we'll take care of it.
+          {t("guest.hubSubtitle")}
         </p>
       </section>
 
       {!room && (
         <section className="rounded-lg border border-border bg-card p-5 mb-8 shadow-[var(--shadow-card)]">
-          <p className="font-serif text-xl">Which room are you in?</p>
+          <p className="font-serif text-xl">{t("guest.whichRoom")}</p>
           <p className="text-sm text-muted-foreground mt-1">
-            Tap your room or enter the number below.
+            {t("guest.whichRoomHint")}
           </p>
           {codes.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -113,7 +116,7 @@ const GuestHub = ({ initialRoom = null }: Props) => {
                   onClick={() => setRoom(c)}
                   className="px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
-                  Room {c.room_label}
+                  {t("guest.roomLabel", { label: c.room_label })}
                 </button>
               ))}
             </div>
@@ -127,12 +130,12 @@ const GuestHub = ({ initialRoom = null }: Props) => {
           >
             <Input
               inputMode="numeric"
-              placeholder="e.g. 101"
+              placeholder={t("guest.roomPlaceholder")}
               value={manualRoom}
               onChange={(e) => setManualRoom(e.target.value)}
               maxLength={10}
             />
-            <Button type="submit" disabled={!manualRoom.trim()}>Continue</Button>
+            <Button type="submit" disabled={!manualRoom.trim()}>{t("guest.continue")}</Button>
           </form>
         </section>
       )}
@@ -180,7 +183,7 @@ const GuestHub = ({ initialRoom = null }: Props) => {
 
       {!room && (
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Select your room above to send a request.
+          {t("guest.selectFirst")}
         </p>
       )}
 

@@ -1,13 +1,15 @@
 import { Star } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { testimonials } from "@/data/mock";
 
 export const TestimonialSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="section bg-secondary/40">
       <div className="container-narrow">
         <div className="max-w-2xl mb-14">
-          <p className="eyebrow mb-3">Guest stories</p>
-          <h2 className="text-4xl md:text-5xl">Kind words from recent stays.</h2>
+          <p className="eyebrow mb-3">{t("site.testimonials.eyebrow")}</p>
+          <h2 className="text-4xl md:text-5xl">{t("site.testimonials.title")}</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((t) => (
