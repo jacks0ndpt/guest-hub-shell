@@ -14,13 +14,15 @@ import { useProperty } from "@/hooks/useProperty";
 import { useRooms } from "@/hooks/useRooms";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useSiteContent, get } from "@/hooks/useSiteContent";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
   const { merged: property, property: dbProp } = useProperty();
   const { rooms } = useRooms();
   const { content } = useSiteContent();
+  const { t } = useTranslation();
   usePageMeta(
-    `${property.property_name} — Boutique stays in ${property.city}`,
+    `${property.property_name} — ${t("site.home.metaSuffix", { city: property.city })}`,
     property.short_description
   );
 
@@ -31,8 +33,8 @@ const Index = () => {
         eyebrow={get(content, "hero", "eyebrow") || `${property.property_type} · ${property.city}, ${property.country}`}
         title={<>{get(content, "hero", "title_line1")}<br className="hidden md:block" /> {get(content, "hero", "title_line2")}</>}
         subtitle={get(content, "hero", "subtitle") || property.short_description}
-        primaryCta={{ label: get(content, "hero", "primary_cta_label") || "Book Direct", href: property.booking_url }}
-        secondaryCta={{ label: get(content, "hero", "secondary_cta_label") || "Explore Rooms", href: "/rooms" }}
+        primaryCta={{ label: get(content, "hero", "primary_cta_label") || t("site.home.heroFallbackPrimary"), href: property.booking_url }}
+        secondaryCta={{ label: get(content, "hero", "secondary_cta_label") || t("site.home.heroFallbackSecondary"), href: "/rooms" }}
       />
 
       {/* Positioning */}
@@ -54,11 +56,11 @@ const Index = () => {
         <div className="container-narrow">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
             <div className="max-w-xl">
-              <p className="eyebrow mb-3">Our rooms</p>
-              <h2 className="text-4xl md:text-5xl">Rooms made for rest.</h2>
+              <p className="eyebrow mb-3">{t("site.home.ourRoomsEyebrow")}</p>
+              <h2 className="text-4xl md:text-5xl">{t("site.home.ourRoomsTitle")}</h2>
             </div>
             <Button asChild variant="outline">
-              <Link to="/rooms">View all rooms <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+              <Link to="/rooms">{t("site.home.viewAllRooms")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
             </Button>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -82,21 +84,21 @@ const Index = () => {
       <section className="section bg-ink text-background">
         <div className="container-narrow grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="eyebrow text-background/70 mb-3">Guest experience</p>
-            <h2 className="text-4xl md:text-5xl">A smoother stay from arrival to checkout.</h2>
+            <p className="eyebrow text-background/70 mb-3">{t("site.home.guestExperienceEyebrow")}</p>
+            <h2 className="text-4xl md:text-5xl">{t("site.home.guestExperienceTitle")}</h2>
             <p className="mt-6 text-background/80 max-w-md">
-              Need fresh towels, a late checkout, or a restaurant recommendation? At {property.property_name}, guests can reach reception and request services digitally — quietly, without waiting on hold.
+              {t("site.home.guestExperienceBody", { name: property.property_name })}
             </p>
             <p className="mt-4 text-background/60 text-sm max-w-md">
-              Modern service, without the friction. Built in.
+              {t("site.home.guestExperienceFootnote")}
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { icon: QrCode, label: "Scan & request", text: "A quick QR in your room connects you to reception." },
-              { icon: Smartphone, label: "Message us", text: "Chat, call, or WhatsApp — whatever works for you." },
-              { icon: Sparkles, label: "Fresh towels", text: "Send a request and we'll handle it silently." },
-              { icon: ArrowRight, label: "Late checkout", text: "Ask for extra time. We'll do our best to say yes." },
+              { icon: QrCode, label: t("site.home.features.scanLabel"), text: t("site.home.features.scanText") },
+              { icon: Smartphone, label: t("site.home.features.messageLabel"), text: t("site.home.features.messageText") },
+              { icon: Sparkles, label: t("site.home.features.towelsLabel"), text: t("site.home.features.towelsText") },
+              { icon: ArrowRight, label: t("site.home.features.lateLabel"), text: t("site.home.features.lateText") },
             ].map((f) => (
               <div key={f.label} className="border border-background/15 rounded-lg p-5 bg-background/5">
                 <f.icon className="h-5 w-5 text-background/80" strokeWidth={1.5} />
@@ -113,11 +115,11 @@ const Index = () => {
         <div className="container-narrow">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 gap-4">
             <div>
-              <p className="eyebrow mb-3">Gallery</p>
-              <h2 className="text-4xl md:text-5xl">A look around.</h2>
+              <p className="eyebrow mb-3">{t("site.home.galleryEyebrow")}</p>
+              <h2 className="text-4xl md:text-5xl">{t("site.home.galleryTitle")}</h2>
             </div>
             <Button asChild variant="outline">
-              <Link to="/gallery">Full gallery <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+              <Link to="/gallery">{t("site.home.fullGallery")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
             </Button>
           </div>
           <GalleryGrid filterable={false} limit={6} />
@@ -134,7 +136,7 @@ const Index = () => {
               {get(content, "location", "description")}
             </p>
             <Button asChild className="mt-8" variant="outline">
-              <Link to="/location">Explore the area <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+              <Link to="/location">{t("site.home.exploreArea")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
             </Button>
           </div>
           <MapPlaceholder />
@@ -144,11 +146,11 @@ const Index = () => {
       <TestimonialSection />
 
       <CTASection
-        eyebrow="Plan your stay"
-        title="Book direct and get the best rate."
-        description="No booking fees, no commission markup — just the real price and a direct line to our reception."
-        primary={{ label: "Book Direct", href: property.booking_url }}
-        secondary={{ label: "Contact Us", href: "/contact" }}
+        eyebrow={t("site.home.ctaEyebrow")}
+        title={t("site.home.ctaTitle")}
+        description={t("site.home.ctaDescription")}
+        primary={{ label: t("site.home.ctaPrimary"), href: property.booking_url }}
+        secondary={{ label: t("site.home.ctaSecondary"), href: "/contact" }}
       />
     </SiteLayout>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const FeedbackDialog = ({ open, onOpenChange, room }: Props) => {
+  const { t } = useTranslation();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [contact, setContact] = useState("");
@@ -53,7 +55,7 @@ const FeedbackDialog = ({ open, onOpenChange, room }: Props) => {
     if (!isFallback) {
       const { error } = await supabase.from("private_feedback").insert(payload);
       if (error) {
-        toast({ title: "Could not send feedback", description: error.message, variant: "destructive" });
+        toast({ title: t("guest.feedback.couldNotSend"), description: error.message, variant: "destructive" });
         setSubmitting(false);
         return;
       }
@@ -71,25 +73,25 @@ const FeedbackDialog = ({ open, onOpenChange, room }: Props) => {
         {done ? (
           <div className="text-center py-4">
             <CheckCircle2 className="h-12 w-12 mx-auto text-primary" strokeWidth={1.5} />
-            <DialogTitle className="font-serif text-2xl mt-4">Thank you</DialogTitle>
+            <DialogTitle className="font-serif text-2xl mt-4">{t("guest.feedback.thankYou")}</DialogTitle>
             <p className="text-muted-foreground mt-2 text-sm">
-              Your feedback was sent privately to the hotel team.
+              {t("guest.feedback.thankYouBody")}
             </p>
             <Button onClick={() => handleClose(false)} className="mt-6 w-full">
-              Back to GuestHub
+              {t("guest.feedback.back")}
             </Button>
           </div>
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="font-serif text-2xl">Private feedback</DialogTitle>
+              <DialogTitle className="font-serif text-2xl">{t("guest.feedback.title")}</DialogTitle>
               <DialogDescription>
-                Only the hotel team will see this. Room {room?.room_label ?? "—"}.
+                {t("guest.feedback.desc", { label: room?.room_label ?? "—" })}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label>Rating</Label>
+                <Label>{t("guest.feedback.rating")}</Label>
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <button
@@ -97,7 +99,7 @@ const FeedbackDialog = ({ open, onOpenChange, room }: Props) => {
                       type="button"
                       onClick={() => setRating(n)}
                       className="p-1"
-                      aria-label={`${n} star${n > 1 ? "s" : ""}`}
+                      aria-label={t("guest.feedback.starsLabel", { n })}
                     >
                       <Star
                         className={cn(
@@ -111,10 +113,10 @@ const FeedbackDialog = ({ open, onOpenChange, room }: Props) => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="comment">Comment</Label>
+                <Label htmlFor="comment">{t("guest.feedback.comment")}</Label>
                 <Textarea
                   id="comment"
-                  placeholder="Tell us how your stay is going…"
+                  placeholder={t("guest.feedback.commentPlaceholder")}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   maxLength={1000}
@@ -122,17 +124,17 @@ const FeedbackDialog = ({ open, onOpenChange, room }: Props) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="fcontact">Contact (optional)</Label>
+                <Label htmlFor="fcontact">{t("guest.feedback.contact")}</Label>
                 <Input
                   id="fcontact"
-                  placeholder="If you want a reply"
+                  placeholder={t("guest.feedback.contactPlaceholder")}
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
                   maxLength={120}
                 />
               </div>
               <Button type="submit" size="lg" className="w-full" disabled={submitting || !room}>
-                {submitting ? "Sending…" : "Send feedback"}
+                {submitting ? t("guest.feedback.sending") : t("guest.feedback.send")}
               </Button>
             </form>
           </>

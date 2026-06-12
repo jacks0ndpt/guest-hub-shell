@@ -96,7 +96,7 @@ export const Navbar = () => {
 
         <button
           className="lg:hidden p-2 -mr-2"
-          aria-label="Toggle menu"
+          aria-label={t("nav.toggleMenu")}
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

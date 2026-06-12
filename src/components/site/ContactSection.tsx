@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useProperty } from "@/hooks/useProperty";
 import { useSiteContent, get } from "@/hooks/useSiteContent";
@@ -9,13 +10,14 @@ import { toast } from "@/hooks/use-toast";
 export const ContactSection = () => {
   const { merged: property } = useProperty();
   const { content } = useSiteContent();
+  const { t } = useTranslation();
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sending, setSending] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
-      toast({ title: "Please fill in name, email and message.", variant: "destructive" });
+      toast({ title: t("site.contact.validation"), variant: "destructive" });
       return;
     }
     setSending(true);
@@ -28,10 +30,10 @@ export const ContactSection = () => {
     });
     setSending(false);
     if (error) {
-      toast({ title: "Could not send", description: error.message, variant: "destructive" });
+      toast({ title: t("site.contact.couldNotSend"), description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: "Message sent", description: "We'll be in touch shortly." });
+    toast({ title: t("site.contact.sent"), description: t("site.contact.sentDesc") });
     setForm({ name: "", email: "", subject: "", message: "" });
   };
 
@@ -67,52 +69,52 @@ export const ContactSection = () => {
         </div>
 
         <form className="bg-card rounded-lg p-6 md:p-8 shadow-card space-y-4" onSubmit={submit}>
-          <h3 className="font-serif text-2xl">Send a message</h3>
+          <h3 className="font-serif text-2xl">{t("site.contact.sendMessage")}</h3>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="eyebrow block mb-1.5">Name</label>
+              <label className="eyebrow block mb-1.5">{t("site.contact.name")}</label>
               <input
                 required
                 value={form.name}
                 onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
                 className="w-full h-11 px-3 rounded-md border border-input bg-background"
-                placeholder="Your name"
+                placeholder={t("site.contact.namePlaceholder")}
               />
             </div>
             <div>
-              <label className="eyebrow block mb-1.5">Email</label>
+              <label className="eyebrow block mb-1.5">{t("site.contact.email")}</label>
               <input
                 required
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
                 className="w-full h-11 px-3 rounded-md border border-input bg-background"
-                placeholder="you@example.com"
+                placeholder={t("site.contact.emailPlaceholder")}
               />
             </div>
           </div>
           <div>
-            <label className="eyebrow block mb-1.5">Subject</label>
+            <label className="eyebrow block mb-1.5">{t("site.contact.subject")}</label>
             <input
               value={form.subject}
               onChange={(e) => setForm((p) => ({ ...p, subject: e.target.value }))}
               className="w-full h-11 px-3 rounded-md border border-input bg-background"
-              placeholder="Booking inquiry"
+              placeholder={t("site.contact.subjectPlaceholder")}
             />
           </div>
           <div>
-            <label className="eyebrow block mb-1.5">Message</label>
+            <label className="eyebrow block mb-1.5">{t("site.contact.message")}</label>
             <textarea
               required
               rows={5}
               value={form.message}
               onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
               className="w-full px-3 py-2 rounded-md border border-input bg-background"
-              placeholder="Tell us about your stay..."
+              placeholder={t("site.contact.messagePlaceholder")}
             />
           </div>
           <Button type="submit" disabled={sending} className="w-full">
-            {sending ? "Sending…" : "Send inquiry"}
+            {sending ? t("site.contact.sending") : t("site.contact.sendInquiry")}
           </Button>
         </form>
       </div>
@@ -121,4 +123,3 @@ export const ContactSection = () => {
 };
 
 export default ContactSection;
-

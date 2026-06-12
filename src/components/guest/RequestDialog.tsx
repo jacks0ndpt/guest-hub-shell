@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,7 @@ type Props = {
 };
 
 const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }: Props) => {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [note, setNote] = useState("");
@@ -62,12 +64,11 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
     if (!isFallback) {
       const { error } = await supabase.from("guest_requests").insert(payload);
       if (error) {
-        toast({ title: "Could not send request", description: error.message, variant: "destructive" });
+        toast({ title: t("guest.request.couldNotSend"), description: error.message, variant: "destructive" });
         setSubmitting(false);
         return;
       }
     } else {
-      // Demo fallback (no DB room/item) — simulate.
       await new Promise((r) => setTimeout(r, 400));
     }
 
@@ -84,20 +85,20 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
         {done ? (
           <div className="text-center py-4">
             <CheckCircle2 className="h-12 w-12 mx-auto text-primary" strokeWidth={1.5} />
-            <DialogTitle className="font-serif text-2xl mt-4">Request received</DialogTitle>
+            <DialogTitle className="font-serif text-2xl mt-4">{t("guest.request.received")}</DialogTitle>
             <p className="text-muted-foreground mt-2 text-sm">
-              Our team will review it shortly.
+              {t("guest.request.willReview")}
             </p>
             <div className="mt-6 rounded-md bg-secondary/50 p-4 text-left text-sm space-y-1">
-              <p><span className="text-muted-foreground">Room:</span> {room?.room_label}</p>
-              <p><span className="text-muted-foreground">Service:</span> {item.title}</p>
+              <p><span className="text-muted-foreground">{t("guest.request.roomField")}</span> {room?.room_label}</p>
+              <p><span className="text-muted-foreground">{t("guest.request.serviceField")}</span> {item.title}</p>
               {item.is_paid_extra && (
-                <p><span className="text-muted-foreground">Estimated:</span> €{Number(item.price_estimate ?? 0).toFixed(2)}</p>
+                <p><span className="text-muted-foreground">{t("guest.request.estimatedField")}</span> €{Number(item.price_estimate ?? 0).toFixed(2)}</p>
               )}
             </div>
             <div className="mt-6 flex flex-col gap-2">
-              <Button onClick={() => { reset(); }} variant="outline">Submit another request</Button>
-              <Button onClick={() => handleClose(false)}>Back to GuestHub</Button>
+              <Button onClick={() => { reset(); }} variant="outline">{t("guest.request.submitAnother")}</Button>
+              <Button onClick={() => handleClose(false)}>{t("guest.request.backToHub")}</Button>
             </div>
           </div>
         ) : (
@@ -105,12 +106,12 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
             <DialogHeader>
               <DialogTitle className="font-serif text-2xl">{item.title}</DialogTitle>
               <DialogDescription>
-                Room {room?.room_label ?? "—"}
+                {t("guest.roomLabel", { label: room?.room_label ?? "—" })}
                 {item.is_paid_extra && (
                   <span className="block mt-2 text-foreground">
-                    Estimated: <strong>€{Number(item.price_estimate ?? 0).toFixed(2)}</strong>
+                    {t("guest.request.estimated")} <strong>€{Number(item.price_estimate ?? 0).toFixed(2)}</strong>
                     <span className="block text-xs text-muted-foreground mt-1">
-                      Subject to availability. Reception will confirm.
+                      {t("guest.request.subjectAvailability")}
                     </span>
                   </span>
                 )}
@@ -118,24 +119,24 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Your name (optional)</Label>
+                <Label htmlFor="name">{t("guest.request.yourName")}</Label>
                 <Input id="name" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="contact">Contact (optional)</Label>
+                <Label htmlFor="contact">{t("guest.request.contact")}</Label>
                 <Input
                   id="contact"
-                  placeholder="Phone or email"
+                  placeholder={t("guest.request.contactPlaceholder")}
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
                   maxLength={120}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="note">Note (optional)</Label>
+                <Label htmlFor="note">{t("guest.request.note")}</Label>
                 <Textarea
                   id="note"
-                  placeholder="Anything we should know?"
+                  placeholder={t("guest.request.notePlaceholder")}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   maxLength={500}
@@ -143,7 +144,7 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
                 />
               </div>
               <Button type="submit" size="lg" className="w-full" disabled={submitting || !room}>
-                {submitting ? "Sending…" : item.is_paid_extra ? "Request this service" : "Send request"}
+                {submitting ? t("guest.request.sending") : item.is_paid_extra ? t("guest.request.requestPaid") : t("guest.request.send")}
               </Button>
             </form>
           </>

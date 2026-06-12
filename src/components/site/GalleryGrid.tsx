@@ -1,16 +1,9 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { gallery as allImages, type GalleryItem } from "@/data/mock";
 
 type Category = GalleryItem["category"] | "all";
-const categories: { key: Category; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "rooms", label: "Rooms" },
-  { key: "lobby", label: "Lobby" },
-  { key: "breakfast", label: "Breakfast" },
-  { key: "exterior", label: "Exterior" },
-  { key: "surroundings", label: "Surroundings" },
-];
 
 type Props = {
   items?: GalleryItem[];
@@ -19,8 +12,17 @@ type Props = {
 };
 
 export const GalleryGrid = ({ items, filterable = true, limit }: Props) => {
+  const { t } = useTranslation();
   const [active, setActive] = useState<Category>("all");
   const source = items ?? allImages;
+  const categories: { key: Category; label: string }[] = [
+    { key: "all", label: t("site.gallery.filters.all") },
+    { key: "rooms", label: t("site.gallery.filters.rooms") },
+    { key: "lobby", label: t("site.gallery.filters.lobby") },
+    { key: "breakfast", label: t("site.gallery.filters.breakfast") },
+    { key: "exterior", label: t("site.gallery.filters.exterior") },
+    { key: "surroundings", label: t("site.gallery.filters.surroundings") },
+  ];
   const filtered = useMemo(() => {
     const list = active === "all" ? source : source.filter((i) => i.category === active);
     return limit ? list.slice(0, limit) : list;

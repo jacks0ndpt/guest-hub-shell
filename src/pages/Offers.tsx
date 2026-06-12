@@ -6,11 +6,13 @@ import { offers as mockOffers, type Offer } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "react-i18next";
 
 const Offers = () => {
   const { merged: property, property: dbProp, loading } = useProperty();
   const [items, setItems] = useState<Offer[] | null>(null);
-  usePageMeta(`Offers — ${property.property_name}`, "Seasonal packages and special rates when you book direct.");
+  const { t } = useTranslation();
+  usePageMeta(t("site.offers.metaTitle", { name: property.property_name }), t("site.offers.metaDesc"));
 
   useEffect(() => {
     (async () => {
@@ -40,11 +42,9 @@ const Offers = () => {
       <SiteLayout>
         <section className="pt-40 pb-20">
           <div className="container-narrow max-w-2xl text-center">
-            <p className="eyebrow mb-4">Offers</p>
-            <h1 className="text-4xl md:text-5xl">No active offers right now.</h1>
-            <p className="text-muted-foreground mt-4">
-              Please get in touch — we'd love to help with your stay.
-            </p>
+            <p className="eyebrow mb-4">{t("site.offers.eyebrow")}</p>
+            <h1 className="text-4xl md:text-5xl">{t("site.offers.disabledTitle")}</h1>
+            <p className="text-muted-foreground mt-4">{t("site.offers.disabledBody")}</p>
           </div>
         </section>
       </SiteLayout>
@@ -55,11 +55,9 @@ const Offers = () => {
     <SiteLayout>
       <section className="pt-32 md:pt-40 pb-12 md:pb-16 bg-secondary/40">
         <div className="container-narrow max-w-3xl">
-          <p className="eyebrow mb-4">Offers</p>
-          <h1 className="text-5xl md:text-7xl">Stay a little longer, a little better.</h1>
-          <p className="mt-6 text-muted-foreground text-lg">
-            A few simple packages, available only when you book direct with us.
-          </p>
+          <p className="eyebrow mb-4">{t("site.offers.eyebrow")}</p>
+          <h1 className="text-5xl md:text-7xl">{t("site.offers.title")}</h1>
+          <p className="mt-6 text-muted-foreground text-lg">{t("site.offers.subtitle")}</p>
         </div>
       </section>
       <section className="section">
@@ -68,9 +66,9 @@ const Offers = () => {
         </div>
       </section>
       <CTASection
-        title="Questions about an offer?"
-        primary={{ label: "Contact us", href: "/contact" }}
-        secondary={{ label: "Book Direct", href: property.booking_url }}
+        title={t("site.offers.ctaTitle")}
+        primary={{ label: t("site.offers.ctaPrimary"), href: "/contact" }}
+        secondary={{ label: t("site.offers.ctaSecondary"), href: property.booking_url }}
       />
     </SiteLayout>
   );

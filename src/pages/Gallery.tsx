@@ -6,11 +6,13 @@ import { gallery as mockGallery, type GalleryItem } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "react-i18next";
 
 const Gallery = () => {
   const { merged: property } = useProperty();
   const [items, setItems] = useState<GalleryItem[] | null>(null);
-  usePageMeta(`Gallery — ${property.property_name}`, "A visual tour of our rooms, lobby, breakfast, and the surroundings.");
+  const { t } = useTranslation();
+  usePageMeta(t("site.gallery.metaTitle", { name: property.property_name }), t("site.gallery.metaDesc"));
 
   useEffect(() => {
     (async () => {
@@ -37,8 +39,8 @@ const Gallery = () => {
     <SiteLayout>
       <section className="pt-32 md:pt-40 pb-12 md:pb-16 bg-secondary/40">
         <div className="container-narrow max-w-3xl">
-          <p className="eyebrow mb-4">Gallery</p>
-          <h1 className="text-5xl md:text-7xl">A look around {property.property_name}.</h1>
+          <p className="eyebrow mb-4">{t("site.gallery.eyebrow")}</p>
+          <h1 className="text-5xl md:text-7xl">{t("site.gallery.title", { name: property.property_name })}</h1>
         </div>
       </section>
       <section className="section">
@@ -47,9 +49,9 @@ const Gallery = () => {
         </div>
       </section>
       <CTASection
-        title="Come see it in person."
-        primary={{ label: "Book Direct", href: property.booking_url }}
-        secondary={{ label: "Contact us", href: "/contact" }}
+        title={t("site.gallery.ctaTitle")}
+        primary={{ label: t("site.gallery.ctaPrimary"), href: property.booking_url }}
+        secondary={{ label: t("site.gallery.ctaSecondary"), href: "/contact" }}
       />
     </SiteLayout>
   );

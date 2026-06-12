@@ -1,7 +1,9 @@
 import { MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { property } from "@/data/mock";
 
 export const MapPlaceholder = () => {
+  const { t } = useTranslation();
   return (
     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-gradient-warm border border-border">
       <div
@@ -27,7 +29,7 @@ export const MapPlaceholder = () => {
         <p className="text-sm text-muted-foreground">
           {property.address}, {property.city}, {property.country}
         </p>
-        <p className="text-xs text-muted-foreground mt-3">Interactive map coming soon</p>
+        <p className="text-xs text-muted-foreground mt-3">{t("site.map.comingSoon")}</p>
       </div>
     </div>
   );

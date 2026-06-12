@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Phone, MessageCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useProperty } from "@/hooks/useProperty";
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 
 const GuestLayout = ({ children, roomLabel }: Props) => {
   const { merged } = useProperty();
+  const { t } = useTranslation();
   const waNumber = merged.whatsapp?.replace(/\D/g, "") ?? "";
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -23,7 +25,7 @@ const GuestLayout = ({ children, roomLabel }: Props) => {
           </Link>
           {roomLabel && (
             <span className="text-xs uppercase tracking-widest bg-secondary text-secondary-foreground rounded-full px-3 py-1 shrink-0">
-              Room {roomLabel}
+              {t("guest.roomLabel", { label: roomLabel })}
             </span>
           )}
         </div>
@@ -32,7 +34,7 @@ const GuestLayout = ({ children, roomLabel }: Props) => {
       <footer className="fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur border-t border-border">
         <div className="mx-auto max-w-xl px-4 py-3">
           <p className="text-[11px] text-center text-muted-foreground mb-2">
-            Urgent issue? Call reception.
+            {t("guest.urgent")}
           </p>
           <div className="flex gap-2">
             {merged.phone && (
@@ -40,7 +42,7 @@ const GuestLayout = ({ children, roomLabel }: Props) => {
                 href={`tel:${merged.phone}`}
                 className="flex-1 flex items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground text-sm py-2.5 font-medium"
               >
-                <Phone className="h-4 w-4" /> Call
+                <Phone className="h-4 w-4" /> {t("guest.call")}
               </a>
             )}
             {waNumber && (
@@ -61,4 +63,3 @@ const GuestLayout = ({ children, roomLabel }: Props) => {
 };
 
 export default GuestLayout;
-
