@@ -7,7 +7,8 @@
     "location": "Location",
     "contact": "Contact",
     "bookDirect": "Book Direct",
-    "staffLogin": "Staff login"
+    "staffLogin": "Staff login",
+    "toggleMenu": "Toggle menu"
   },
   "common": {
     "loading": "Loading…",
@@ -53,7 +54,9 @@
     "image": "Image",
     "imageURLOrUpload": "Image URL or upload",
     "imageUploaded": "Image uploaded",
-    "noImage": "No image"
+    "noImage": "No image",
+    "continue": "Continue",
+    "optional": "optional"
   },
   "footer": {
     "explore": "Explore",
@@ -69,7 +72,206 @@
     "amenities": "Amenities",
     "gallery": "Gallery",
     "youMightAlsoLike": "You might also like",
-    "readyMakeYours": "Ready to make it yours?"
+    "readyMakeYours": "Ready to make it yours?",
+    "checkInFrom": "Check-in from {{time}}",
+    "checkOutBy": "Check-out by {{time}}",
+    "loading": "Loading…",
+    "fallbackTitle": "Room"
+  },
+  "site": {
+    "home": {
+      "metaSuffix": "Boutique stays in {{city}}",
+      "ourRoomsEyebrow": "Our rooms",
+      "ourRoomsTitle": "Rooms made for rest.",
+      "viewAllRooms": "View all rooms",
+      "guestExperienceEyebrow": "Guest experience",
+      "guestExperienceTitle": "A smoother stay from arrival to checkout.",
+      "guestExperienceBody": "Need fresh towels, a late checkout, or a restaurant recommendation? At {{name}}, guests can reach reception and request services digitally — quietly, without waiting on hold.",
+      "guestExperienceFootnote": "Modern service, without the friction. Built in.",
+      "features": {
+        "scanLabel": "Scan & request",
+        "scanText": "A quick QR in your room connects you to reception.",
+        "messageLabel": "Message us",
+        "messageText": "Chat, call, or WhatsApp — whatever works for you.",
+        "towelsLabel": "Fresh towels",
+        "towelsText": "Send a request and we'll handle it silently.",
+        "lateLabel": "Late checkout",
+        "lateText": "Ask for extra time. We'll do our best to say yes."
+      },
+      "galleryEyebrow": "Gallery",
+      "galleryTitle": "A look around.",
+      "fullGallery": "Full gallery",
+      "exploreArea": "Explore the area",
+      "ctaEyebrow": "Plan your stay",
+      "ctaTitle": "Book direct and get the best rate.",
+      "ctaDescription": "No booking fees, no commission markup — just the real price and a direct line to our reception.",
+      "ctaPrimary": "Book Direct",
+      "ctaSecondary": "Contact Us",
+      "heroFallbackPrimary": "Book Direct",
+      "heroFallbackSecondary": "Explore Rooms"
+    },
+    "rooms": {
+      "metaTitle": "Rooms — {{name}}",
+      "metaDesc": "Browse our rooms, from cozy doubles to mountain-view deluxes.",
+      "eyebrow": "Our rooms",
+      "title": "Find the room that fits your stay.",
+      "subtitle": "Four room types, designed for rest, with the details we'd want ourselves.",
+      "ctaTitle": "Not sure which room suits you?",
+      "ctaDesc": "We're happy to help you pick the right fit — just send us a quick message.",
+      "ctaPrimary": "Book Direct",
+      "ctaSecondary": "Contact us"
+    },
+    "gallery": {
+      "metaTitle": "Gallery — {{name}}",
+      "metaDesc": "A visual tour of our rooms, lobby, breakfast, and the surroundings.",
+      "eyebrow": "Gallery",
+      "title": "A look around {{name}}.",
+      "ctaTitle": "Come see it in person.",
+      "ctaPrimary": "Book Direct",
+      "ctaSecondary": "Contact us",
+      "filters": {
+        "all": "All",
+        "rooms": "Rooms",
+        "lobby": "Lobby",
+        "breakfast": "Breakfast",
+        "exterior": "Exterior",
+        "surroundings": "Surroundings"
+      }
+    },
+    "offers": {
+      "metaTitle": "Offers — {{name}}",
+      "metaDesc": "Seasonal packages and special rates when you book direct.",
+      "eyebrow": "Offers",
+      "title": "Stay a little longer, a little better.",
+      "subtitle": "A few simple packages, available only when you book direct with us.",
+      "ctaTitle": "Questions about an offer?",
+      "ctaPrimary": "Contact us",
+      "ctaSecondary": "Book Direct",
+      "disabledTitle": "No active offers right now.",
+      "disabledBody": "Please get in touch — we'd love to help with your stay.",
+      "bookThisOffer": "Book this offer"
+    },
+    "location": {
+      "metaTitle": "Location — {{name}}",
+      "metaDesc": "Find us in {{city}}, {{country}}.",
+      "eyebrow": "Location",
+      "title": "In the heart of {{city}}.",
+      "subtitle": "Moments from the old town, minutes from the mountains, and a short drive from everything worth seeing in the Carpathians.",
+      "address": "Address",
+      "nearby": "Nearby",
+      "gettingHere": "Getting here",
+      "parking": "Parking",
+      "parkingBody": "Free on-site parking is available for all guests on a first-come basis. We recommend arriving before 20:00 to secure a spot during busier weekends.",
+      "gettingAround": "Getting around",
+      "gettingAroundBody": "Most of the old town is easily walkable. Taxis are inexpensive, and Uber/Bolt work well. For the mountains, we can help arrange a rental car or a private driver.",
+      "ctaTitle": "Questions about getting here?",
+      "ctaPrimary": "Contact us",
+      "ctaSecondary": "Book Direct"
+    },
+    "contact": {
+      "metaTitle": "Contact — {{name}}",
+      "metaDesc": "Reach our reception by phone, email, or WhatsApp.",
+      "eyebrow": "Contact",
+      "title": "Let's talk.",
+      "ctaTitle": "Ready to book?",
+      "ctaPrimary": "Book Direct",
+      "sendMessage": "Send a message",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Booking inquiry",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your stay…",
+      "sendInquiry": "Send inquiry",
+      "sending": "Sending…",
+      "validation": "Please fill in name, email and message.",
+      "couldNotSend": "Could not send",
+      "sent": "Message sent",
+      "sentDesc": "We'll be in touch shortly."
+    },
+    "notFound": {
+      "eyebrow": "404",
+      "title": "We couldn't find that page.",
+      "body": "The link might be old, or the page may have moved. Let's head back.",
+      "returnHome": "Return home"
+    },
+    "testimonials": {
+      "eyebrow": "Guest stories",
+      "title": "Kind words from recent stays."
+    },
+    "map": {
+      "comingSoon": "Interactive map coming soon"
+    }
+  },
+  "guest": {
+    "metaTitle": "Guest services",
+    "metaDesc": "Request services and help during your stay.",
+    "hubEyebrow": "GuestHub",
+    "hubTitle": "How can we help with your stay?",
+    "hubSubtitle": "Tap a category, send a quick request — we'll take care of it.",
+    "whichRoom": "Which room are you in?",
+    "whichRoomHint": "Tap your room or enter the number below.",
+    "roomPlaceholder": "e.g. 101",
+    "continue": "Continue",
+    "selectFirst": "Select your room above to send a request.",
+    "roomLabel": "Room {{label}}",
+    "urgent": "Urgent issue? Call reception.",
+    "call": "Call",
+    "qrLoading": "Loading…",
+    "qrNotRecognized": "QR not recognized",
+    "qrNotFound": "Room not found",
+    "qrInactive": "This QR code isn't active. Please contact reception.",
+    "openHub": "Open GuestHub",
+    "request": {
+      "received": "Request received",
+      "willReview": "Our team will review it shortly.",
+      "roomField": "Room:",
+      "serviceField": "Service:",
+      "estimatedField": "Estimated:",
+      "submitAnother": "Submit another request",
+      "backToHub": "Back to GuestHub",
+      "yourName": "Your name (optional)",
+      "contact": "Contact (optional)",
+      "contactPlaceholder": "Phone or email",
+      "note": "Note (optional)",
+      "notePlaceholder": "Anything we should know?",
+      "sending": "Sending…",
+      "requestPaid": "Request this service",
+      "send": "Send request",
+      "subjectAvailability": "Subject to availability. Reception will confirm.",
+      "estimated": "Estimated:",
+      "couldNotSend": "Could not send request"
+    },
+    "feedback": {
+      "title": "Private feedback",
+      "desc": "Only the hotel team will see this. Room {{label}}.",
+      "rating": "Rating",
+      "comment": "Comment",
+      "commentPlaceholder": "Tell us how your stay is going…",
+      "contact": "Contact (optional)",
+      "contactPlaceholder": "If you want a reply",
+      "send": "Send feedback",
+      "sending": "Sending…",
+      "thankYou": "Thank you",
+      "thankYouBody": "Your feedback was sent privately to the hotel team.",
+      "back": "Back to GuestHub",
+      "couldNotSend": "Could not send feedback",
+      "starsLabel": "{{n}} stars"
+    }
+  },
+  "data": {
+    "amenities": {
+      "wifi": { "label": "Fast Wi-Fi", "desc": "Free high-speed internet in every room." },
+      "breakfast": { "label": "Fresh Breakfast", "desc": "Local produce served every morning." },
+      "parking": { "label": "Free Parking", "desc": "Secure on-site parking for all guests." },
+      "housekeeping": { "label": "Daily Housekeeping", "desc": "Quiet, thorough, on your schedule." },
+      "reception": { "label": "24/7 Reception", "desc": "A real person, day or night." },
+      "views": { "label": "Mountain Views", "desc": "Rooms facing the Carpathians." },
+      "pets": { "label": "Pet Friendly", "desc": "Small pets welcome on request." },
+      "garden": { "label": "Quiet Garden", "desc": "A small courtyard to slow down in." }
+    }
   },
   "admin": {
     "dashboard": "Dashboard",

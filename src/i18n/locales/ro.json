@@ -7,7 +7,8 @@
     "location": "Locație",
     "contact": "Contact",
     "bookDirect": "Rezervă direct",
-    "staffLogin": "Autentificare personal"
+    "staffLogin": "Autentificare personal",
+    "toggleMenu": "Comută meniul"
   },
   "common": {
     "loading": "Se încarcă…",
@@ -53,7 +54,9 @@
     "image": "Imagine",
     "imageURLOrUpload": "URL imagine sau încarcă",
     "imageUploaded": "Imagine încărcată",
-    "noImage": "Fără imagine"
+    "noImage": "Fără imagine",
+    "continue": "Continuă",
+    "optional": "opțional"
   },
   "footer": {
     "explore": "Explorează",
@@ -68,8 +71,207 @@
     "about": "Despre această cameră",
     "amenities": "Facilități",
     "gallery": "Galerie",
-    "youMightAlsoLike": "Ai putea să mai placi și",
-    "readyMakeYours": "Gata să fie a ta?"
+    "youMightAlsoLike": "Ți-ar putea plăcea și",
+    "readyMakeYours": "Gata să fie a ta?",
+    "checkInFrom": "Check-in de la {{time}}",
+    "checkOutBy": "Check-out până la {{time}}",
+    "loading": "Se încarcă…",
+    "fallbackTitle": "Cameră"
+  },
+  "site": {
+    "home": {
+      "metaSuffix": "Cazare boutique în {{city}}",
+      "ourRoomsEyebrow": "Camerele noastre",
+      "ourRoomsTitle": "Camere făcute pentru odihnă.",
+      "viewAllRooms": "Vezi toate camerele",
+      "guestExperienceEyebrow": "Experiența oaspeților",
+      "guestExperienceTitle": "O ședere mai lină, de la sosire la check-out.",
+      "guestExperienceBody": "Ai nevoie de prosoape proaspete, check-out târziu sau o recomandare de restaurant? La {{name}}, oaspeții pot contacta recepția și solicita servicii digital — discret, fără să aștepte la telefon.",
+      "guestExperienceFootnote": "Servicii moderne, fără bătăi de cap. Incluse.",
+      "features": {
+        "scanLabel": "Scanează și cere",
+        "scanText": "Un QR rapid în cameră te conectează la recepție.",
+        "messageLabel": "Scrie-ne",
+        "messageText": "Chat, telefon sau WhatsApp — cum îți este mai ușor.",
+        "towelsLabel": "Prosoape proaspete",
+        "towelsText": "Trimite o cerere și ne ocupăm noi, discret.",
+        "lateLabel": "Check-out târziu",
+        "lateText": "Cere timp suplimentar. Facem tot posibilul să spunem da."
+      },
+      "galleryEyebrow": "Galerie",
+      "galleryTitle": "O privire în jur.",
+      "fullGallery": "Galerie completă",
+      "exploreArea": "Explorează zona",
+      "ctaEyebrow": "Planifică-ți șederea",
+      "ctaTitle": "Rezervă direct și obține cel mai bun preț.",
+      "ctaDescription": "Fără taxe de rezervare, fără comisioane — doar prețul real și o linie directă cu recepția.",
+      "ctaPrimary": "Rezervă direct",
+      "ctaSecondary": "Contactează-ne",
+      "heroFallbackPrimary": "Rezervă direct",
+      "heroFallbackSecondary": "Explorează camerele"
+    },
+    "rooms": {
+      "metaTitle": "Camere — {{name}}",
+      "metaDesc": "Răsfoiește camerele noastre, de la confortabile duble la deluxe cu vedere la munte.",
+      "eyebrow": "Camerele noastre",
+      "title": "Găsește camera potrivită pentru șederea ta.",
+      "subtitle": "Patru tipuri de camere, gândite pentru odihnă, cu detaliile pe care ni le-am dori și noi.",
+      "ctaTitle": "Nu ești sigur ce cameră ți se potrivește?",
+      "ctaDesc": "Suntem bucuroși să te ajutăm să alegi — trimite-ne un mesaj scurt.",
+      "ctaPrimary": "Rezervă direct",
+      "ctaSecondary": "Contactează-ne"
+    },
+    "gallery": {
+      "metaTitle": "Galerie — {{name}}",
+      "metaDesc": "Un tur vizual al camerelor, lobby-ului, micului dejun și împrejurimilor.",
+      "eyebrow": "Galerie",
+      "title": "O privire prin {{name}}.",
+      "ctaTitle": "Vino să vezi cu ochii tăi.",
+      "ctaPrimary": "Rezervă direct",
+      "ctaSecondary": "Contactează-ne",
+      "filters": {
+        "all": "Toate",
+        "rooms": "Camere",
+        "lobby": "Lobby",
+        "breakfast": "Mic dejun",
+        "exterior": "Exterior",
+        "surroundings": "Împrejurimi"
+      }
+    },
+    "offers": {
+      "metaTitle": "Oferte — {{name}}",
+      "metaDesc": "Pachete de sezon și tarife speciale atunci când rezervi direct.",
+      "eyebrow": "Oferte",
+      "title": "Stai puțin mai mult, puțin mai bine.",
+      "subtitle": "Câteva pachete simple, disponibile doar dacă rezervi direct cu noi.",
+      "ctaTitle": "Întrebări despre o ofertă?",
+      "ctaPrimary": "Contactează-ne",
+      "ctaSecondary": "Rezervă direct",
+      "disabledTitle": "Nicio ofertă activă în acest moment.",
+      "disabledBody": "Te rugăm să ne contactezi — am fi bucuroși să te ajutăm cu șederea ta.",
+      "bookThisOffer": "Rezervă această ofertă"
+    },
+    "location": {
+      "metaTitle": "Locație — {{name}}",
+      "metaDesc": "Ne găsești în {{city}}, {{country}}.",
+      "eyebrow": "Locație",
+      "title": "În inima orașului {{city}}.",
+      "subtitle": "La câțiva pași de centrul vechi, la câteva minute de munți și la o scurtă plimbare cu mașina de tot ce merită văzut în Carpați.",
+      "address": "Adresă",
+      "nearby": "În apropiere",
+      "gettingHere": "Cum ajungi",
+      "parking": "Parcare",
+      "parkingBody": "Parcarea gratuită la fața locului este disponibilă pentru toți oaspeții, în limita locurilor. Recomandăm sosirea înainte de ora 20:00 în weekendurile aglomerate.",
+      "gettingAround": "Cum te deplasezi",
+      "gettingAroundBody": "Majoritatea centrului vechi se parcurge ușor pe jos. Taxiurile sunt accesibile, iar Uber/Bolt funcționează bine. Pentru munți, te putem ajuta cu o mașină închiriată sau un șofer privat.",
+      "ctaTitle": "Întrebări despre cum ajungi?",
+      "ctaPrimary": "Contactează-ne",
+      "ctaSecondary": "Rezervă direct"
+    },
+    "contact": {
+      "metaTitle": "Contact — {{name}}",
+      "metaDesc": "Contactează recepția prin telefon, email sau WhatsApp.",
+      "eyebrow": "Contact",
+      "title": "Hai să vorbim.",
+      "ctaTitle": "Gata să rezervi?",
+      "ctaPrimary": "Rezervă direct",
+      "sendMessage": "Trimite un mesaj",
+      "name": "Nume",
+      "namePlaceholder": "Numele tău",
+      "email": "Email",
+      "emailPlaceholder": "tu@exemplu.ro",
+      "subject": "Subiect",
+      "subjectPlaceholder": "Solicitare rezervare",
+      "message": "Mesaj",
+      "messagePlaceholder": "Spune-ne despre șederea ta…",
+      "sendInquiry": "Trimite solicitarea",
+      "sending": "Se trimite…",
+      "validation": "Te rugăm să completezi numele, emailul și mesajul.",
+      "couldNotSend": "Nu s-a putut trimite",
+      "sent": "Mesaj trimis",
+      "sentDesc": "Te vom contacta în scurt timp."
+    },
+    "notFound": {
+      "eyebrow": "404",
+      "title": "Nu am găsit pagina aceasta.",
+      "body": "Linkul ar putea fi vechi sau pagina a fost mutată. Hai înapoi.",
+      "returnHome": "Înapoi acasă"
+    },
+    "testimonials": {
+      "eyebrow": "Povești de la oaspeți",
+      "title": "Cuvinte frumoase de la șederi recente."
+    },
+    "map": {
+      "comingSoon": "Hartă interactivă în curând"
+    }
+  },
+  "guest": {
+    "metaTitle": "Servicii pentru oaspeți",
+    "metaDesc": "Solicită servicii și ajutor pe durata șederii tale.",
+    "hubEyebrow": "GuestHub",
+    "hubTitle": "Cu ce te putem ajuta în șederea ta?",
+    "hubSubtitle": "Atinge o categorie, trimite o cerere rapidă — ne ocupăm noi.",
+    "whichRoom": "În ce cameră ești?",
+    "whichRoomHint": "Atinge camera ta sau introdu numărul mai jos.",
+    "roomPlaceholder": "ex. 101",
+    "continue": "Continuă",
+    "selectFirst": "Selectează camera mai sus pentru a trimite o cerere.",
+    "roomLabel": "Camera {{label}}",
+    "urgent": "O problemă urgentă? Sună la recepție.",
+    "call": "Sună",
+    "qrLoading": "Se încarcă…",
+    "qrNotRecognized": "QR nerecunoscut",
+    "qrNotFound": "Cameră negăsită",
+    "qrInactive": "Acest cod QR nu este activ. Te rugăm să contactezi recepția.",
+    "openHub": "Deschide GuestHub",
+    "request": {
+      "received": "Cerere primită",
+      "willReview": "Echipa noastră o va analiza în scurt timp.",
+      "roomField": "Cameră:",
+      "serviceField": "Serviciu:",
+      "estimatedField": "Estimat:",
+      "submitAnother": "Trimite altă cerere",
+      "backToHub": "Înapoi la GuestHub",
+      "yourName": "Numele tău (opțional)",
+      "contact": "Contact (opțional)",
+      "contactPlaceholder": "Telefon sau email",
+      "note": "Notă (opțional)",
+      "notePlaceholder": "Ceva ce trebuie să știm?",
+      "sending": "Se trimite…",
+      "requestPaid": "Solicită acest serviciu",
+      "send": "Trimite cererea",
+      "subjectAvailability": "În limita disponibilității. Recepția va confirma.",
+      "estimated": "Estimat:",
+      "couldNotSend": "Cererea nu a putut fi trimisă"
+    },
+    "feedback": {
+      "title": "Feedback privat",
+      "desc": "Doar echipa hotelului va vedea acest mesaj. Camera {{label}}.",
+      "rating": "Evaluare",
+      "comment": "Comentariu",
+      "commentPlaceholder": "Spune-ne cum decurge șederea ta…",
+      "contact": "Contact (opțional)",
+      "contactPlaceholder": "Dacă vrei un răspuns",
+      "send": "Trimite feedback",
+      "sending": "Se trimite…",
+      "thankYou": "Mulțumim",
+      "thankYouBody": "Feedbackul tău a fost trimis privat echipei hotelului.",
+      "back": "Înapoi la GuestHub",
+      "couldNotSend": "Feedbackul nu a putut fi trimis",
+      "starsLabel": "{{n}} stele"
+    }
+  },
+  "data": {
+    "amenities": {
+      "wifi": { "label": "Wi-Fi rapid", "desc": "Internet de mare viteză gratuit în fiecare cameră." },
+      "breakfast": { "label": "Mic dejun proaspăt", "desc": "Produse locale servite în fiecare dimineață." },
+      "parking": { "label": "Parcare gratuită", "desc": "Parcare sigură la fața locului pentru toți oaspeții." },
+      "housekeeping": { "label": "Curățenie zilnică", "desc": "Discretă, atentă, pe programul tău." },
+      "reception": { "label": "Recepție 24/7", "desc": "O persoană reală, zi sau noapte." },
+      "views": { "label": "Vedere la munte", "desc": "Camere cu vedere spre Carpați." },
+      "pets": { "label": "Pet friendly", "desc": "Animale mici binevenite la cerere." },
+      "garden": { "label": "Grădină liniștită", "desc": "O mică curte interioară pentru relaxare." }
+    }
   },
   "admin": {
     "dashboard": "Panou",
