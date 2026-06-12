@@ -9,9 +9,9 @@ import surroundings from "@/assets/surroundings.jpg";
 import exterior from "@/assets/exterior.jpg";
 
 /**
- * Centralized mock data for the Hotel GuestHub template.
- * Shape is intentionally close to a future DB schema so it can be
- * swapped for Supabase-backed data with minimal changes.
+ * Date mock centralizate pentru template-ul Hotel GuestHub.
+ * Structura este apropiată de schema viitoare a bazei de date pentru a putea fi
+ * înlocuită cu date din Supabase cu modificări minime.
  */
 
 export type PropertySettings = {
@@ -19,7 +19,7 @@ export type PropertySettings = {
   property_type: string;
   tagline: string;
   short_description: string;
-  logo_placeholder: string; // initials for now
+  logo_placeholder: string;
   primary_color: string;
   secondary_color: string;
   address: string;
@@ -38,22 +38,22 @@ export type PropertySettings = {
 
 export const property: PropertySettings = {
   property_name: "Hotel Aurora",
-  property_type: "Boutique Motel",
-  tagline: "A warm stay between the mountains and the old town.",
+  property_type: "Motel Boutique",
+  tagline: "O ședere caldă între munți și centrul vechi.",
   short_description:
-    "A 24-room boutique hotel in Brașov, Romania — calm rooms, honest service, and everything you need a tap away.",
+    "Un hotel boutique cu 24 de camere în Brașov, România — camere liniștite, servicii sincere și tot ce ai nevoie la un click distanță.",
   logo_placeholder: "HA",
   primary_color: "#8b7355",
   secondary_color: "#c9b99a",
   address: "Strada Republicii 42",
   city: "Brașov",
-  country: "Romania",
+  country: "România",
   phone: "+40 368 123 456",
   email: "stay@hotelaurora.ro",
   whatsapp: "+40 752 000 000",
   booking_url: "#book",
   currency: "EUR",
-  language_default: "en",
+  language_default: "ro",
   checkin_time: "15:00",
   checkout_time: "11:00",
   social: [
@@ -80,103 +80,104 @@ export type Room = {
 export const rooms: Room[] = [
   {
     slug: "standard-double",
-    name: "Standard Double Room",
-    short_description: "A calm double room with soft morning light and quiet city side views.",
+    name: "Cameră Dublă Standard",
+    short_description: "O cameră dublă liniștită, cu lumină blândă de dimineață și vedere discretă spre oraș.",
     long_description:
-      "Our Standard Double is a 22 m² retreat designed for restful sleep. A handcrafted wooden headboard, premium cotton linens, and soft neutral tones create a quiet, grounding atmosphere. Ideal for couples and solo travelers who value simplicity and comfort.",
+      "Camera Dublă Standard este un refugiu de 22 m² gândit pentru un somn odihnitor. Tăblie din lemn lucrat manual, lenjerie premium din bumbac și tonuri neutre, calde — o atmosferă liniștită, ideală pentru cupluri și călători singuri care pun preț pe simplitate și confort.",
     capacity: 2,
-    bed_type: "1 Queen bed",
+    bed_type: "1 pat Queen",
     size_sqm: 22,
     price_from: 89,
     image: roomStandard,
     gallery: [roomStandard, lobby, breakfast],
-    amenities: ["Free Wi-Fi", "Smart TV", "Rain shower", "Air conditioning", "Breakfast available"],
+    amenities: ["Wi-Fi gratuit", "Smart TV", "Duș tip ploaie", "Aer condiționat", "Mic dejun disponibil"],
   },
   {
     slug: "deluxe-mountain-view",
-    name: "Deluxe Mountain View Room",
-    short_description: "King bed, panoramic Carpathian views, and a cozy reading chair.",
+    name: "Cameră Deluxe cu Vedere la Munte",
+    short_description: "Pat King, vedere panoramică spre Carpați și un fotoliu confortabil de lectură.",
     long_description:
-      "The Deluxe Mountain View is our signature room — 30 m² facing the Carpathian ridge. Wake to the Tâmpa silhouette, enjoy pour-over coffee in a plush reading chair, and unwind in a marble-tiled bathroom with a rain shower.",
+      "Camera Deluxe cu Vedere la Munte este camera noastră emblematică — 30 m² cu vedere spre creasta Carpaților. Trezește-te cu silueta Tâmpei, savurează cafeaua într-un fotoliu confortabil și relaxează-te în baia cu marmură și duș tip ploaie.",
     capacity: 2,
-    bed_type: "1 King bed",
+    bed_type: "1 pat King",
     size_sqm: 30,
     price_from: 129,
     image: roomDeluxe,
     gallery: [roomDeluxe, exterior, surroundings],
-    amenities: ["Mountain view", "Free Wi-Fi", "Smart TV", "Nespresso machine", "Rain shower", "Bathrobe & slippers"],
+    amenities: ["Vedere la munte", "Wi-Fi gratuit", "Smart TV", "Espressor Nespresso", "Duș tip ploaie", "Halat și papuci"],
   },
   {
     slug: "family-room",
-    name: "Family Room",
-    short_description: "Space for four, with thoughtful details for traveling with kids.",
+    name: "Cameră Familială",
+    short_description: "Spațiu pentru patru, cu detalii gândite pentru călătoriile cu copii.",
     long_description:
-      "Our 36 m² Family Room sleeps up to four with a queen bed and two singles. Blackout curtains, quiet air conditioning, and a small lounge corner make it easy to settle in as a family after a day exploring Brașov.",
+      "Camera Familială de 36 m² găzduiește până la patru persoane cu un pat queen și două paturi single. Draperii blackout, aer condiționat silențios și un mic colț de relaxare fac ușoară așezarea ca familie după o zi de explorat Brașovul.",
     capacity: 4,
-    bed_type: "1 Queen + 2 Singles",
+    bed_type: "1 Queen + 2 Single",
     size_sqm: 36,
     price_from: 149,
     image: roomFamily,
     gallery: [roomFamily, breakfast, lobby],
-    amenities: ["Family-friendly", "Free Wi-Fi", "Smart TV", "Kettle", "Blackout curtains", "Extra linens"],
+    amenities: ["Prietenos cu familia", "Wi-Fi gratuit", "Smart TV", "Fierbător", "Draperii blackout", "Lenjerie suplimentară"],
   },
   {
     slug: "business-twin",
-    name: "Business Twin Room",
-    short_description: "Two single beds, a proper work desk, and fast Wi-Fi.",
+    name: "Cameră Twin Business",
+    short_description: "Două paturi single, un birou de lucru adevărat și Wi-Fi rapid.",
     long_description:
-      "Designed for colleagues on the road — the Business Twin offers two full-size single beds, a dedicated ergonomic work desk, and high-speed Wi-Fi. Quiet floors and late-checkout options available on request.",
+      "Gândită pentru colegi în deplasare — Camera Twin Business oferă două paturi single de mărime full, un birou ergonomic dedicat și Wi-Fi de mare viteză. Etaje liniștite și opțiuni de check-out târziu la cerere.",
     capacity: 2,
-    bed_type: "2 Single beds",
+    bed_type: "2 paturi Single",
     size_sqm: 24,
     price_from: 99,
     image: roomBusiness,
     gallery: [roomBusiness, lobby, exterior],
-    amenities: ["Work desk", "Fast Wi-Fi", "Smart TV", "Iron & board", "24h reception", "Printing on request"],
+    amenities: ["Birou de lucru", "Wi-Fi rapid", "Smart TV", "Fier de călcat", "Recepție 24h", "Printare la cerere"],
   },
 ];
 
 export const amenities = [
-  { icon: "Wifi", label: "Fast Wi-Fi", description: "Free high-speed internet in every room." },
-  { icon: "Coffee", label: "Fresh Breakfast", description: "Local produce served every morning." },
-  { icon: "Car", label: "Free Parking", description: "Secure on-site parking for all guests." },
-  { icon: "Sparkles", label: "Daily Housekeeping", description: "Quiet, thorough, on your schedule." },
-  { icon: "ConciergeBell", label: "24/7 Reception", description: "A real person, day or night." },
-  { icon: "Mountain", label: "Mountain Views", description: "Rooms facing the Carpathians." },
-  { icon: "PawPrint", label: "Pet Friendly", description: "Small pets welcome on request." },
-  { icon: "Leaf", label: "Quiet Garden", description: "A small courtyard to slow down in." },
+  { icon: "Wifi", label: "Wi-Fi rapid", description: "Internet de mare viteză gratuit în fiecare cameră." },
+  { icon: "Coffee", label: "Mic dejun proaspăt", description: "Produse locale servite în fiecare dimineață." },
+  { icon: "Car", label: "Parcare gratuită", description: "Parcare sigură la fața locului pentru toți oaspeții." },
+  { icon: "Sparkles", label: "Curățenie zilnică", description: "Discretă, atentă, pe programul tău." },
+  { icon: "ConciergeBell", label: "Recepție 24/7", description: "O persoană reală, zi sau noapte." },
+  { icon: "Mountain", label: "Vedere la munte", description: "Camere cu vedere spre Carpați." },
+  { icon: "PawPrint", label: "Pet friendly", description: "Animale mici binevenite la cerere." },
+  { icon: "Leaf", label: "Grădină liniștită", description: "O mică curte interioară pentru relaxare." },
 ];
 
 export type GalleryItem = { src: string; alt: string; category: "rooms" | "lobby" | "breakfast" | "exterior" | "surroundings" };
 export const gallery: GalleryItem[] = [
-  { src: roomStandard, alt: "Standard Double Room", category: "rooms" },
-  { src: roomDeluxe, alt: "Deluxe Mountain View Room", category: "rooms" },
-  { src: roomFamily, alt: "Family Room", category: "rooms" },
-  { src: roomBusiness, alt: "Business Twin Room", category: "rooms" },
-  { src: lobby, alt: "Hotel Aurora lobby", category: "lobby" },
-  { src: breakfast, alt: "Breakfast spread", category: "breakfast" },
-  { src: exterior, alt: "Hotel exterior at dusk", category: "exterior" },
-  { src: surroundings, alt: "Brașov old town", category: "surroundings" },
+  { src: roomStandard, alt: "Cameră Dublă Standard", category: "rooms" },
+  { src: roomDeluxe, alt: "Cameră Deluxe cu Vedere la Munte", category: "rooms" },
+  { src: roomFamily, alt: "Cameră Familială", category: "rooms" },
+  { src: roomBusiness, alt: "Cameră Twin Business", category: "rooms" },
+  { src: lobby, alt: "Lobby-ul Hotel Aurora", category: "lobby" },
+  { src: breakfast, alt: "Mic dejun servit", category: "breakfast" },
+  { src: exterior, alt: "Exteriorul hotelului la apus", category: "exterior" },
+  { src: surroundings, alt: "Centrul vechi din Brașov", category: "surroundings" },
 ];
 
 export const testimonials = [
   {
     name: "Ioana M.",
-    location: "Bucharest",
+    location: "București",
     quote:
-      "The quietest night's sleep I've had in months. Simple, warm, and the morning coffee was exceptional.",
+      "Cel mai liniștit somn din ultimele luni. Simplu, cald, iar cafeaua de dimineață a fost excepțională.",
     rating: 5,
   },
   {
     name: "Marco R.",
-    location: "Milan",
-    quote: "Walked to the old town in 6 minutes. Staff were genuinely helpful — felt like staying with friends.",
+    location: "Milano",
+    quote:
+      "Am ajuns la centrul vechi în 6 minute pe jos. Personalul a fost cu adevărat amabil — ne-am simțit ca în vizită la prieteni.",
     rating: 5,
   },
   {
     name: "Sophie L.",
     location: "Paris",
-    quote: "The mountain view room is worth every euro. We'll be back in autumn.",
+    quote: "Camera cu vedere la munte merită fiecare euro. Ne întoarcem cu siguranță în toamnă.",
     rating: 5,
   },
 ];
@@ -192,39 +193,39 @@ export type Offer = {
 export const offers: Offer[] = [
   {
     slug: "weekend-stay",
-    title: "Weekend Stay",
-    description: "Two nights Friday through Sunday with a late checkout at 13:00.",
-    badge: "Save 15%",
-    perks: ["Two nights, one price", "Late checkout 13:00", "Welcome drink on arrival"],
+    title: "Ședere de Weekend",
+    description: "Două nopți, de vineri până duminică, cu check-out târziu la ora 13:00.",
+    badge: "Reducere 15%",
+    perks: ["Două nopți, un singur preț", "Check-out târziu la 13:00", "Băutură de bun venit la sosire"],
   },
   {
     slug: "breakfast-included",
-    title: "Breakfast Included",
-    description: "Book any room and enjoy our full local breakfast, on us.",
-    badge: "Most popular",
-    perks: ["Full breakfast for two", "Fresh local pastries", "Specialty coffee"],
+    title: "Mic Dejun Inclus",
+    description: "Rezervă orice cameră și bucură-te de micul nostru dejun local complet, din partea casei.",
+    badge: "Cel mai popular",
+    perks: ["Mic dejun complet pentru doi", "Patiserii locale proaspete", "Cafea de specialitate"],
   },
   {
     slug: "late-checkout",
-    title: "Late Checkout Package",
-    description: "Add three extra hours in your room for a slow, easy morning.",
-    badge: "Slow mornings",
-    perks: ["Checkout at 14:00", "Complimentary espresso", "Priority taxi booking"],
+    title: "Pachet Check-out Târziu",
+    description: "Adaugă trei ore suplimentare în cameră pentru o dimineață lentă și relaxată.",
+    badge: "Dimineți liniștite",
+    perks: ["Check-out la 14:00", "Espresso din partea casei", "Rezervare taxi prioritară"],
   },
 ];
 
 export const nearbyAttractions = [
-  { name: "Piața Sfatului (Old Town Square)", distance: "6 min walk" },
-  { name: "Black Church", distance: "8 min walk" },
-  { name: "Mount Tâmpa cable car", distance: "12 min walk" },
-  { name: "Poiana Brașov ski area", distance: "20 min drive" },
-  { name: "Bran Castle", distance: "35 min drive" },
+  { name: "Piața Sfatului", distance: "6 min pe jos" },
+  { name: "Biserica Neagră", distance: "8 min pe jos" },
+  { name: "Telecabina Tâmpa", distance: "12 min pe jos" },
+  { name: "Domeniul schiabil Poiana Brașov", distance: "20 min cu mașina" },
+  { name: "Castelul Bran", distance: "35 min cu mașina" },
 ];
 
 export const transport = [
-  { label: "Brașov train station", detail: "10 min by taxi" },
-  { label: "Bucharest Otopeni airport", detail: "2h 30 min by car" },
-  { label: "Sibiu airport", detail: "2h 15 min by car" },
+  { label: "Gara Brașov", detail: "10 min cu taxiul" },
+  { label: "Aeroportul București Otopeni", detail: "2h 30 min cu mașina" },
+  { label: "Aeroportul Sibiu", detail: "2h 15 min cu mașina" },
 ];
 
 export { heroHotel };
