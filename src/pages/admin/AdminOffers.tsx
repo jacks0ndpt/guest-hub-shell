@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -29,6 +30,14 @@ type Offer = {
   image_url: string | null;
   is_active: boolean;
   sort_order: number | null;
+  title_ro?: string | null;
+  title_en?: string | null;
+  badge_ro?: string | null;
+  badge_en?: string | null;
+  description_ro?: string | null;
+  description_en?: string | null;
+  perks_ro?: string[] | null;
+  perks_en?: string[] | null;
 };
 
 const empty: Offer = {
@@ -40,6 +49,14 @@ const empty: Offer = {
   image_url: "",
   is_active: true,
   sort_order: 0,
+  title_ro: "",
+  title_en: "",
+  badge_ro: "",
+  badge_en: "",
+  description_ro: "",
+  description_en: "",
+  perks_ro: [],
+  perks_en: [],
 };
 
 const slugify = (s: string) =>
@@ -54,7 +71,8 @@ const AdminOffers = () => {
   const [propId, setPropId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<Offer>(empty);
-  const [perksStr, setPerksStr] = useState("");
+  const [perksRo, setPerksRo] = useState("");
+  const [perksEn, setPerksEn] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -86,9 +104,14 @@ const AdminOffers = () => {
   };
 
   const startEdit = (o?: Offer) => {
-    const f = o ?? empty;
+    const f: Offer = o ? { ...o } : empty;
+    if (!f.title_ro) f.title_ro = f.title ?? "";
+    if (!f.badge_ro) f.badge_ro = f.badge ?? "";
+    if (!f.description_ro) f.description_ro = f.description ?? "";
+    if (!f.perks_ro || f.perks_ro.length === 0) f.perks_ro = f.perks ?? [];
     setForm(f);
-    setPerksStr((f.perks ?? []).join("\n"));
+    setPerksRo((f.perks_ro ?? []).join("\n"));
+    setPerksEn((f.perks_en ?? []).join("\n"));
     setOpen(true);
   };
 
@@ -97,7 +120,7 @@ const AdminOffers = () => {
     if (!file) return;
     setUploading(true);
     const ext = file.name.split(".").pop() || "jpg";
-    const path = `offers/${form.slug || slugify(form.title) || "offer"}-${Date.now()}.${ext}`;
+    const path = `offers/${form.slug || slugify(form.title_ro || form.title) || "offer"}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("site-images").upload(path, file);
     if (error) {
       toast({ title: t("common.uploadFailed"), description: error.message, variant: "destructive" });
@@ -112,15 +135,28 @@ const AdminOffers = () => {
   const save = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const payload = {
-      slug: form.slug || slugify(form.title),
-      title: form.title,
-      description: form.description || null,
-      badge: form.badge || null,
-      perks: perksStr.split("\n").map((s) => s.trim()).filter(Boolean),
+    const titleRo = (form.title_ro ?? "").trim();
+    const titleEn = (form.title_en ?? "").trim();
+    const legacyTitle = titleRo || titleEn || form.title || "";
+    const perksRoArr = perksRo.split("\n").map((s) => s.trim()).filter(Boolean);
+    const perksEnArr = perksEn.split("\n").map((s) => s.trim()).filter(Boolean);
+    const payload: any = {
+      slug: form.slug || slugify(legacyTitle),
+      title: legacyTitle,
+      description: (form.description_ro ?? "") || form.description || null,
+      badge: (form.badge_ro ?? "") || form.badge || null,
+      perks: perksRoArr,
       image_url: form.image_url || null,
       is_active: form.is_active,
       sort_order: form.sort_order ?? 0,
+      title_ro: titleRo || null,
+      title_en: titleEn || null,
+      badge_ro: form.badge_ro || null,
+      badge_en: form.badge_en || null,
+      description_ro: form.description_ro || null,
+      description_en: form.description_en || null,
+      perks_ro: perksRoArr,
+      perks_en: perksEnArr,
     };
     const { error } = form.id
       ? await supabase.from("offers").update(payload).eq("id", form.id)
@@ -221,35 +257,64 @@ const AdminOffers = () => {
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={save} className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label>{t("admin.offersPage.fTitle")}</Label>
-                  <Input
-                    required
-                    value={form.title}
-                    onChange={(e) => {
-                      setForm((p) => ({ ...p, title: e.target.value }));
-                      if (!form.id && !form.slug)
-                        setForm((p) => ({ ...p, slug: slugify(e.target.value) }));
-                    }}
-                  />
-                </div>
+              <p className="text-xs text-muted-foreground">
+                {t("admin.bilingualHint", { defaultValue: "Content is not translated automatically. Add Romanian and English copy manually." })}
+              </p>
+              <Tabs defaultValue="ro">
+                <TabsList>
+                  <TabsTrigger value="ro">Română</TabsTrigger>
+                  <TabsTrigger value="en">English</TabsTrigger>
+                </TabsList>
+                <TabsContent value="ro" className="space-y-3 mt-4">
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fTitle")} (RO)</Label>
+                    <Input
+                      required
+                      value={form.title_ro ?? ""}
+                      onChange={(e) => {
+                        setForm((p) => ({ ...p, title_ro: e.target.value }));
+                        if (!form.id && !form.slug)
+                          setForm((p) => ({ ...p, slug: slugify(e.target.value) }));
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fBadge")} (RO)</Label>
+                    <Input value={form.badge_ro ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge_ro: e.target.value }))} placeholder="Reducere 15%" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fDescription")} (RO)</Label>
+                    <Textarea rows={3} value={form.description_ro ?? ""} onChange={(e) => setForm((p) => ({ ...p, description_ro: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fPerks")} (RO)</Label>
+                    <Textarea rows={4} value={perksRo} onChange={(e) => setPerksRo(e.target.value)} />
+                  </div>
+                </TabsContent>
+                <TabsContent value="en" className="space-y-3 mt-4">
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fTitle")} (EN)</Label>
+                    <Input value={form.title_en ?? ""} onChange={(e) => setForm((p) => ({ ...p, title_en: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fBadge")} (EN)</Label>
+                    <Input value={form.badge_en ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge_en: e.target.value }))} placeholder="Save 15%" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fDescription")} (EN)</Label>
+                    <Textarea rows={3} value={form.description_en ?? ""} onChange={(e) => setForm((p) => ({ ...p, description_en: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fPerks")} (EN)</Label>
+                    <Textarea rows={4} value={perksEn} onChange={(e) => setPerksEn(e.target.value)} />
+                  </div>
+                </TabsContent>
+              </Tabs>
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-border">
                 <div className="space-y-2">
                   <Label>{t("admin.offersPage.fSlug")}</Label>
                   <Input value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: slugify(e.target.value) }))} required />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label>{t("admin.offersPage.fBadge")}</Label>
-                <Input value={form.badge ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge: e.target.value }))} placeholder="Save 15%" />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("admin.offersPage.fDescription")}</Label>
-                <Textarea rows={3} value={form.description ?? ""} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("admin.offersPage.fPerks")}</Label>
-                <Textarea rows={4} value={perksStr} onChange={(e) => setPerksStr(e.target.value)} />
               </div>
               <div className="space-y-2">
                 <Label>{t("common.image")}</Label>

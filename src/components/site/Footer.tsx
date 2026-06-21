@@ -6,9 +6,9 @@ import { useSiteContent, get } from "@/hooks/useSiteContent";
 
 export const Footer = () => {
   const { merged: property } = useProperty();
-  const { content } = useSiteContent();
+  const { content, lang } = useSiteContent();
   const { t } = useTranslation();
-  const tagline = get(content, "footer", "tagline");
+  const tagline = get(content, "footer", "tagline", lang);
   return (
     <footer className="border-t border-border bg-secondary/40">
       <div className="container-narrow py-16 grid gap-10 md:grid-cols-4">

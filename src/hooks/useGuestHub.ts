@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLang, pickLocalized } from "@/lib/i18nContent";
 
 export type RoomCode = {
   id: string;
@@ -68,6 +69,7 @@ const fallbackItems: ServiceItem[] = [
 ];
 
 export const useGuestHub = () => {
+  const lang = useLang();
   const [categories, setCategories] = useState<ServiceCategory[]>(fallbackCategories);
   const [items, setItems] = useState<ServiceItem[]>(fallbackItems);
   const [loading, setLoading] = useState(true);
@@ -81,17 +83,35 @@ export const useGuestHub = () => {
       ]);
       if (cancelled) return;
       if (!catRes.error && catRes.data && catRes.data.length > 0) {
-        setCategories(catRes.data as ServiceCategory[]);
+        const rows = catRes.data as unknown as ServiceCategory[];
+        const localized = rows.map((c) => {
+          const row = c as unknown as Record<string, unknown>;
+          return {
+            ...c,
+            name: pickLocalized(row, "name", lang) || c.name,
+            description: pickLocalized(row, "description", lang) || c.description,
+          };
+        });
+        setCategories(localized);
       }
       if (!itemRes.error && itemRes.data && itemRes.data.length > 0) {
-        setItems(itemRes.data as ServiceItem[]);
+        const rows = itemRes.data as unknown as ServiceItem[];
+        const localized = rows.map((it) => {
+          const row = it as unknown as Record<string, unknown>;
+          return {
+            ...it,
+            title: pickLocalized(row, "title", lang) || it.title,
+            description: pickLocalized(row, "description", lang) || it.description,
+          };
+        });
+        setItems(localized);
       }
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [lang]);
 
   return { categories, items, loading };
 };

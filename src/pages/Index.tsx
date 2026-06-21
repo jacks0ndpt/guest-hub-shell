@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 const Index = () => {
   const { merged: property, property: dbProp } = useProperty();
   const { rooms } = useRooms();
-  const { content } = useSiteContent();
+  const { content, lang } = useSiteContent();
   const { t } = useTranslation();
   usePageMeta(
     `${property.property_name} — ${t("site.home.metaSuffix", { city: property.city })}`,
@@ -30,23 +30,23 @@ const Index = () => {
     <SiteLayout>
       <HeroSection
         image={dbProp?.hero_image_url || heroHotel}
-        eyebrow={get(content, "hero", "eyebrow") || `${property.property_type} · ${property.city}, ${property.country}`}
-        title={<>{get(content, "hero", "title_line1")}<br className="hidden md:block" /> {get(content, "hero", "title_line2")}</>}
-        subtitle={get(content, "hero", "subtitle") || property.short_description}
-        primaryCta={{ label: get(content, "hero", "primary_cta_label") || t("site.home.heroFallbackPrimary"), href: property.booking_url }}
-        secondaryCta={{ label: get(content, "hero", "secondary_cta_label") || t("site.home.heroFallbackSecondary"), href: "/rooms" }}
+        eyebrow={get(content, "hero", "eyebrow", lang) || `${property.property_type} · ${property.city}, ${property.country}`}
+        title={<>{get(content, "hero", "title_line1", lang)}<br className="hidden md:block" /> {get(content, "hero", "title_line2", lang)}</>}
+        subtitle={get(content, "hero", "subtitle", lang) || property.short_description}
+        primaryCta={{ label: get(content, "hero", "primary_cta_label", lang) || t("site.home.heroFallbackPrimary"), href: property.booking_url }}
+        secondaryCta={{ label: get(content, "hero", "secondary_cta_label", lang) || t("site.home.heroFallbackSecondary"), href: "/rooms" }}
       />
 
       {/* Positioning */}
       <section className="section">
         <div className="container-narrow grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>
-            <p className="eyebrow mb-3">{get(content, "about", "eyebrow")} {property.property_name}</p>
-            <h2 className="text-4xl md:text-5xl">{get(content, "about", "title")}</h2>
+            <p className="eyebrow mb-3">{get(content, "about", "eyebrow", lang)} {property.property_name}</p>
+            <h2 className="text-4xl md:text-5xl">{get(content, "about", "title", lang)}</h2>
           </div>
           <div className="space-y-5 text-muted-foreground">
-            <p>{get(content, "about", "paragraph1")}</p>
-            <p>{get(content, "about", "paragraph2")}</p>
+            <p>{get(content, "about", "paragraph1", lang)}</p>
+            <p>{get(content, "about", "paragraph2", lang)}</p>
           </div>
         </div>
       </section>
@@ -73,8 +73,8 @@ const Index = () => {
       <section className="section">
         <div className="container-narrow">
           <div className="max-w-2xl mb-14">
-            <p className="eyebrow mb-3">{get(content, "amenities", "eyebrow")}</p>
-            <h2 className="text-4xl md:text-5xl">{get(content, "amenities", "title")}</h2>
+            <p className="eyebrow mb-3">{get(content, "amenities", "eyebrow", lang)}</p>
+            <h2 className="text-4xl md:text-5xl">{get(content, "amenities", "title", lang)}</h2>
           </div>
           <AmenityGrid />
         </div>
@@ -130,10 +130,10 @@ const Index = () => {
       <section className="section bg-secondary/40">
         <div className="container-narrow grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="eyebrow mb-3">{get(content, "location", "eyebrow")}</p>
-            <h2 className="text-4xl md:text-5xl">{get(content, "location", "title")}</h2>
+            <p className="eyebrow mb-3">{get(content, "location", "eyebrow", lang)}</p>
+            <h2 className="text-4xl md:text-5xl">{get(content, "location", "title", lang)}</h2>
             <p className="mt-5 text-muted-foreground max-w-md">
-              {get(content, "location", "description")}
+              {get(content, "location", "description", lang)}
             </p>
             <Button asChild className="mt-8" variant="outline">
               <Link to="/location">{t("site.home.exploreArea")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>

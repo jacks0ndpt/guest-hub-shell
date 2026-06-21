@@ -16,7 +16,7 @@ import ImageUploader from "@/components/admin/ImageUploader";
 import MultiImageUploader from "@/components/admin/MultiImageUploader";
 import { Trash2 } from "lucide-react";
 
-type GalleryRow = { id: string; image_url: string; alt: string | null; category: string; sort_order: number | null; is_active: boolean };
+type GalleryRow = { id: string; image_url: string; alt: string | null; category: string; sort_order: number | null; is_active: boolean; alt_ro?: string | null; alt_en?: string | null };
 
 const AdminContent = () => {
   const { t } = useTranslation();
@@ -127,33 +127,60 @@ const AdminContent = () => {
             </TabsList>
 
             <TabsContent value="sections" className="space-y-5 mt-5">
-              {Object.entries(SECTION_FIELDS).map(([section, fields]) => (
-                <Card key={section}>
-                  <CardContent className="p-6 space-y-4">
-                    <div>
-                      <h2 className="font-serif text-2xl">{sectionName(section)}</h2>
-                      <p className="text-sm text-muted-foreground">{sectionDesc(section)}</p>
-                    </div>
-                    <div className="grid gap-3">
-                      {fields.map((f) => (
-                        <div key={f.key} className="space-y-1.5">
-                          <Label>{f.label}</Label>
-                          {f.multiline ? (
-                            <Textarea rows={3} value={content[section]?.[f.key] ?? ""} onChange={(e) => setField(section, f.key, e.target.value)} />
-                          ) : (
-                            <Input value={content[section]?.[f.key] ?? ""} onChange={(e) => setField(section, f.key, e.target.value)} />
-                          )}
+              <p className="text-xs text-muted-foreground">
+                {t("admin.bilingualHint", { defaultValue: "Content is not translated automatically. Add Romanian and English copy manually." })}
+              </p>
+              {Object.entries(SECTION_FIELDS).map(([section, fields]) => {
+                const sec = content[section] ?? {};
+                const roComplete = fields.every((f) => (sec[`${f.key}_ro`] ?? "").trim().length > 0);
+                const enComplete = fields.every((f) => (sec[`${f.key}_en`] ?? "").trim().length > 0);
+                return (
+                  <Card key={section}>
+                    <CardContent className="p-6 space-y-4">
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <div>
+                          <h2 className="font-serif text-2xl">{sectionName(section)}</h2>
+                          <p className="text-sm text-muted-foreground">{sectionDesc(section)}</p>
                         </div>
-                      ))}
-                    </div>
-                    <div className="flex justify-end">
-                      <Button onClick={() => saveSection(section)} disabled={savingKey === section}>
-                        {savingKey === section ? t("common.saving") : t("admin.contentPage.saveSection")}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                        <div className="flex gap-2">
+                          <Badge variant={roComplete ? "default" : "secondary"}>RO {roComplete ? "✓" : "•"}</Badge>
+                          <Badge variant={enComplete ? "default" : "secondary"}>EN {enComplete ? "✓" : "•"}</Badge>
+                        </div>
+                      </div>
+                      <Tabs defaultValue="ro">
+                        <TabsList>
+                          <TabsTrigger value="ro">Română</TabsTrigger>
+                          <TabsTrigger value="en">English</TabsTrigger>
+                        </TabsList>
+                        {(["ro", "en"] as const).map((lng) => (
+                          <TabsContent key={lng} value={lng} className="mt-4">
+                            <div className="grid gap-3">
+                              {fields.map((f) => {
+                                const fullKey = `${f.key}_${lng}`;
+                                return (
+                                  <div key={fullKey} className="space-y-1.5">
+                                    <Label>{f.label} ({lng.toUpperCase()})</Label>
+                                    {f.multiline ? (
+                                      <Textarea rows={3} value={sec[fullKey] ?? ""} onChange={(e) => setField(section, fullKey, e.target.value)} />
+                                    ) : (
+                                      <Input value={sec[fullKey] ?? ""} onChange={(e) => setField(section, fullKey, e.target.value)} />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </TabsContent>
+                        ))}
+                      </Tabs>
+                      <div className="flex justify-end">
+                        <Button onClick={() => saveSection(section)} disabled={savingKey === section}>
+                          {savingKey === section ? t("common.saving") : t("admin.contentPage.saveSection")}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </TabsContent>
 
             <TabsContent value="hero" className="mt-5">
@@ -203,7 +230,8 @@ const AdminContent = () => {
                     <Card key={g.id} className="overflow-hidden">
                       <img src={g.image_url} alt={g.alt ?? ""} className="aspect-[4/3] w-full object-cover" />
                       <CardContent className="p-3 space-y-2">
-                        <Input placeholder={t("admin.contentPage.altText")} defaultValue={g.alt ?? ""} onBlur={(e) => updateGallery(g.id, { alt: e.target.value })} />
+                        <Input placeholder={`${t("admin.contentPage.altText")} (RO)`} defaultValue={g.alt_ro ?? g.alt ?? ""} onBlur={(e) => updateGallery(g.id, { alt_ro: e.target.value, alt: e.target.value } as any)} />
+                        <Input placeholder={`${t("admin.contentPage.altText")} (EN)`} defaultValue={g.alt_en ?? ""} onBlur={(e) => updateGallery(g.id, { alt_en: e.target.value } as any)} />
                         <div className="flex items-center justify-between gap-2">
                           <select
                             className="h-9 text-sm rounded-md border border-input bg-background px-2"
