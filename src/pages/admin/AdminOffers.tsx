@@ -257,35 +257,64 @@ const AdminOffers = () => {
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={save} className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label>{t("admin.offersPage.fTitle")}</Label>
-                  <Input
-                    required
-                    value={form.title}
-                    onChange={(e) => {
-                      setForm((p) => ({ ...p, title: e.target.value }));
-                      if (!form.id && !form.slug)
-                        setForm((p) => ({ ...p, slug: slugify(e.target.value) }));
-                    }}
-                  />
-                </div>
+              <p className="text-xs text-muted-foreground">
+                {t("admin.bilingualHint", { defaultValue: "Content is not translated automatically. Add Romanian and English copy manually." })}
+              </p>
+              <Tabs defaultValue="ro">
+                <TabsList>
+                  <TabsTrigger value="ro">Română</TabsTrigger>
+                  <TabsTrigger value="en">English</TabsTrigger>
+                </TabsList>
+                <TabsContent value="ro" className="space-y-3 mt-4">
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fTitle")} (RO)</Label>
+                    <Input
+                      required
+                      value={form.title_ro ?? ""}
+                      onChange={(e) => {
+                        setForm((p) => ({ ...p, title_ro: e.target.value }));
+                        if (!form.id && !form.slug)
+                          setForm((p) => ({ ...p, slug: slugify(e.target.value) }));
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fBadge")} (RO)</Label>
+                    <Input value={form.badge_ro ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge_ro: e.target.value }))} placeholder="Reducere 15%" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fDescription")} (RO)</Label>
+                    <Textarea rows={3} value={form.description_ro ?? ""} onChange={(e) => setForm((p) => ({ ...p, description_ro: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fPerks")} (RO)</Label>
+                    <Textarea rows={4} value={perksRo} onChange={(e) => setPerksRo(e.target.value)} />
+                  </div>
+                </TabsContent>
+                <TabsContent value="en" className="space-y-3 mt-4">
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fTitle")} (EN)</Label>
+                    <Input value={form.title_en ?? ""} onChange={(e) => setForm((p) => ({ ...p, title_en: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fBadge")} (EN)</Label>
+                    <Input value={form.badge_en ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge_en: e.target.value }))} placeholder="Save 15%" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fDescription")} (EN)</Label>
+                    <Textarea rows={3} value={form.description_en ?? ""} onChange={(e) => setForm((p) => ({ ...p, description_en: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t("admin.offersPage.fPerks")} (EN)</Label>
+                    <Textarea rows={4} value={perksEn} onChange={(e) => setPerksEn(e.target.value)} />
+                  </div>
+                </TabsContent>
+              </Tabs>
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-border">
                 <div className="space-y-2">
                   <Label>{t("admin.offersPage.fSlug")}</Label>
                   <Input value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: slugify(e.target.value) }))} required />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label>{t("admin.offersPage.fBadge")}</Label>
-                <Input value={form.badge ?? ""} onChange={(e) => setForm((p) => ({ ...p, badge: e.target.value }))} placeholder="Save 15%" />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("admin.offersPage.fDescription")}</Label>
-                <Textarea rows={3} value={form.description ?? ""} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("admin.offersPage.fPerks")}</Label>
-                <Textarea rows={4} value={perksStr} onChange={(e) => setPerksStr(e.target.value)} />
               </div>
               <div className="space-y-2">
                 <Label>{t("common.image")}</Label>
