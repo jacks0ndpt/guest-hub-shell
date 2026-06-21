@@ -16,7 +16,7 @@ import ImageUploader from "@/components/admin/ImageUploader";
 import MultiImageUploader from "@/components/admin/MultiImageUploader";
 import { Trash2 } from "lucide-react";
 
-type GalleryRow = { id: string; image_url: string; alt: string | null; category: string; sort_order: number | null; is_active: boolean };
+type GalleryRow = { id: string; image_url: string; alt: string | null; category: string; sort_order: number | null; is_active: boolean; alt_ro?: string | null; alt_en?: string | null };
 
 const AdminContent = () => {
   const { t } = useTranslation();
