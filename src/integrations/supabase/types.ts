@@ -122,41 +122,65 @@ export type Database = {
       offers: {
         Row: {
           badge: string | null
+          badge_en: string | null
+          badge_ro: string | null
           created_at: string
           description: string | null
+          description_en: string | null
+          description_ro: string | null
           id: string
           image_url: string | null
           is_active: boolean
           perks: string[] | null
+          perks_en: string[] | null
+          perks_ro: string[] | null
           slug: string
           sort_order: number | null
           title: string
+          title_en: string | null
+          title_ro: string | null
           updated_at: string
         }
         Insert: {
           badge?: string | null
+          badge_en?: string | null
+          badge_ro?: string | null
           created_at?: string
           description?: string | null
+          description_en?: string | null
+          description_ro?: string | null
           id?: string
           image_url?: string | null
           is_active?: boolean
           perks?: string[] | null
+          perks_en?: string[] | null
+          perks_ro?: string[] | null
           slug: string
           sort_order?: number | null
           title: string
+          title_en?: string | null
+          title_ro?: string | null
           updated_at?: string
         }
         Update: {
           badge?: string | null
+          badge_en?: string | null
+          badge_ro?: string | null
           created_at?: string
           description?: string | null
+          description_en?: string | null
+          description_ro?: string | null
           id?: string
           image_url?: string | null
           is_active?: boolean
           perks?: string[] | null
+          perks_en?: string[] | null
+          perks_ro?: string[] | null
           slug?: string
           sort_order?: number | null
           title?: string
+          title_en?: string | null
+          title_ro?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -301,6 +325,8 @@ export type Database = {
       rooms: {
         Row: {
           amenities: string[] | null
+          amenities_en: string[] | null
+          amenities_ro: string[] | null
           bed_type: string | null
           capacity: number | null
           created_at: string
@@ -308,15 +334,23 @@ export type Database = {
           id: string
           is_active: boolean
           long_description: string | null
+          long_description_en: string | null
+          long_description_ro: string | null
           main_image_url: string | null
           name: string
+          name_en: string | null
+          name_ro: string | null
           short_description: string | null
+          short_description_en: string | null
+          short_description_ro: string | null
           slug: string
           sort_order: number | null
           updated_at: string
         }
         Insert: {
           amenities?: string[] | null
+          amenities_en?: string[] | null
+          amenities_ro?: string[] | null
           bed_type?: string | null
           capacity?: number | null
           created_at?: string
@@ -324,15 +358,23 @@ export type Database = {
           id?: string
           is_active?: boolean
           long_description?: string | null
+          long_description_en?: string | null
+          long_description_ro?: string | null
           main_image_url?: string | null
           name: string
+          name_en?: string | null
+          name_ro?: string | null
           short_description?: string | null
+          short_description_en?: string | null
+          short_description_ro?: string | null
           slug: string
           sort_order?: number | null
           updated_at?: string
         }
         Update: {
           amenities?: string[] | null
+          amenities_en?: string[] | null
+          amenities_ro?: string[] | null
           bed_type?: string | null
           capacity?: number | null
           created_at?: string
@@ -340,9 +382,15 @@ export type Database = {
           id?: string
           is_active?: boolean
           long_description?: string | null
+          long_description_en?: string | null
+          long_description_ro?: string | null
           main_image_url?: string | null
           name?: string
+          name_en?: string | null
+          name_ro?: string | null
           short_description?: string | null
+          short_description_en?: string | null
+          short_description_ro?: string | null
           slug?: string
           sort_order?: number | null
           updated_at?: string
@@ -353,30 +401,42 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          description_en: string | null
+          description_ro: string | null
           icon: string | null
           id: string
           is_active: boolean
           name: string
+          name_en: string | null
+          name_ro: string | null
           sort_order: number | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
+          description_en?: string | null
+          description_ro?: string | null
           icon?: string | null
           id?: string
           is_active?: boolean
           name: string
+          name_en?: string | null
+          name_ro?: string | null
           sort_order?: number | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
+          description_en?: string | null
+          description_ro?: string | null
           icon?: string | null
           id?: string
           is_active?: boolean
           name?: string
+          name_en?: string | null
+          name_ro?: string | null
           sort_order?: number | null
           updated_at?: string
         }
@@ -387,6 +447,8 @@ export type Database = {
           category_id: string | null
           created_at: string
           description: string | null
+          description_en: string | null
+          description_ro: string | null
           id: string
           is_active: boolean
           is_paid_extra: boolean
@@ -394,12 +456,16 @@ export type Database = {
           requires_staff_confirmation: boolean
           sort_order: number | null
           title: string
+          title_en: string | null
+          title_ro: string | null
           updated_at: string
         }
         Insert: {
           category_id?: string | null
           created_at?: string
           description?: string | null
+          description_en?: string | null
+          description_ro?: string | null
           id?: string
           is_active?: boolean
           is_paid_extra?: boolean
@@ -407,12 +473,16 @@ export type Database = {
           requires_staff_confirmation?: boolean
           sort_order?: number | null
           title: string
+          title_en?: string | null
+          title_ro?: string | null
           updated_at?: string
         }
         Update: {
           category_id?: string | null
           created_at?: string
           description?: string | null
+          description_en?: string | null
+          description_ro?: string | null
           id?: string
           is_active?: boolean
           is_paid_extra?: boolean
@@ -420,6 +490,8 @@ export type Database = {
           requires_staff_confirmation?: boolean
           sort_order?: number | null
           title?: string
+          title_en?: string | null
+          title_ro?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -453,7 +525,11 @@ export type Database = {
       site_gallery: {
         Row: {
           alt: string | null
+          alt_en: string | null
+          alt_ro: string | null
           category: string
+          category_en: string | null
+          category_ro: string | null
           created_at: string
           id: string
           image_url: string
@@ -462,7 +538,11 @@ export type Database = {
         }
         Insert: {
           alt?: string | null
+          alt_en?: string | null
+          alt_ro?: string | null
           category?: string
+          category_en?: string | null
+          category_ro?: string | null
           created_at?: string
           id?: string
           image_url: string
@@ -471,7 +551,11 @@ export type Database = {
         }
         Update: {
           alt?: string | null
+          alt_en?: string | null
+          alt_ro?: string | null
           category?: string
+          category_en?: string | null
+          category_ro?: string | null
           created_at?: string
           id?: string
           image_url?: string
