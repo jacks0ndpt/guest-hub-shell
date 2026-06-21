@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -32,6 +33,10 @@ export type ServiceItemRow = {
   requires_staff_confirmation: boolean;
   is_active: boolean;
   sort_order: number | null;
+  title_ro?: string | null;
+  title_en?: string | null;
+  description_ro?: string | null;
+  description_en?: string | null;
 };
 
 type Props = {
@@ -51,6 +56,10 @@ const empty: ServiceItemRow = {
   requires_staff_confirmation: false,
   is_active: true,
   sort_order: 0,
+  title_ro: "",
+  title_en: "",
+  description_ro: "",
+  description_en: "",
 };
 
 const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }: Props) => {
@@ -59,7 +68,10 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    setForm(initial ? { ...initial } : empty);
+    const f = initial ? { ...initial } : empty;
+    if (!f.title_ro) f.title_ro = f.title ?? "";
+    if (!f.description_ro) f.description_ro = f.description ?? "";
+    setForm(f);
   }, [initial, open]);
 
   const set = <K extends keyof ServiceItemRow>(k: K, v: ServiceItemRow[K]) =>
