@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -29,6 +30,14 @@ type Offer = {
   image_url: string | null;
   is_active: boolean;
   sort_order: number | null;
+  title_ro?: string | null;
+  title_en?: string | null;
+  badge_ro?: string | null;
+  badge_en?: string | null;
+  description_ro?: string | null;
+  description_en?: string | null;
+  perks_ro?: string[] | null;
+  perks_en?: string[] | null;
 };
 
 const empty: Offer = {
@@ -40,6 +49,14 @@ const empty: Offer = {
   image_url: "",
   is_active: true,
   sort_order: 0,
+  title_ro: "",
+  title_en: "",
+  badge_ro: "",
+  badge_en: "",
+  description_ro: "",
+  description_en: "",
+  perks_ro: [],
+  perks_en: [],
 };
 
 const slugify = (s: string) =>
