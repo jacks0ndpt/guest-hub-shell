@@ -230,7 +230,8 @@ const AdminContent = () => {
                     <Card key={g.id} className="overflow-hidden">
                       <img src={g.image_url} alt={g.alt ?? ""} className="aspect-[4/3] w-full object-cover" />
                       <CardContent className="p-3 space-y-2">
-                        <Input placeholder={t("admin.contentPage.altText")} defaultValue={g.alt ?? ""} onBlur={(e) => updateGallery(g.id, { alt: e.target.value })} />
+                        <Input placeholder={`${t("admin.contentPage.altText")} (RO)`} defaultValue={g.alt_ro ?? g.alt ?? ""} onBlur={(e) => updateGallery(g.id, { alt_ro: e.target.value, alt: e.target.value } as any)} />
+                        <Input placeholder={`${t("admin.contentPage.altText")} (EN)`} defaultValue={g.alt_en ?? ""} onBlur={(e) => updateGallery(g.id, { alt_en: e.target.value } as any)} />
                         <div className="flex items-center justify-between gap-2">
                           <select
                             className="h-9 text-sm rounded-md border border-input bg-background px-2"
