@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 
 export const ContactSection = () => {
   const { merged: property } = useProperty();
-  const { content } = useSiteContent();
+  const { content, lang } = useSiteContent();
   const { t } = useTranslation();
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sending, setSending] = useState(false);
@@ -41,10 +41,10 @@ export const ContactSection = () => {
     <section className="section">
       <div className="container-narrow grid md:grid-cols-2 gap-12 items-start">
         <div>
-          <p className="eyebrow mb-3">{get(content, "contact", "eyebrow")}</p>
-          <h2 className="text-4xl md:text-5xl mb-6">{get(content, "contact", "title")}</h2>
+          <p className="eyebrow mb-3">{get(content, "contact", "eyebrow", lang)}</p>
+          <h2 className="text-4xl md:text-5xl mb-6">{get(content, "contact", "title", lang)}</h2>
           <p className="text-muted-foreground mb-8 max-w-md">
-            {get(content, "contact", "description")}
+            {get(content, "contact", "description", lang)}
           </p>
           <ul className="space-y-4 text-sm">
             <li className="flex items-center gap-3">
