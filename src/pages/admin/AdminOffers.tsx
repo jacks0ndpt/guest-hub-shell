@@ -71,7 +71,8 @@ const AdminOffers = () => {
   const [propId, setPropId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<Offer>(empty);
-  const [perksStr, setPerksStr] = useState("");
+  const [perksRo, setPerksRo] = useState("");
+  const [perksEn, setPerksEn] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -103,9 +104,14 @@ const AdminOffers = () => {
   };
 
   const startEdit = (o?: Offer) => {
-    const f = o ?? empty;
+    const f: Offer = o ? { ...o } : empty;
+    if (!f.title_ro) f.title_ro = f.title ?? "";
+    if (!f.badge_ro) f.badge_ro = f.badge ?? "";
+    if (!f.description_ro) f.description_ro = f.description ?? "";
+    if (!f.perks_ro || f.perks_ro.length === 0) f.perks_ro = f.perks ?? [];
     setForm(f);
-    setPerksStr((f.perks ?? []).join("\n"));
+    setPerksRo((f.perks_ro ?? []).join("\n"));
+    setPerksEn((f.perks_en ?? []).join("\n"));
     setOpen(true);
   };
 
@@ -114,7 +120,7 @@ const AdminOffers = () => {
     if (!file) return;
     setUploading(true);
     const ext = file.name.split(".").pop() || "jpg";
-    const path = `offers/${form.slug || slugify(form.title) || "offer"}-${Date.now()}.${ext}`;
+    const path = `offers/${form.slug || slugify(form.title_ro || form.title) || "offer"}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("site-images").upload(path, file);
     if (error) {
       toast({ title: t("common.uploadFailed"), description: error.message, variant: "destructive" });
@@ -129,15 +135,28 @@ const AdminOffers = () => {
   const save = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const payload = {
-      slug: form.slug || slugify(form.title),
-      title: form.title,
-      description: form.description || null,
-      badge: form.badge || null,
-      perks: perksStr.split("\n").map((s) => s.trim()).filter(Boolean),
+    const titleRo = (form.title_ro ?? "").trim();
+    const titleEn = (form.title_en ?? "").trim();
+    const legacyTitle = titleRo || titleEn || form.title || "";
+    const perksRoArr = perksRo.split("\n").map((s) => s.trim()).filter(Boolean);
+    const perksEnArr = perksEn.split("\n").map((s) => s.trim()).filter(Boolean);
+    const payload: any = {
+      slug: form.slug || slugify(legacyTitle),
+      title: legacyTitle,
+      description: (form.description_ro ?? "") || form.description || null,
+      badge: (form.badge_ro ?? "") || form.badge || null,
+      perks: perksRoArr,
       image_url: form.image_url || null,
       is_active: form.is_active,
       sort_order: form.sort_order ?? 0,
+      title_ro: titleRo || null,
+      title_en: titleEn || null,
+      badge_ro: form.badge_ro || null,
+      badge_en: form.badge_en || null,
+      description_ro: form.description_ro || null,
+      description_en: form.description_en || null,
+      perks_ro: perksRoArr,
+      perks_en: perksEnArr,
     };
     const { error } = form.id
       ? await supabase.from("offers").update(payload).eq("id", form.id)
