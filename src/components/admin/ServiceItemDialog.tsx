@@ -80,15 +80,21 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const payload = {
-      title: form.title,
-      description: form.description || null,
+    const titleRo = (form.title_ro ?? "").trim();
+    const titleEn = (form.title_en ?? "").trim();
+    const payload: any = {
+      title: titleRo || titleEn || form.title,
+      description: (form.description_ro ?? "") || form.description || null,
       category_id: form.category_id,
       price_estimate: form.price_estimate ?? 0,
       is_paid_extra: form.is_paid_extra,
       requires_staff_confirmation: form.requires_staff_confirmation,
       is_active: form.is_active,
       sort_order: form.sort_order ?? 0,
+      title_ro: titleRo || null,
+      title_en: titleEn || null,
+      description_ro: form.description_ro || null,
+      description_en: form.description_en || null,
     };
     const { error } = form.id
       ? await supabase.from("service_items").update(payload).eq("id", form.id)
@@ -113,19 +119,32 @@ const ServiceItemDialog = ({ open, onOpenChange, initial, categories, onSaved }:
           <DialogDescription>{t("admin.serviceDialog.desc")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">{t("admin.serviceDialog.title")}</Label>
-            <Input id="title" value={form.title} onChange={(e) => set("title", e.target.value)} required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="desc">{t("admin.serviceDialog.description")}</Label>
-            <Textarea
-              id="desc"
-              rows={2}
-              value={form.description ?? ""}
-              onChange={(e) => set("description", e.target.value)}
-            />
-          </div>
+          <Tabs defaultValue="ro">
+            <TabsList>
+              <TabsTrigger value="ro">Română</TabsTrigger>
+              <TabsTrigger value="en">English</TabsTrigger>
+            </TabsList>
+            <TabsContent value="ro" className="space-y-3 mt-4">
+              <div className="space-y-2">
+                <Label>{t("admin.serviceDialog.title")} (RO)</Label>
+                <Input value={form.title_ro ?? ""} onChange={(e) => set("title_ro", e.target.value)} required />
+              </div>
+              <div className="space-y-2">
+                <Label>{t("admin.serviceDialog.description")} (RO)</Label>
+                <Textarea rows={2} value={form.description_ro ?? ""} onChange={(e) => set("description_ro", e.target.value)} />
+              </div>
+            </TabsContent>
+            <TabsContent value="en" className="space-y-3 mt-4">
+              <div className="space-y-2">
+                <Label>{t("admin.serviceDialog.title")} (EN)</Label>
+                <Input value={form.title_en ?? ""} onChange={(e) => set("title_en", e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t("admin.serviceDialog.description")} (EN)</Label>
+                <Textarea rows={2} value={form.description_en ?? ""} onChange={(e) => set("description_en", e.target.value)} />
+              </div>
+            </TabsContent>
+          </Tabs>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label>{t("admin.serviceDialog.category")}</Label>
