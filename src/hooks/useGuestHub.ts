@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLang, pickLocalized } from "@/lib/i18nContent";
 
 export type RoomCode = {
   id: string;
