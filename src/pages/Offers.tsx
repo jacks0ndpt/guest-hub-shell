@@ -7,35 +7,41 @@ import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
+import { useLang, pickLocalized, pickLocalizedArray } from "@/lib/i18nContent";
 
 const Offers = () => {
   const { merged: property, property: dbProp, loading } = useProperty();
   const [items, setItems] = useState<Offer[] | null>(null);
   const { t } = useTranslation();
+  const lang = useLang();
   usePageMeta(t("site.offers.metaTitle", { name: property.property_name }), t("site.offers.metaDesc"));
 
   useEffect(() => {
     (async () => {
       const { data } = await supabase
         .from("offers")
-        .select("slug, title, description, badge, perks, is_active, sort_order")
+        .select("*")
         .eq("is_active", true)
         .order("sort_order");
       if (data && data.length > 0) {
         setItems(
-          data.map((d: any) => ({
-            slug: d.slug,
-            title: d.title,
-            description: d.description ?? "",
-            badge: d.badge ?? "",
-            perks: d.perks ?? [],
-          })),
+          (data as any[]).map((d) => {
+            const row = d as Record<string, unknown>;
+            const perks = pickLocalizedArray(row, "perks", lang);
+            return {
+              slug: d.slug,
+              title: pickLocalized(row, "title", lang) || d.title,
+              description: pickLocalized(row, "description", lang) || d.description || "",
+              badge: pickLocalized(row, "badge", lang) || d.badge || "",
+              perks: perks.length > 0 ? perks : (d.perks ?? []),
+            };
+          }),
         );
       } else {
         setItems(mockOffers);
       }
     })();
-  }, []);
+  }, [lang]);
 
   if (!loading && dbProp && (dbProp as any).offers_page_enabled === false) {
     return (
