@@ -48,6 +48,8 @@ const empty: Settings = {
   primary_color: "#8b7355",
   secondary_color: "#c9b99a",
   logo_url: "",
+  notification_email: "",
+  enable_request_email_alerts: false,
 };
 
 const AdminSettings = () => {
