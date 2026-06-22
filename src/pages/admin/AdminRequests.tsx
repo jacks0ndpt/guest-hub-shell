@@ -92,9 +92,10 @@ const AdminRequests = () => {
     setLoading(false);
   };
 
+  const { bumpKey } = useRealtimeRequests();
   useEffect(() => {
     load();
-  }, []);
+  }, [bumpKey]);
 
   const filtered = useMemo(() => {
     let r = [...rows];
