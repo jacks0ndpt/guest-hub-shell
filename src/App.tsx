@@ -42,6 +42,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <RealtimeRequestsProvider>
           <Routes>
             {/* Public site */}
             <Route path="/" element={<Index />} />
