@@ -27,6 +27,8 @@ type Settings = {
   primary_color: string;
   secondary_color: string;
   logo_url: string;
+  notification_email: string;
+  enable_request_email_alerts: boolean;
 };
 
 const empty: Settings = {
