@@ -263,14 +263,38 @@
   },
   "data": {
     "amenities": {
-      "wifi": { "label": "Wi-Fi rapid", "desc": "Internet de mare viteză gratuit în fiecare cameră." },
-      "breakfast": { "label": "Mic dejun proaspăt", "desc": "Produse locale servite în fiecare dimineață." },
-      "parking": { "label": "Parcare gratuită", "desc": "Parcare sigură la fața locului pentru toți oaspeții." },
-      "housekeeping": { "label": "Curățenie zilnică", "desc": "Discretă, atentă, pe programul tău." },
-      "reception": { "label": "Recepție 24/7", "desc": "O persoană reală, zi sau noapte." },
-      "views": { "label": "Vedere la munte", "desc": "Camere cu vedere spre Carpați." },
-      "pets": { "label": "Pet friendly", "desc": "Animale mici binevenite la cerere." },
-      "garden": { "label": "Grădină liniștită", "desc": "O mică curte interioară pentru relaxare." }
+      "wifi": {
+        "label": "Wi-Fi rapid",
+        "desc": "Internet de mare viteză gratuit în fiecare cameră."
+      },
+      "breakfast": {
+        "label": "Mic dejun proaspăt",
+        "desc": "Produse locale servite în fiecare dimineață."
+      },
+      "parking": {
+        "label": "Parcare gratuită",
+        "desc": "Parcare sigură la fața locului pentru toți oaspeții."
+      },
+      "housekeeping": {
+        "label": "Curățenie zilnică",
+        "desc": "Discretă, atentă, pe programul tău."
+      },
+      "reception": {
+        "label": "Recepție 24/7",
+        "desc": "O persoană reală, zi sau noapte."
+      },
+      "views": {
+        "label": "Vedere la munte",
+        "desc": "Camere cu vedere spre Carpați."
+      },
+      "pets": {
+        "label": "Pet friendly",
+        "desc": "Animale mici binevenite la cerere."
+      },
+      "garden": {
+        "label": "Grădină liniștită",
+        "desc": "O mică curte interioară pentru relaxare."
+      }
     }
   },
   "admin": {
@@ -389,7 +413,7 @@
       "uncategorized": "Necategorizat",
       "free": "Gratuit",
       "staffConfirm": "Confirmare personal",
-      "deleteTitle": "Ștergi \u201c{{title}}\u201d?",
+      "deleteTitle": "Ștergi “{{title}}”?",
       "deleteDesc": "Acest articol va fi eliminat definitiv. Cererile anterioare se păstrează.",
       "deleted": "Serviciu șters",
       "failed": "Eșuat"
@@ -414,7 +438,7 @@
       "newRoom": "Cameră nouă",
       "noRooms": "Nicio cameră încă.",
       "guests": "oaspeți",
-      "deleteTitle": "Ștergi \u201c{{name}}\u201d?",
+      "deleteTitle": "Ștergi “{{name}}”?",
       "deleteDesc": "Această acțiune nu poate fi anulată.",
       "deleted": "Cameră ștearsă"
     },
@@ -444,7 +468,7 @@
       "newOffer": "Ofertă nouă",
       "noOffers": "Nicio ofertă încă.",
       "offersPage": "Pagina Oferte",
-      "offersPageHint": "Când e oprită, link-ul \u201cOferte\u201d e ascuns iar /offers nu afișează nimic.",
+      "offersPageHint": "Când e oprită, link-ul “Oferte” e ascuns iar /offers nu afișează nimic.",
       "visible": "Vizibilă",
       "enabled": "Pagina Oferte activată",
       "disabled": "Pagina Oferte ascunsă",
@@ -595,7 +619,23 @@
       "primaryColor": "Culoare primară",
       "secondaryColor": "Culoare secundară",
       "save": "Salvează setările",
-      "saved": "Setări salvate"
+      "saved": "Setări salvate",
+      "notificationsTitle": "Notificări cereri",
+      "notificationsHint": "Configurați cum este alertat personalul când sosește o cerere nouă.",
+      "soundAlerts": "Alertă sonoră la cerere nouă",
+      "soundAlertsHint": "Redă un sunet scurt în acest browser când sosește o cerere nouă.",
+      "notificationEmail": "Email pentru notificări",
+      "emailAlerts": "Trimite-mi email la cereri noi"
+    },
+    "realtime": {
+      "notifications": "Notificări",
+      "newCount": "{{count}} cereri noi",
+      "newCount_one": "{{count}} cerere nouă",
+      "empty": "Nicio cerere nouă",
+      "viewAll": "Vezi toate cererile",
+      "viewRequest": "Vezi cererea",
+      "newRequestTitle": "Cerere nouă din camera {{room}}: {{service}}",
+      "newRequestDescription": "Apasă pentru a deschide lista cererilor"
     }
   },
   "auth": {

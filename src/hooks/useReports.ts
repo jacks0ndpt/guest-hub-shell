@@ -147,7 +147,7 @@ export const useReportMetrics = (range: MonthRange, assumptions: ReportAssumptio
   return data;
 };
 
-export const useTodayMetrics = () => {
+export const useTodayMetrics = (refreshKey: number = 0) => {
   const [data, setData] = useState({ openToday: 0, monthRequests: 0, monthUpsell: 0, feedbackCount: 0, loading: true });
   useEffect(() => {
     let cancelled = false;
@@ -189,6 +189,6 @@ export const useTodayMetrics = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refreshKey]);
   return data;
 };

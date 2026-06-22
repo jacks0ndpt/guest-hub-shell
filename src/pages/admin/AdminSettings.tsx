@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -27,6 +28,8 @@ type Settings = {
   primary_color: string;
   secondary_color: string;
   logo_url: string;
+  notification_email: string;
+  enable_request_email_alerts: boolean;
 };
 
 const empty: Settings = {
@@ -46,6 +49,8 @@ const empty: Settings = {
   primary_color: "#8b7355",
   secondary_color: "#c9b99a",
   logo_url: "",
+  notification_email: "",
+  enable_request_email_alerts: false,
 };
 
 const AdminSettings = () => {
@@ -77,6 +82,8 @@ const AdminSettings = () => {
           primary_color: data.primary_color ?? "#8b7355",
           secondary_color: data.secondary_color ?? "#c9b99a",
           logo_url: data.logo_url ?? "",
+          notification_email: (data as { notification_email?: string }).notification_email ?? "",
+          enable_request_email_alerts: (data as { enable_request_email_alerts?: boolean }).enable_request_email_alerts ?? false,
         });
       }
       setLoading(false);
@@ -187,6 +194,43 @@ const AdminSettings = () => {
                         className="h-10 w-16 p-1"
                       />
                       <Input value={form.secondary_color} onChange={(e) => set("secondary_color", e.target.value)} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-md border border-border p-4 space-y-4">
+                  <div>
+                    <p className="font-medium">{t("admin.settingsPage.notificationsTitle")}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {t("admin.settingsPage.notificationsHint")}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <Label htmlFor="sound">{t("admin.settingsPage.soundAlerts")}</Label>
+                      <p className="text-xs text-muted-foreground">{t("admin.settingsPage.soundAlertsHint")}</p>
+                    </div>
+                    <Switch
+                      id="sound"
+                      defaultChecked={typeof window !== "undefined" && localStorage.getItem("guesthub.notify.sound") === "1"}
+                      onCheckedChange={(v) => {
+                        try {
+                          localStorage.setItem("guesthub.notify.sound", v ? "1" : "0");
+                        } catch {
+                          /* ignore */
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {field("notification_email", t("admin.settingsPage.notificationEmail"), "email")}
+                    <div className="flex items-end gap-2 pb-1">
+                      <Switch
+                        id="email-alerts"
+                        checked={form.enable_request_email_alerts}
+                        onCheckedChange={(v) => set("enable_request_email_alerts", v)}
+                      />
+                      <Label htmlFor="email-alerts">{t("admin.settingsPage.emailAlerts")}</Label>
                     </div>
                   </div>
                 </div>

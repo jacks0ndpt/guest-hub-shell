@@ -16,12 +16,14 @@ import { Button } from "@/components/ui/button";
 import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useTodayMetrics } from "@/hooks/useReports";
+import { useRealtimeRequests } from "@/context/RealtimeRequestsContext";
 
 const AdminDashboard = () => {
   const { t } = useTranslation();
   usePageMeta(`${t("admin.dashboardPage.title")} — ${t("admin.admin")}`, "");
   const { merged } = useProperty();
-  const m = useTodayMetrics();
+  const { bumpKey } = useRealtimeRequests();
+  const m = useTodayMetrics(bumpKey);
   const symbol = merged.currency === "EUR" ? "€" : merged.currency === "USD" ? "$" : "";
 
   const cards = [

@@ -234,10 +234,12 @@ export type Database = {
           created_at: string
           currency: string | null
           email: string | null
+          enable_request_email_alerts: boolean
           hero_image_url: string | null
           id: string
           language_default: string | null
           logo_url: string | null
+          notification_email: string | null
           offers_page_enabled: boolean
           phone: string | null
           primary_color: string | null
@@ -257,10 +259,12 @@ export type Database = {
           created_at?: string
           currency?: string | null
           email?: string | null
+          enable_request_email_alerts?: boolean
           hero_image_url?: string | null
           id?: string
           language_default?: string | null
           logo_url?: string | null
+          notification_email?: string | null
           offers_page_enabled?: boolean
           phone?: string | null
           primary_color?: string | null
@@ -280,10 +284,12 @@ export type Database = {
           created_at?: string
           currency?: string | null
           email?: string | null
+          enable_request_email_alerts?: boolean
           hero_image_url?: string | null
           id?: string
           language_default?: string | null
           logo_url?: string | null
+          notification_email?: string | null
           offers_page_enabled?: boolean
           phone?: string | null
           primary_color?: string | null

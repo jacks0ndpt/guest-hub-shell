@@ -263,14 +263,38 @@
   },
   "data": {
     "amenities": {
-      "wifi": { "label": "Fast Wi-Fi", "desc": "Free high-speed internet in every room." },
-      "breakfast": { "label": "Fresh Breakfast", "desc": "Local produce served every morning." },
-      "parking": { "label": "Free Parking", "desc": "Secure on-site parking for all guests." },
-      "housekeeping": { "label": "Daily Housekeeping", "desc": "Quiet, thorough, on your schedule." },
-      "reception": { "label": "24/7 Reception", "desc": "A real person, day or night." },
-      "views": { "label": "Mountain Views", "desc": "Rooms facing the Carpathians." },
-      "pets": { "label": "Pet Friendly", "desc": "Small pets welcome on request." },
-      "garden": { "label": "Quiet Garden", "desc": "A small courtyard to slow down in." }
+      "wifi": {
+        "label": "Fast Wi-Fi",
+        "desc": "Free high-speed internet in every room."
+      },
+      "breakfast": {
+        "label": "Fresh Breakfast",
+        "desc": "Local produce served every morning."
+      },
+      "parking": {
+        "label": "Free Parking",
+        "desc": "Secure on-site parking for all guests."
+      },
+      "housekeeping": {
+        "label": "Daily Housekeeping",
+        "desc": "Quiet, thorough, on your schedule."
+      },
+      "reception": {
+        "label": "24/7 Reception",
+        "desc": "A real person, day or night."
+      },
+      "views": {
+        "label": "Mountain Views",
+        "desc": "Rooms facing the Carpathians."
+      },
+      "pets": {
+        "label": "Pet Friendly",
+        "desc": "Small pets welcome on request."
+      },
+      "garden": {
+        "label": "Quiet Garden",
+        "desc": "A small courtyard to slow down in."
+      }
     }
   },
   "admin": {
@@ -389,7 +413,7 @@
       "uncategorized": "Uncategorized",
       "free": "Free",
       "staffConfirm": "Staff confirm",
-      "deleteTitle": "Delete \u201c{{title}}\u201d?",
+      "deleteTitle": "Delete “{{title}}”?",
       "deleteDesc": "This will remove the item permanently. Past requests are kept.",
       "deleted": "Service deleted",
       "failed": "Failed"
@@ -414,7 +438,7 @@
       "newRoom": "New room",
       "noRooms": "No rooms yet.",
       "guests": "guests",
-      "deleteTitle": "Delete \u201c{{name}}\u201d?",
+      "deleteTitle": "Delete “{{name}}”?",
       "deleteDesc": "This cannot be undone.",
       "deleted": "Room deleted"
     },
@@ -444,7 +468,7 @@
       "newOffer": "New offer",
       "noOffers": "No offers yet.",
       "offersPage": "Offers page",
-      "offersPageHint": "When off, the \u201cOffers\u201d link is hidden and visiting /offers shows nothing.",
+      "offersPageHint": "When off, the “Offers” link is hidden and visiting /offers shows nothing.",
       "visible": "Visible",
       "enabled": "Offers page enabled",
       "disabled": "Offers page hidden",
@@ -595,7 +619,23 @@
       "primaryColor": "Primary color",
       "secondaryColor": "Secondary color",
       "save": "Save settings",
-      "saved": "Settings saved"
+      "saved": "Settings saved",
+      "notificationsTitle": "Request notifications",
+      "notificationsHint": "Configure how staff is alerted when a new guest request arrives.",
+      "soundAlerts": "Sound alert on new request",
+      "soundAlertsHint": "Plays a short tone in this browser when a new request comes in.",
+      "notificationEmail": "Notification email",
+      "emailAlerts": "Email me on new requests"
+    },
+    "realtime": {
+      "notifications": "Notifications",
+      "newCount": "{{count}} new requests",
+      "newCount_one": "{{count}} new request",
+      "empty": "No new requests",
+      "viewAll": "View all requests",
+      "viewRequest": "View request",
+      "newRequestTitle": "New request from Room {{room}}: {{service}}",
+      "newRequestDescription": "Tap to open the requests list"
     }
   },
   "auth": {
