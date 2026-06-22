@@ -189,6 +189,6 @@ export const useTodayMetrics = (refreshKey: number = 0) => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refreshKey]);
   return data;
 };
