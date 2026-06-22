@@ -198,6 +198,43 @@ const AdminSettings = () => {
                   </div>
                 </div>
 
+                <div className="rounded-md border border-border p-4 space-y-4">
+                  <div>
+                    <p className="font-medium">{t("admin.settingsPage.notificationsTitle")}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {t("admin.settingsPage.notificationsHint")}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <Label htmlFor="sound">{t("admin.settingsPage.soundAlerts")}</Label>
+                      <p className="text-xs text-muted-foreground">{t("admin.settingsPage.soundAlertsHint")}</p>
+                    </div>
+                    <Switch
+                      id="sound"
+                      defaultChecked={typeof window !== "undefined" && localStorage.getItem("guesthub.notify.sound") === "1"}
+                      onCheckedChange={(v) => {
+                        try {
+                          localStorage.setItem("guesthub.notify.sound", v ? "1" : "0");
+                        } catch {
+                          /* ignore */
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {field("notification_email", t("admin.settingsPage.notificationEmail"), "email")}
+                    <div className="flex items-end gap-2 pb-1">
+                      <Switch
+                        id="email-alerts"
+                        checked={form.enable_request_email_alerts}
+                        onCheckedChange={(v) => set("enable_request_email_alerts", v)}
+                      />
+                      <Label htmlFor="email-alerts">{t("admin.settingsPage.emailAlerts")}</Label>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="pt-2">
                   <Button type="submit" disabled={saving}>
                     {saving ? t("common.saving") : t("admin.settingsPage.save")}
