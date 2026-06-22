@@ -81,6 +81,8 @@ const AdminSettings = () => {
           primary_color: data.primary_color ?? "#8b7355",
           secondary_color: data.secondary_color ?? "#c9b99a",
           logo_url: data.logo_url ?? "",
+          notification_email: (data as { notification_email?: string }).notification_email ?? "",
+          enable_request_email_alerts: (data as { enable_request_email_alerts?: boolean }).enable_request_email_alerts ?? false,
         });
       }
       setLoading(false);
