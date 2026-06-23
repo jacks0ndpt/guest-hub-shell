@@ -1,7 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import { gallery as allImages, type GalleryItem } from "@/data/mock";
+import { gallery as mockImages, type GalleryItem } from "@/data/mock";
+import { supabase } from "@/integrations/supabase/client";
+import { useLang, pickLocalized } from "@/lib/i18nContent";
 
 type Category = GalleryItem["category"] | "all";
 
@@ -13,8 +15,40 @@ type Props = {
 
 export const GalleryGrid = ({ items, filterable = true, limit }: Props) => {
   const { t } = useTranslation();
+  const lang = useLang();
   const [active, setActive] = useState<Category>("all");
-  const source = items ?? allImages;
+  const [fetched, setFetched] = useState<GalleryItem[] | null>(items ? null : null);
+
+  useEffect(() => {
+    if (items) return;
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("site_gallery")
+        .select("image_url, alt, alt_ro, alt_en, category")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true });
+      if (cancelled) return;
+      if (data && data.length > 0) {
+        setFetched(
+          data.map((d) => ({
+            src: d.image_url,
+            alt: pickLocalized(d as unknown as Record<string, unknown>, "alt", lang) || d.alt || "",
+            category: (d.category ?? "rooms") as GalleryItem["category"],
+          })),
+        );
+      } else {
+        setFetched(mockImages);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [items, lang]);
+
+  const source = items ?? fetched ?? [];
+
   const categories: { key: Category; label: string }[] = [
     { key: "all", label: t("site.gallery.filters.all") },
     { key: "rooms", label: t("site.gallery.filters.rooms") },
@@ -40,7 +74,7 @@ export const GalleryGrid = ({ items, filterable = true, limit }: Props) => {
                 "px-4 py-2 rounded-full text-sm border transition-colors",
                 active === c.key
                   ? "bg-primary text-primary-foreground border-primary"
-                  : "border-border hover:border-primary/50"
+                  : "border-border hover:border-primary/50",
               )}
             >
               {c.label}
@@ -54,7 +88,7 @@ export const GalleryGrid = ({ items, filterable = true, limit }: Props) => {
             key={`${item.src}-${i}`}
             className={cn(
               "overflow-hidden rounded-lg bg-muted",
-              i % 5 === 0 ? "md:row-span-2 md:col-span-2 aspect-square md:aspect-auto" : "aspect-[4/3]"
+              i % 5 === 0 ? "md:row-span-2 md:col-span-2 aspect-square md:aspect-auto" : "aspect-[4/3]",
             )}
           >
             <img
