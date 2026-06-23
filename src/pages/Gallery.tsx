@@ -1,39 +1,14 @@
-import { useEffect, useState } from "react";
 import SiteLayout from "@/components/site/SiteLayout";
 import GalleryGrid from "@/components/site/GalleryGrid";
 import CTASection from "@/components/site/CTASection";
-import { gallery as mockGallery, type GalleryItem } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 
 const Gallery = () => {
   const { merged: property } = useProperty();
-  const [items, setItems] = useState<GalleryItem[] | null>(null);
   const { t } = useTranslation();
   usePageMeta(t("site.gallery.metaTitle", { name: property.property_name }), t("site.gallery.metaDesc"));
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from("site_gallery")
-        .select("image_url, alt, category")
-        .eq("is_active", true)
-        .order("sort_order");
-      if (data && data.length > 0) {
-        setItems(
-          data.map((d: any) => ({
-            src: d.image_url,
-            alt: d.alt ?? "",
-            category: (d.category ?? "rooms") as GalleryItem["category"],
-          })),
-        );
-      } else {
-        setItems(mockGallery);
-      }
-    })();
-  }, []);
 
   return (
     <SiteLayout>
@@ -45,7 +20,7 @@ const Gallery = () => {
       </section>
       <section className="section">
         <div className="container-narrow">
-          {items && <GalleryGrid items={items} />}
+          <GalleryGrid />
         </div>
       </section>
       <CTASection
