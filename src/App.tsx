@@ -32,6 +32,7 @@ import AdminMVPChecklist from "./pages/admin/AdminMVPChecklist.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
 import AdminOffers from "./pages/admin/AdminOffers.tsx";
 import AdminUsers from "./pages/admin/AdminUsers.tsx";
+import AdminTestimonials from "./pages/admin/AdminTestimonials.tsx";
 
 const queryClient = new QueryClient();
 
@@ -152,6 +153,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <AdminUsers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/testimonials"
+              element={
+                <ProtectedRoute>
+                  <AdminTestimonials />
                 </ProtectedRoute>
               }
             />
