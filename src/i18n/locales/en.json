@@ -547,7 +547,22 @@
         "contact": "Contact",
         "contactDesc": "Heading and intro on the contact section.",
         "footer": "Footer",
-        "footerDesc": "Tagline shown in the footer."
+        "footerDesc": "Tagline shown in the footer.",
+        "trust_strip": "Trust strip",
+        "trust_stripDesc": "Quick reassurances shown just below the hero.",
+        "why_us": "Why us",
+        "why_usDesc": "Reasons guests choose and recommend the property.",
+        "guest_convenience": "Guest convenience",
+        "guest_convenienceDesc": "Subtle section showing how guests can request anything without going to the front desk.",
+        "home_cta": "Final CTA",
+        "home_cta_Desc": "Closing booking call-to-action on the homepage.",
+        "home_ctaDesc": "Closing booking call-to-action on the homepage."
+      },
+      "items": {
+        "add": "Add item",
+        "empty": "No items yet.",
+        "moveUp": "Move up",
+        "moveDown": "Move down"
       }
     },
     "reportsPage": {
