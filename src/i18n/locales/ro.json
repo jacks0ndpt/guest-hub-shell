@@ -547,7 +547,21 @@
         "contact": "Contact",
         "contactDesc": "Titlu și introducere pentru secțiunea de contact.",
         "footer": "Footer",
-        "footerDesc": "Slogan afișat în footer."
+        "footerDesc": "Slogan afișat în footer.",
+        "trust_strip": "Bandă de încredere",
+        "trust_stripDesc": "Asigurări rapide afișate sub hero.",
+        "why_us": "De ce noi",
+        "why_usDesc": "Motivele pentru care oaspeții ne aleg și ne recomandă.",
+        "guest_convenience": "Confort pentru oaspeți",
+        "guest_convenienceDesc": "Secțiunea care arată cum oaspeții pot cere orice, fără drum la recepție.",
+        "home_cta": "CTA final",
+        "home_ctaDesc": "Apelul final la rezervare de pe pagina principală."
+      },
+      "items": {
+        "add": "Adaugă element",
+        "empty": "Niciun element încă.",
+        "moveUp": "Mută sus",
+        "moveDown": "Mută jos"
       }
     },
     "reportsPage": {
