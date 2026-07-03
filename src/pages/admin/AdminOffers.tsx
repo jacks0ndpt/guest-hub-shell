@@ -69,6 +69,7 @@ const AdminOffers = () => {
   const [loading, setLoading] = useState(true);
   const [pageEnabled, setPageEnabled] = useState(true);
   const [propId, setPropId] = useState<string | null>(null);
+  const [featured, setFeatured] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<Offer>(empty);
   const [perksRo, setPerksRo] = useState("");
@@ -81,15 +82,18 @@ const AdminOffers = () => {
     setLoading(true);
     const [{ data: offerData }, { data: prop }] = await Promise.all([
       supabase.from("offers").select("*").order("sort_order"),
-      supabase.from("property_settings").select("id, offers_page_enabled").limit(1).maybeSingle(),
+      supabase.from("property_settings").select("id, offers_page_enabled, home_featured_offers").limit(1).maybeSingle(),
     ]);
     setOffers((offerData as Offer[]) ?? []);
     if (prop) {
       setPropId(prop.id as string);
       setPageEnabled(Boolean((prop as any).offers_page_enabled ?? true));
+      const raw = (prop as { home_featured_offers?: unknown }).home_featured_offers;
+      setFeatured(Array.isArray(raw) ? (raw as string[]) : []);
     }
     setLoading(false);
   };
+
 
   useEffect(() => {
     load();
