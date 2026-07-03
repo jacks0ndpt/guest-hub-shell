@@ -91,6 +91,9 @@ const AdminRooms = () => {
           </Button>
         </header>
 
+        <p className="text-xs text-muted-foreground">{t("admin.roomsPage.featuredHint")}</p>
+
+
         {loading ? (
           <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : rooms.length === 0 ? (
@@ -117,9 +120,18 @@ const AdminRooms = () => {
                   <div className="flex flex-wrap gap-2 text-xs">
                     <Badge variant="secondary">{r.capacity} {t("admin.roomsPage.guests")}</Badge>
                     {r.bed_type && <Badge variant="secondary">{r.bed_type}</Badge>}
+                    {featured.includes(r.id!) && <Badge>{t("admin.featured")}</Badge>}
                   </div>
+                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Switch
+                      checked={featured.includes(r.id!)}
+                      onCheckedChange={(v) => toggleFeatured(r, v)}
+                    />
+                    {t("admin.featuredOnHomepage")}
+                  </label>
                   <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
+
                       <Switch checked={r.is_active} onCheckedChange={(v) => toggleActive(r, v)} />
                       <span className="text-xs text-muted-foreground">
                         {r.is_active ? t("common.active") : t("common.hidden")}
