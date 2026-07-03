@@ -69,6 +69,7 @@ const AdminOffers = () => {
   const [loading, setLoading] = useState(true);
   const [pageEnabled, setPageEnabled] = useState(true);
   const [propId, setPropId] = useState<string | null>(null);
+  const [featured, setFeatured] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<Offer>(empty);
   const [perksRo, setPerksRo] = useState("");
@@ -81,15 +82,18 @@ const AdminOffers = () => {
     setLoading(true);
     const [{ data: offerData }, { data: prop }] = await Promise.all([
       supabase.from("offers").select("*").order("sort_order"),
-      supabase.from("property_settings").select("id, offers_page_enabled").limit(1).maybeSingle(),
+      supabase.from("property_settings").select("id, offers_page_enabled, home_featured_offers").limit(1).maybeSingle(),
     ]);
     setOffers((offerData as Offer[]) ?? []);
     if (prop) {
       setPropId(prop.id as string);
       setPageEnabled(Boolean((prop as any).offers_page_enabled ?? true));
+      const raw = (prop as { home_featured_offers?: unknown }).home_featured_offers;
+      setFeatured(Array.isArray(raw) ? (raw as string[]) : []);
     }
     setLoading(false);
   };
+
 
   useEffect(() => {
     load();
@@ -102,6 +106,21 @@ const AdminOffers = () => {
       toast({ title: v ? t("admin.offersPage.enabled") : t("admin.offersPage.disabled") });
     }
   };
+
+  const toggleFeatured = async (o: Offer, v: boolean) => {
+    if (!propId || !o.id) return;
+    const next = v ? Array.from(new Set([...featured, o.id])) : featured.filter((x) => x !== o.id);
+    setFeatured(next);
+    const { error } = await supabase
+      .from("property_settings")
+      .update({ home_featured_offers: next })
+      .eq("id", propId);
+    if (error) {
+      toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
+      setFeatured(featured);
+    }
+  };
+
 
   const startEdit = (o?: Offer) => {
     const f: Offer = o ? { ...o } : empty;
@@ -207,6 +226,9 @@ const AdminOffers = () => {
           </CardContent>
         </Card>
 
+        <p className="text-xs text-muted-foreground">{t("admin.offersPage.featuredHint")}</p>
+
+
         {loading ? (
           <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : offers.length === 0 ? (
@@ -227,8 +249,16 @@ const AdminOffers = () => {
                   <ul className="text-xs text-muted-foreground space-y-1 mt-1">
                     {(o.perks ?? []).slice(0, 3).map((p) => <li key={p}>· {p}</li>)}
                   </ul>
+                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Switch
+                      checked={!!o.id && featured.includes(o.id)}
+                      onCheckedChange={(v) => toggleFeatured(o, v)}
+                    />
+                    {t("admin.featuredOnHomepage")}
+                  </label>
                   <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
+
                       <Switch checked={o.is_active} onCheckedChange={(v) => toggleActive(o, v)} />
                       <span className="text-xs text-muted-foreground">
                         {o.is_active ? t("common.active") : t("common.hidden")}

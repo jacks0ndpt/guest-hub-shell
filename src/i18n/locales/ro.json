@@ -311,10 +311,33 @@
     "mvpChecklist": "Listă MVP",
     "users": "Utilizatori",
     "testimonials": "Testimoniale",
+    "amenities": "Facilități",
+    "featured": "Recomandat",
+    "featuredOnHomepage": "Afișat pe pagina principală",
     "settings": "Setări",
     "signOut": "Deconectare",
     "viewSite": "Vezi site",
     "admin": "Admin",
+    "amenitiesPage": {
+      "eyebrow": "Facilități",
+      "title": "Facilități",
+      "subtitle": "Gestionează facilitățile afișate pe pagina principală și pe paginile camerelor.",
+      "add": "Adaugă facilitate",
+      "addTitle": "Facilitate nouă",
+      "editTitle": "Editează facilitatea",
+      "empty": "Nicio facilitate încă. Adaugă prima.",
+      "icon": "Pictogramă",
+      "labelRo": "Etichetă (română)",
+      "labelEn": "Etichetă (engleză)",
+      "descRo": "Descriere (română)",
+      "descEn": "Descriere (engleză)",
+      "sortOrder": "Ordine",
+      "onHomepage": "Pe pagina principală",
+      "onRooms": "Pe paginile camerelor",
+      "saved": "Facilitate salvată",
+      "labelRoRequired": "Eticheta în română este obligatorie",
+      "confirmDelete": "Ștergi această facilitate?"
+    },
     "testimonialsPage": {
       "eyebrow": "Recenzii",
       "title": "Testimoniale",
@@ -462,7 +485,8 @@
       "guests": "oaspeți",
       "deleteTitle": "Ștergi “{{name}}”?",
       "deleteDesc": "Această acțiune nu poate fi anulată.",
-      "deleted": "Cameră ștearsă"
+      "deleted": "Cameră ștearsă",
+      "featuredHint": "Camerele recomandate apar pe pagina principală. Dacă nu selectezi niciuna, se afișează primele camere active."
     },
     "roomDialog": {
       "edit": "Editează cameră",
@@ -503,7 +527,8 @@
       "fPerks": "Beneficii (unul pe linie)",
       "save": "Salvează oferta",
       "updated": "Ofertă actualizată",
-      "created": "Ofertă creată"
+      "created": "Ofertă creată",
+      "featuredHint": "Ofertele recomandate apar pe pagina principală. Dacă nu selectezi niciuna, se afișează ofertele active în ordinea stabilită."
     },
     "qrPage": {
       "eyebrow": "QR GuestHub",

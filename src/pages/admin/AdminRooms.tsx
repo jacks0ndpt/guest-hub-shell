@@ -29,11 +29,21 @@ const AdminRooms = () => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<RoomRow | null>(null);
   const [open, setOpen] = useState(false);
+  const [propId, setPropId] = useState<string | null>(null);
+  const [featured, setFeatured] = useState<string[]>([]);
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase.from("rooms").select("*").order("sort_order");
+    const [{ data }, { data: prop }] = await Promise.all([
+      supabase.from("rooms").select("*").order("sort_order"),
+      supabase.from("property_settings").select("id, home_featured_rooms").limit(1).maybeSingle(),
+    ]);
     setRooms((data as RoomRow[]) ?? []);
+    if (prop) {
+      setPropId(prop.id as string);
+      const raw = (prop as { home_featured_rooms?: unknown }).home_featured_rooms;
+      setFeatured(Array.isArray(raw) ? (raw as string[]) : []);
+    }
     setLoading(false);
   };
 
@@ -45,6 +55,20 @@ const AdminRooms = () => {
     const { error } = await supabase.from("rooms").update({ is_active: active }).eq("id", r.id!);
     if (error) toast({ title: t("admin.servicesPage.failed"), description: error.message, variant: "destructive" });
     else load();
+  };
+
+  const toggleFeatured = async (r: RoomRow, v: boolean) => {
+    if (!propId || !r.id) return;
+    const next = v ? Array.from(new Set([...featured, r.id])) : featured.filter((x) => x !== r.id);
+    setFeatured(next);
+    const { error } = await supabase
+      .from("property_settings")
+      .update({ home_featured_rooms: next })
+      .eq("id", propId);
+    if (error) {
+      toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
+      setFeatured(featured);
+    }
   };
 
   const remove = async (id: string) => {
@@ -66,6 +90,9 @@ const AdminRooms = () => {
             <Plus className="h-4 w-4" /> {t("admin.roomsPage.newRoom")}
           </Button>
         </header>
+
+        <p className="text-xs text-muted-foreground">{t("admin.roomsPage.featuredHint")}</p>
+
 
         {loading ? (
           <p className="text-muted-foreground">{t("common.loading")}</p>
@@ -93,9 +120,18 @@ const AdminRooms = () => {
                   <div className="flex flex-wrap gap-2 text-xs">
                     <Badge variant="secondary">{r.capacity} {t("admin.roomsPage.guests")}</Badge>
                     {r.bed_type && <Badge variant="secondary">{r.bed_type}</Badge>}
+                    {featured.includes(r.id!) && <Badge>{t("admin.featured")}</Badge>}
                   </div>
+                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Switch
+                      checked={featured.includes(r.id!)}
+                      onCheckedChange={(v) => toggleFeatured(r, v)}
+                    />
+                    {t("admin.featuredOnHomepage")}
+                  </label>
                   <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
+
                       <Switch checked={r.is_active} onCheckedChange={(v) => toggleActive(r, v)} />
                       <span className="text-xs text-muted-foreground">
                         {r.is_active ? t("common.active") : t("common.hidden")}

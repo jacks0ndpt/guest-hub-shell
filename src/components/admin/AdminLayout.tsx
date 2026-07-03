@@ -18,6 +18,7 @@ import {
   Users as UsersIcon,
   Bell,
   Quote,
+  Sparkles,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -56,6 +57,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     { to: "/admin/qr-codes", label: t("admin.qrCodes"), icon: QrCode },
     { to: "/admin/content", label: t("admin.content"), icon: FileText },
     { to: "/admin/testimonials", label: t("admin.testimonials"), icon: Quote },
+    { to: "/admin/amenities", label: t("admin.amenities"), icon: Sparkles },
     { to: "/admin/reports", label: t("admin.reports"), icon: BarChart3 },
     { to: "/admin/mvp-checklist", label: t("admin.mvpChecklist"), icon: ListChecks },
     { to: "/admin/users", label: t("admin.users"), icon: UsersIcon },
