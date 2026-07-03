@@ -226,6 +226,9 @@ const AdminOffers = () => {
           </CardContent>
         </Card>
 
+        <p className="text-xs text-muted-foreground">{t("admin.offersPage.featuredHint")}</p>
+
+
         {loading ? (
           <p className="text-muted-foreground">{t("common.loading")}</p>
         ) : offers.length === 0 ? (
@@ -246,8 +249,16 @@ const AdminOffers = () => {
                   <ul className="text-xs text-muted-foreground space-y-1 mt-1">
                     {(o.perks ?? []).slice(0, 3).map((p) => <li key={p}>· {p}</li>)}
                   </ul>
+                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Switch
+                      checked={!!o.id && featured.includes(o.id)}
+                      onCheckedChange={(v) => toggleFeatured(o, v)}
+                    />
+                    {t("admin.featuredOnHomepage")}
+                  </label>
                   <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
+
                       <Switch checked={o.is_active} onCheckedChange={(v) => toggleActive(o, v)} />
                       <span className="text-xs text-muted-foreground">
                         {o.is_active ? t("common.active") : t("common.hidden")}
