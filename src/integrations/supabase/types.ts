@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      amenities: {
+        Row: {
+          created_at: string
+          description_en: string | null
+          description_ro: string | null
+          icon_key: string
+          id: string
+          is_active: boolean
+          label_en: string | null
+          label_ro: string
+          show_on_homepage: boolean
+          show_on_room_pages: boolean
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_en?: string | null
+          description_ro?: string | null
+          icon_key?: string
+          id?: string
+          is_active?: boolean
+          label_en?: string | null
+          label_ro: string
+          show_on_homepage?: boolean
+          show_on_room_pages?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_en?: string | null
+          description_ro?: string | null
+          icon_key?: string
+          id?: string
+          is_active?: boolean
+          label_en?: string | null
+          label_ro?: string
+          show_on_homepage?: boolean
+          show_on_room_pages?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -236,6 +281,8 @@ export type Database = {
           email: string | null
           enable_request_email_alerts: boolean
           hero_image_url: string | null
+          home_featured_offers: Json
+          home_featured_rooms: Json
           id: string
           language_default: string | null
           logo_url: string | null
@@ -261,6 +308,8 @@ export type Database = {
           email?: string | null
           enable_request_email_alerts?: boolean
           hero_image_url?: string | null
+          home_featured_offers?: Json
+          home_featured_rooms?: Json
           id?: string
           language_default?: string | null
           logo_url?: string | null
@@ -286,6 +335,8 @@ export type Database = {
           email?: string | null
           enable_request_email_alerts?: boolean
           hero_image_url?: string | null
+          home_featured_offers?: Json
+          home_featured_rooms?: Json
           id?: string
           language_default?: string | null
           logo_url?: string | null
