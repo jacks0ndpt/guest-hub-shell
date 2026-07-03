@@ -485,7 +485,8 @@
       "guests": "guests",
       "deleteTitle": "Delete “{{name}}”?",
       "deleteDesc": "This cannot be undone.",
-      "deleted": "Room deleted"
+      "deleted": "Room deleted",
+      "featuredHint": "Featured rooms appear on the homepage. If none are selected, the first active rooms are shown."
     },
     "roomDialog": {
       "edit": "Edit room",
@@ -526,7 +527,8 @@
       "fPerks": "Perks (one per line)",
       "save": "Save offer",
       "updated": "Offer updated",
-      "created": "Offer created"
+      "created": "Offer created",
+      "featuredHint": "Featured offers appear on the homepage. If none are selected, active offers are shown by sort order."
     },
     "qrPage": {
       "eyebrow": "QR GuestHub",
