@@ -107,6 +107,21 @@ const AdminOffers = () => {
     }
   };
 
+  const toggleFeatured = async (o: Offer, v: boolean) => {
+    if (!propId || !o.id) return;
+    const next = v ? Array.from(new Set([...featured, o.id])) : featured.filter((x) => x !== o.id);
+    setFeatured(next);
+    const { error } = await supabase
+      .from("property_settings")
+      .update({ home_featured_offers: next })
+      .eq("id", propId);
+    if (error) {
+      toast({ title: t("common.saveFailed"), description: error.message, variant: "destructive" });
+      setFeatured(featured);
+    }
+  };
+
+
   const startEdit = (o?: Offer) => {
     const f: Offer = o ? { ...o } : empty;
     if (!f.title_ro) f.title_ro = f.title ?? "";
