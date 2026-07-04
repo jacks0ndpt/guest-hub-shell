@@ -1,30 +1,50 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, QrCode, Smartphone, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import SiteLayout from "@/components/site/SiteLayout";
 import HeroSection from "@/components/site/HeroSection";
 import RoomCard from "@/components/site/RoomCard";
+import OfferCard from "@/components/site/OfferCard";
 import AmenityGrid from "@/components/site/AmenityGrid";
 import GalleryGrid from "@/components/site/GalleryGrid";
 import TestimonialSection from "@/components/site/TestimonialSection";
-import CTASection from "@/components/site/CTASection";
+import TrustStrip from "@/components/site/TrustStrip";
+import WhyUsSection from "@/components/site/WhyUsSection";
+import GuestConvenienceSection from "@/components/site/GuestConvenienceSection";
+import HomeCTASection from "@/components/site/HomeCTASection";
 import MapPlaceholder from "@/components/site/MapPlaceholder";
 import { Button } from "@/components/ui/button";
 import { heroHotel } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
-import { useRooms } from "@/hooks/useRooms";
+import { useFeaturedRooms, useFeaturedOffers } from "@/hooks/useFeatured";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useSiteContent, get } from "@/hooks/useSiteContent";
+import { useLang, pickLocalizedArray } from "@/lib/i18nContent";
 import { useTranslation } from "react-i18next";
+import type { Offer } from "@/data/mock";
 
 const Index = () => {
   const { merged: property, property: dbProp } = useProperty();
-  const { rooms } = useRooms();
+  const { rooms: featuredRooms } = useFeaturedRooms(3);
+  const { offers: featuredOffers } = useFeaturedOffers(3);
   const { content, lang } = useSiteContent();
+  const currentLang = useLang();
   const { t } = useTranslation();
   usePageMeta(
     `${property.property_name} — ${t("site.home.metaSuffix", { city: property.city })}`,
     property.short_description
   );
+
+  const offerCards: Offer[] = featuredOffers.map((o) => {
+    const row = o as unknown as Record<string, unknown>;
+    const perks = pickLocalizedArray(row, "perks", currentLang);
+    return {
+      slug: (o as any).slug,
+      title: o.title,
+      description: o.description || "",
+      badge: o.badge || "",
+      perks: perks.length > 0 ? perks : ((o as any).perks ?? []),
+    };
+  });
 
   return (
     <SiteLayout>
@@ -36,6 +56,9 @@ const Index = () => {
         primaryCta={{ label: get(content, "hero", "primary_cta_label", lang) || t("site.home.heroFallbackPrimary"), href: property.booking_url }}
         secondaryCta={{ label: get(content, "hero", "secondary_cta_label", lang) || t("site.home.heroFallbackSecondary"), href: "/rooms" }}
       />
+
+      {/* Trust strip (admin-managed) */}
+      <TrustStrip />
 
       {/* Positioning */}
       <section className="section">
@@ -51,23 +74,28 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Rooms */}
-      <section className="section bg-secondary/40">
-        <div className="container-narrow">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
-            <div className="max-w-xl">
-              <p className="eyebrow mb-3">{t("site.home.ourRoomsEyebrow")}</p>
-              <h2 className="text-4xl md:text-5xl">{t("site.home.ourRoomsTitle")}</h2>
+      {/* Rooms (featured) */}
+      {featuredRooms.length > 0 && (
+        <section className="section bg-secondary/40">
+          <div className="container-narrow">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
+              <div className="max-w-xl">
+                <p className="eyebrow mb-3">{t("site.home.ourRoomsEyebrow")}</p>
+                <h2 className="text-4xl md:text-5xl">{t("site.home.ourRoomsTitle")}</h2>
+              </div>
+              <Button asChild variant="outline">
+                <Link to="/rooms">{t("site.home.viewAllRooms")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+              </Button>
             </div>
-            <Button asChild variant="outline">
-              <Link to="/rooms">{t("site.home.viewAllRooms")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
-            </Button>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredRooms.map((r) => <RoomCard key={r.slug} room={r} />)}
+            </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rooms.slice(0, 3).map((r) => <RoomCard key={r.slug} room={r} />)}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Why us (admin-managed) */}
+      <WhyUsSection />
 
       {/* Amenities */}
       <section className="section">
@@ -76,42 +104,35 @@ const Index = () => {
             <p className="eyebrow mb-3">{get(content, "amenities", "eyebrow", lang)}</p>
             <h2 className="text-4xl md:text-5xl">{get(content, "amenities", "title", lang)}</h2>
           </div>
-          <AmenityGrid />
+          <AmenityGrid scope="homepage" />
         </div>
       </section>
 
-      {/* GuestHub teaser */}
-      <section className="section bg-ink text-background">
-        <div className="container-narrow grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <p className="eyebrow text-background/70 mb-3">{t("site.home.guestExperienceEyebrow")}</p>
-            <h2 className="text-4xl md:text-5xl">{t("site.home.guestExperienceTitle")}</h2>
-            <p className="mt-6 text-background/80 max-w-md">
-              {t("site.home.guestExperienceBody", { name: property.property_name })}
-            </p>
-            <p className="mt-4 text-background/60 text-sm max-w-md">
-              {t("site.home.guestExperienceFootnote")}
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              { icon: QrCode, label: t("site.home.features.scanLabel"), text: t("site.home.features.scanText") },
-              { icon: Smartphone, label: t("site.home.features.messageLabel"), text: t("site.home.features.messageText") },
-              { icon: Sparkles, label: t("site.home.features.towelsLabel"), text: t("site.home.features.towelsText") },
-              { icon: ArrowRight, label: t("site.home.features.lateLabel"), text: t("site.home.features.lateText") },
-            ].map((f) => (
-              <div key={f.label} className="border border-background/15 rounded-lg p-5 bg-background/5">
-                <f.icon className="h-5 w-5 text-background/80" strokeWidth={1.5} />
-                <p className="font-serif text-xl mt-3">{f.label}</p>
-                <p className="text-sm text-background/70 mt-1">{f.text}</p>
+      {/* Guest convenience (admin-managed) */}
+      <GuestConvenienceSection />
+
+      {/* Offers (featured) */}
+      {offerCards.length > 0 && (
+        <section className="section">
+          <div className="container-narrow">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
+              <div className="max-w-xl">
+                <p className="eyebrow mb-3">{t("site.offers.eyebrow", { defaultValue: "Offers" })}</p>
+                <h2 className="text-4xl md:text-5xl">{t("site.offers.title", { defaultValue: "Special offers" })}</h2>
               </div>
-            ))}
+              <Button asChild variant="outline">
+                <Link to="/offers">{t("site.offers.viewAll", { defaultValue: "View all offers" })} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+              </Button>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {offerCards.map((o) => <OfferCard key={o.slug} offer={o} />)}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Gallery preview */}
-      <section className="section">
+      <section className="section bg-secondary/40">
         <div className="container-narrow">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 gap-4">
             <div>
@@ -127,7 +148,7 @@ const Index = () => {
       </section>
 
       {/* Location preview */}
-      <section className="section bg-secondary/40">
+      <section className="section">
         <div className="container-narrow grid md:grid-cols-2 gap-10 items-center">
           <div>
             <p className="eyebrow mb-3">{get(content, "location", "eyebrow", lang)}</p>
@@ -145,12 +166,13 @@ const Index = () => {
 
       <TestimonialSection />
 
-      <CTASection
-        eyebrow={t("site.home.ctaEyebrow")}
-        title={t("site.home.ctaTitle")}
-        description={t("site.home.ctaDescription")}
-        primary={{ label: t("site.home.ctaPrimary"), href: property.booking_url }}
-        secondary={{ label: t("site.home.ctaSecondary"), href: "/contact" }}
+      {/* Final CTA (admin-managed with i18n fallback) */}
+      <HomeCTASection
+        fallbackEyebrow={t("site.home.ctaEyebrow")}
+        fallbackTitle={t("site.home.ctaTitle")}
+        fallbackDescription={t("site.home.ctaDescription")}
+        fallbackPrimaryLabel={t("site.home.ctaPrimary")}
+        fallbackSecondaryLabel={t("site.home.ctaSecondary")}
       />
     </SiteLayout>
   );
