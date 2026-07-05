@@ -35,19 +35,30 @@ export const HomeCTASection = ({
   if (!finalTitle) return null;
 
   return (
-    <section className="bg-ink text-background">
-      <div className="container-narrow py-20 md:py-28 text-center max-w-3xl">
+    <section className="relative overflow-hidden bg-ink text-background">
+      {/* warm radial glow */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-70"
+        style={{
+          background:
+            "radial-gradient(60% 80% at 50% 0%, hsl(var(--clay) / 0.35), transparent 70%), radial-gradient(50% 60% at 100% 100%, hsl(var(--gold) / 0.18), transparent 70%)",
+        }}
+      />
+      <div className="relative container-narrow py-20 md:py-28 text-center max-w-3xl">
         {finalEyebrow && <p className="eyebrow mb-4 opacity-80">{finalEyebrow}</p>}
-        <h2 className="text-4xl md:text-6xl">{finalTitle}</h2>
+        <h2 className="text-4xl md:text-6xl text-balance">{finalTitle}</h2>
         {finalDescription && (
-          <p className="mt-5 text-base md:text-lg opacity-85">{finalDescription}</p>
+          <p className="mt-5 text-base md:text-lg opacity-85 max-w-2xl mx-auto">
+            {finalDescription}
+          </p>
         )}
 
         {items.length > 0 && (
           <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm opacity-90">
             {items.map((it, idx) => (
               <li key={idx} className="inline-flex items-center gap-2">
-                <Check className="h-4 w-4" />
+                <Check className="h-4 w-4 text-clay" />
                 <span>{it.title}</span>
               </li>
             ))}
@@ -56,8 +67,12 @@ export const HomeCTASection = ({
 
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
           {primaryLabel && (
-            <Button asChild size="lg" className="min-w-44">
-              <a href={primaryHref} target={primaryHref.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">
+            <Button asChild size="lg" className="min-w-44 shadow-soft">
+              <a
+                href={primaryHref}
+                target={primaryHref.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+              >
                 {primaryLabel}
               </a>
             </Button>
