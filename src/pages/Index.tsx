@@ -55,6 +55,7 @@ const Index = () => {
         subtitle={get(content, "hero", "subtitle", lang) || property.short_description}
         primaryCta={{ label: get(content, "hero", "primary_cta_label", lang) || t("site.home.heroFallbackPrimary"), href: property.booking_url }}
         secondaryCta={{ label: get(content, "hero", "secondary_cta_label", lang) || t("site.home.heroFallbackSecondary"), href: "/rooms" }}
+        trustNote={get(content, "hero", "trust_note", lang) || undefined}
       />
 
       {/* Trust strip (admin-managed) */}
