@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Phone, Mail, MessageCircle, Clock, MapPin } from "lucide-react";
 import SiteLayout from "@/components/site/SiteLayout";
 import HeroSection from "@/components/site/HeroSection";
 import RoomCard from "@/components/site/RoomCard";
