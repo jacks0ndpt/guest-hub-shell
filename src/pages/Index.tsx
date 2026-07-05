@@ -163,7 +163,7 @@ const Index = () => {
                 <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
                   <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <div className="min-w-0">
-                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.address")}</dt>
+                    <dt className="text-xs text-muted-foreground">{t("admin.settingsPage.address")}</dt>
                     <dd className="text-sm font-medium truncate">
                       {property.address}, {property.city}
                     </dd>
@@ -174,7 +174,7 @@ const Index = () => {
                 <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
                   <Phone className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <div className="min-w-0">
-                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.phone")}</dt>
+                    <dt className="text-xs text-muted-foreground">{t("admin.settingsPage.phone")}</dt>
                     <dd className="text-sm font-medium">
                       <a href={`tel:${property.phone}`} className="hover:text-primary">
                         {property.phone}
@@ -187,7 +187,7 @@ const Index = () => {
                 <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
                   <Mail className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <div className="min-w-0">
-                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.email")}</dt>
+                    <dt className="text-xs text-muted-foreground">{t("admin.settingsPage.email")}</dt>
                     <dd className="text-sm font-medium truncate">
                       <a href={`mailto:${property.email}`} className="hover:text-primary">
                         {property.email}
@@ -200,7 +200,7 @@ const Index = () => {
                 <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
                   <MessageCircle className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <div className="min-w-0">
-                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.whatsapp")}</dt>
+                    <dt className="text-xs text-muted-foreground">{t("admin.settingsPage.whatsapp")}</dt>
                     <dd className="text-sm font-medium">
                       <a
                         href={`https://wa.me/${property.whatsapp.replace(/[^0-9]/g, "")}`}
