@@ -9,6 +9,7 @@ type HeroSectionProps = {
   subtitle?: string;
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
+  trustNote?: string;
   size?: "full" | "compact";
   align?: "center" | "left";
 };
@@ -20,9 +21,11 @@ export const HeroSection = ({
   subtitle,
   primaryCta,
   secondaryCta,
+  trustNote,
   size = "full",
   align = "center",
 }: HeroSectionProps) => {
+  const isExternal = (href?: string) => !!href && /^https?:\/\//i.test(href);
   return (
     <section
       className={cn(
@@ -34,22 +37,25 @@ export const HeroSection = ({
         src={image}
         alt=""
         aria-hidden
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover scale-105"
       />
-      <div className="absolute inset-0 bg-gradient-hero" />
+      {/* Layered warm overlay for readability + editorial mood */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/40 to-ink/80" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/25 via-transparent to-transparent mix-blend-multiply" />
+
       <div
         className={cn(
-          "relative container-narrow flex h-full min-h-inherit flex-col justify-end pb-16 pt-28 md:pb-24 md:pt-40",
+          "relative container-narrow flex flex-col justify-end pb-14 pt-28 md:pb-24 md:pt-40",
           size === "full" ? "min-h-[92vh]" : "min-h-[56vh] md:min-h-[64vh]",
           align === "center" ? "items-center text-center" : "items-start text-left"
         )}
       >
         {eyebrow && (
-          <p className="eyebrow text-background/80 mb-5 animate-fade-up">{eyebrow}</p>
+          <p className="eyebrow text-background/85 mb-5 animate-fade-up">{eyebrow}</p>
         )}
         <h1
           className={cn(
-            "text-background font-serif animate-fade-up",
+            "text-background font-serif animate-fade-up text-balance",
             size === "full"
               ? "text-5xl sm:text-6xl md:text-7xl lg:text-8xl max-w-4xl"
               : "text-4xl md:text-6xl max-w-3xl"
@@ -63,10 +69,21 @@ export const HeroSection = ({
           </p>
         )}
         {(primaryCta || secondaryCta) && (
-          <div className="mt-10 flex flex-col sm:flex-row gap-3 animate-fade-up">
+          <div
+            className={cn(
+              "mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto animate-fade-up",
+              align === "center" && "sm:justify-center"
+            )}
+          >
             {primaryCta && (
-              <Button asChild size="lg" className="min-w-44">
-                <a href={primaryCta.href}>{primaryCta.label}</a>
+              <Button asChild size="lg" className="min-w-44 shadow-soft">
+                <a
+                  href={primaryCta.href}
+                  target={isExternal(primaryCta.href) ? "_blank" : undefined}
+                  rel={isExternal(primaryCta.href) ? "noopener noreferrer" : undefined}
+                >
+                  {primaryCta.label}
+                </a>
               </Button>
             )}
             {secondaryCta && (
@@ -74,12 +91,17 @@ export const HeroSection = ({
                 asChild
                 size="lg"
                 variant="outline"
-                className="min-w-44 bg-transparent text-background border-background/70 hover:bg-background hover:text-foreground"
+                className="min-w-44 bg-background/10 text-background border-background/60 backdrop-blur-sm hover:bg-background hover:text-foreground"
               >
                 <a href={secondaryCta.href}>{secondaryCta.label}</a>
               </Button>
             )}
           </div>
+        )}
+        {trustNote && (
+          <p className="mt-6 text-xs md:text-sm text-background/75 max-w-md animate-fade-up">
+            {trustNote}
+          </p>
         )}
       </div>
     </section>
