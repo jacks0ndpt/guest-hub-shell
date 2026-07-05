@@ -148,18 +148,113 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Location preview */}
+      {/* Location + contact preview */}
       <section className="section">
-        <div className="container-narrow grid md:grid-cols-2 gap-10 items-center">
+        <div className="container-narrow grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
           <div>
             <p className="eyebrow mb-3">{get(content, "location", "eyebrow", lang)}</p>
             <h2 className="text-4xl md:text-5xl">{get(content, "location", "title", lang)}</h2>
             <p className="mt-5 text-muted-foreground max-w-md">
               {get(content, "location", "description", lang)}
             </p>
-            <Button asChild className="mt-8" variant="outline">
-              <Link to="/location">{t("site.home.exploreArea")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
-            </Button>
+
+            <dl className="mt-8 grid sm:grid-cols-2 gap-3 max-w-md">
+              {property.address && (
+                <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                  <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.address")}</dt>
+                    <dd className="text-sm font-medium truncate">
+                      {property.address}, {property.city}
+                    </dd>
+                  </div>
+                </div>
+              )}
+              {property.phone && (
+                <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                  <Phone className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.phone")}</dt>
+                    <dd className="text-sm font-medium">
+                      <a href={`tel:${property.phone}`} className="hover:text-primary">
+                        {property.phone}
+                      </a>
+                    </dd>
+                  </div>
+                </div>
+              )}
+              {property.email && (
+                <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                  <Mail className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.email")}</dt>
+                    <dd className="text-sm font-medium truncate">
+                      <a href={`mailto:${property.email}`} className="hover:text-primary">
+                        {property.email}
+                      </a>
+                    </dd>
+                  </div>
+                </div>
+              )}
+              {property.whatsapp && (
+                <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                  <MessageCircle className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <dt className="text-xs text-muted-foreground">{t("adminPage.settingsPage.whatsapp")}</dt>
+                    <dd className="text-sm font-medium">
+                      <a
+                        href={`https://wa.me/${property.whatsapp.replace(/[^0-9]/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-primary"
+                      >
+                        {property.whatsapp}
+                      </a>
+                    </dd>
+                  </div>
+                </div>
+              )}
+              {(property.checkin_time || property.checkout_time) && (
+                <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4 sm:col-span-2">
+                  <Clock className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <div className="min-w-0 text-sm">
+                    {property.checkin_time && (
+                      <p>
+                        <span className="text-muted-foreground">{t("footer.checkin")}:</span>{" "}
+                        <span className="font-medium">{property.checkin_time}</span>
+                      </p>
+                    )}
+                    {property.checkout_time && (
+                      <p>
+                        <span className="text-muted-foreground">{t("footer.checkout")}:</span>{" "}
+                        <span className="font-medium">{property.checkout_time}</span>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </dl>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild variant="outline">
+                <Link to="/location">
+                  {t("site.home.exploreArea")} <ArrowRight className="ml-1.5 h-4 w-4" />
+                </Link>
+              </Button>
+              {property.address && (
+                <Button asChild variant="ghost">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      `${property.property_name} ${property.address} ${property.city} ${property.country}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MapPin className="mr-1.5 h-4 w-4" /> Google Maps
+                  </a>
+                </Button>
+              )}
+            </div>
           </div>
           <MapPlaceholder />
         </div>
