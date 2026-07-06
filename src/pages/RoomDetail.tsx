@@ -48,14 +48,16 @@ const RoomDetail = () => {
   return (
     <SiteLayout>
       <section className="relative h-[70vh] min-h-[480px] w-full overflow-hidden">
-        <button
-          type="button"
-          onClick={() => setLightboxIndex(galleryImgs.indexOf(room.image) >= 0 ? galleryImgs.indexOf(room.image) : 0)}
-          className="absolute inset-0 block w-full h-full cursor-zoom-in"
-          aria-label={t("room.gallery")}
-        >
-          <img src={room.image} alt={room.name} className="absolute inset-0 h-full w-full object-cover" />
-        </button>
+        <img
+          src={room.image}
+          alt={room.name}
+          onClick={() => {
+            const idx = galleryImgs.indexOf(room.image);
+            setLightboxIndex(idx >= 0 ? idx : 0);
+          }}
+          className="absolute inset-0 h-full w-full object-cover cursor-zoom-in"
+        />
+
 
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative container-narrow h-full flex flex-col justify-end pb-12 pt-32 text-background">
