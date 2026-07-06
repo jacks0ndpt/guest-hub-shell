@@ -18,7 +18,9 @@ const RoomDetail = () => {
   const { merged: property } = useProperty();
   const { rooms, loading } = useRooms();
   const [notFound, setNotFound] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const { t } = useTranslation();
+
 
   const room = rooms.find((r) => r.slug === slug);
 
