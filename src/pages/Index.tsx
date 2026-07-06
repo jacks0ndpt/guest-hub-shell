@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import type { Offer } from "@/data/mock";
 
 const Index = () => {
-  const { merged: property, property: dbProp } = useProperty();
+  const { merged: property, property: dbProp, loading: propLoading } = useProperty();
   const { rooms: featuredRooms } = useFeaturedRooms(3);
   const { offers: featuredOffers } = useFeaturedOffers(3);
   const { content, lang } = useSiteContent();
