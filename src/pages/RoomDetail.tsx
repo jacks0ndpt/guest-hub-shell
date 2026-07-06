@@ -98,10 +98,24 @@ const RoomDetail = () => {
               <p className="eyebrow mb-4">{t("room.gallery")}</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {galleryImgs.map((src, i) => (
-                  <img key={i} src={src} alt={`${room.name} ${i + 1}`} loading="lazy" className="aspect-[4/3] w-full object-cover rounded-lg" />
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setLightboxIndex(i)}
+                    className="block group overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label={`${room.name} ${i + 1}`}
+                  >
+                    <img
+                      src={src}
+                      alt={`${room.name} ${i + 1}`}
+                      loading="lazy"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
+                    />
+                  </button>
                 ))}
               </div>
             </div>
+
           </div>
 
           <aside className="lg:sticky lg:top-28 h-fit rounded-lg border border-border bg-card p-6 md:p-8 shadow-card">
