@@ -158,7 +158,33 @@ export const DEFAULT_CONTENT: SiteContentMap = {
       { icon_key: "phone", label_ro: "Suport direct", label_en: "Direct support", is_active: true, sort_order: 3 },
     ],
   },
+  location_details: {
+    eyebrow_ro: "Cum ajungi",
+    eyebrow_en: "Getting here",
+    transport_heading_ro: "Cum ajungi",
+    transport_heading_en: "Getting here",
+    parking_heading_ro: "Parcare",
+    parking_heading_en: "Parking",
+    parking_body_ro:
+      "Parcare gratuită la fața locului, în limita locurilor disponibile. Îți recomandăm să ajungi înainte de ora 20:00 în weekendurile aglomerate.",
+    parking_body_en:
+      "Free on-site parking is available on a first-come basis. We recommend arriving before 20:00 to secure a spot during busier weekends.",
+    getting_around_heading_ro: "Cum te deplasezi",
+    getting_around_heading_en: "Getting around",
+    getting_around_body_ro:
+      "Cea mai mare parte a centrului vechi se poate parcurge pe jos. Taxi-urile sunt ieftine, iar Uber/Bolt funcționează bine. Pentru munte, îți putem organiza mașină de închiriere sau șofer privat.",
+    getting_around_body_en:
+      "Most of the old town is easily walkable. Taxis are inexpensive, and Uber/Bolt work well. For the mountains, we can help arrange a rental car or a private driver.",
+    items_json: [
+      { icon_key: "train", label_ro: "Gara Brașov", label_en: "Brașov train station", time_ro: "10 min cu taxiul", time_en: "10 min by taxi", is_active: true, sort_order: 0 },
+      { icon_key: "car", label_ro: "Aeroportul București Otopeni", label_en: "Bucharest Otopeni Airport", time_ro: "2h 30 min cu mașina", time_en: "2h 30 min by car", is_active: true, sort_order: 1 },
+      { icon_key: "car", label_ro: "Aeroportul Sibiu", label_en: "Sibiu Airport", time_ro: "2h 15 min cu mașina", time_en: "2h 15 min by car", is_active: true, sort_order: 2 },
+      { icon_key: "map-pin", label_ro: "Domeniul schiabil Poiana Brașov", label_en: "Poiana Brașov ski area", time_ro: "20 min cu mașina", time_en: "20 min by car", is_active: true, sort_order: 3 },
+      { icon_key: "map-pin", label_ro: "Castelul Bran", label_en: "Bran Castle", time_ro: "35 min cu mașina", time_en: "35 min by car", is_active: true, sort_order: 4 },
+    ],
+  },
 };
+
 
 // ── Schema for the admin editor ───────────────────────────────────────────
 export type ItemFieldSpec =
