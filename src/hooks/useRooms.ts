@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { rooms as mockRooms, type Room } from "@/data/mock";
 import { useLang, pickLocalized, pickLocalizedArray } from "@/lib/i18nContent";
+import { translateAmenities } from "@/lib/amenityTranslations";
+
 
 export type DBRoom = {
   id: string;
