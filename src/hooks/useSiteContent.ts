@@ -301,7 +301,27 @@ export const SECTION_FIELDS: Record<string, SectionFieldSpec[]> = {
       ],
     },
   ],
+  location_details: [
+    { key: "eyebrow", label: "Eyebrow" },
+    { key: "transport_heading", label: "Getting here — heading" },
+    { key: "parking_heading", label: "Parking — heading" },
+    { key: "parking_body", label: "Parking — body", multiline: true },
+    { key: "getting_around_heading", label: "Getting around — heading" },
+    { key: "getting_around_body", label: "Getting around — body", multiline: true },
+    {
+      kind: "items",
+      key: "items_json",
+      label: "Arrival & transport rows",
+      itemLabel: "Row",
+      itemFields: [
+        COMMON_ITEM_ICON,
+        { key: "label", label: "Place", type: "text", bilingual: true },
+        { key: "time", label: "Time / distance", type: "text", bilingual: true },
+      ],
+    },
+  ],
 };
+
 
 export const useSiteContent = () => {
   const [content, setContent] = useState<SiteContentMap>(DEFAULT_CONTENT);
