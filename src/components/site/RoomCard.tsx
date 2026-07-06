@@ -47,8 +47,8 @@ export const RoomCard = ({ room }: { room: Room }) => {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {room.amenities.slice(0, 3).map((a) => (
-            <span key={a} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground">
+          {room.amenities.slice(0, 3).map((a, i) => (
+            <span key={`${a}-${i}`} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground">
               {a}
             </span>
           ))}
