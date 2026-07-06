@@ -2,18 +2,51 @@ import SiteLayout from "@/components/site/SiteLayout";
 import MapPlaceholder from "@/components/site/MapPlaceholder";
 import CTASection from "@/components/site/CTASection";
 import { MapPin, Car, Train, ParkingCircle } from "lucide-react";
-import { nearbyAttractions, transport } from "@/data/mock";
+import { nearbyAttractions } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useTranslation } from "react-i18next";
+import { useSiteContent, get, getItems } from "@/hooks/useSiteContent";
+import { useLang } from "@/lib/i18nContent";
+import { resolveSectionIcon } from "@/lib/sectionIcons";
 
 const Location = () => {
   const { merged: property } = useProperty();
   const { t } = useTranslation();
+  const { content, lang } = useSiteContent();
+  const currentLang = useLang();
+
   usePageMeta(
     t("site.location.metaTitle", { name: property.property_name }),
     t("site.location.metaDesc", { city: property.city, country: property.country }),
   );
+
+  const transportRows = getItems(content, "location_details");
+  const transportHeading =
+    get(content, "location_details", "transport_heading", lang) ||
+    t("site.location.gettingHere");
+  const parkingHeading =
+    get(content, "location_details", "parking_heading", lang) ||
+    t("site.location.parking");
+  const parkingBody =
+    get(content, "location_details", "parking_body", lang) ||
+    t("site.location.parkingBody");
+  const gettingAroundHeading =
+    get(content, "location_details", "getting_around_heading", lang) ||
+    t("site.location.gettingAround");
+  const gettingAroundBody =
+    get(content, "location_details", "getting_around_body", lang) ||
+    t("site.location.gettingAroundBody");
+
+  const pickL = (row: Record<string, unknown>, base: string): string => {
+    const order = currentLang === "en" ? [`${base}_en`, `${base}_ro`, base] : [`${base}_ro`, base, `${base}_en`];
+    for (const k of order) {
+      const v = row[k];
+      if (typeof v === "string" && v.trim().length > 0) return v;
+    }
+    return "";
+  };
+
   return (
     <SiteLayout>
       <section className="pt-32 md:pt-40 pb-12 md:pb-16 bg-secondary/40">
@@ -51,21 +84,38 @@ const Location = () => {
       <section className="section bg-secondary/40">
         <div className="container-narrow grid md:grid-cols-2 gap-10">
           <div>
-            <p className="eyebrow mb-3 flex items-center gap-2"><Train className="h-4 w-4" /> {t("site.location.gettingHere")}</p>
+            <p className="eyebrow mb-3 flex items-center gap-2">
+              <Train className="h-4 w-4" /> {transportHeading}
+            </p>
             <ul className="space-y-3">
-              {transport.map((tr) => (
-                <li key={tr.label} className="flex justify-between border-b border-border pb-3 text-sm">
-                  <span>{tr.label}</span>
-                  <span className="text-muted-foreground">{tr.detail}</span>
-                </li>
-              ))}
+              {transportRows.map((row, i) => {
+                const label = pickL(row as Record<string, unknown>, "label");
+                const time = pickL(row as Record<string, unknown>, "time");
+                if (!label) return null;
+                const Icon = resolveSectionIcon(row.icon_key) || MapPin;
+                return (
+                  <li key={i} className="flex items-start justify-between gap-3 border-b border-border pb-3 text-sm">
+                    <span className="flex items-center gap-2 min-w-0">
+                      <Icon className="h-4 w-4 text-primary shrink-0" />
+                      <span className="truncate">{label}</span>
+                    </span>
+                    {time && <span className="text-muted-foreground shrink-0">{time}</span>}
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div className="space-y-4">
-            <p className="eyebrow flex items-center gap-2"><ParkingCircle className="h-4 w-4" /> {t("site.location.parking")}</p>
-            <p className="text-muted-foreground">{t("site.location.parkingBody")}</p>
-            <p className="eyebrow flex items-center gap-2 pt-4"><Car className="h-4 w-4" /> {t("site.location.gettingAround")}</p>
-            <p className="text-muted-foreground">{t("site.location.gettingAroundBody")}</p>
+            <p className="eyebrow flex items-center gap-2">
+              <ParkingCircle className="h-4 w-4" /> {parkingHeading}
+            </p>
+            {parkingBody && <p className="text-muted-foreground">{parkingBody}</p>}
+            <p className="eyebrow flex items-center gap-2 pt-4">
+              <Car className="h-4 w-4" /> {gettingAroundHeading}
+            </p>
+            {gettingAroundBody && (
+              <p className="text-muted-foreground">{gettingAroundBody}</p>
+            )}
           </div>
         </div>
       </section>
