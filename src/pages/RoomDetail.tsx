@@ -155,7 +155,18 @@ const RoomDetail = () => {
         primary={{ label: t("site.rooms.ctaPrimary"), href: property.booking_url }}
         secondary={{ label: t("site.rooms.ctaSecondary"), href: "/contact" }}
       />
+
+      {lightboxIndex !== null && (
+        <ImageLightbox
+          images={galleryImgs}
+          index={lightboxIndex}
+          onIndexChange={setLightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          alt={room.name}
+        />
+      )}
     </SiteLayout>
+
   );
 };
 
