@@ -4,12 +4,14 @@ import { Users, BedDouble, Ruler, ArrowLeft, Check } from "lucide-react";
 import SiteLayout from "@/components/site/SiteLayout";
 import RoomCard from "@/components/site/RoomCard";
 import CTASection from "@/components/site/CTASection";
+import ImageLightbox from "@/components/site/ImageLightbox";
 import { Button } from "@/components/ui/button";
 import { useProperty } from "@/hooks/useProperty";
 import { useRooms } from "@/hooks/useRooms";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import NotFound from "./NotFound";
 import { useTranslation } from "react-i18next";
+
 
 const RoomDetail = () => {
   const { slug } = useParams();
