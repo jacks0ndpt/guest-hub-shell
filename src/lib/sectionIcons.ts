@@ -18,13 +18,11 @@ import {
   Utensils,
   Mountain,
   Sun,
+  Train,
+  Plane,
   type LucideIcon,
 } from "lucide-react";
 
-/**
- * Safe whitelist of icon keys that can be referenced from editable site_content
- * sections. Any unknown / unsafe key falls back to a neutral default.
- */
 export const SECTION_ICONS: Record<string, LucideIcon> = {
   coffee: Coffee,
   parking: ParkingCircle,
@@ -45,7 +43,10 @@ export const SECTION_ICONS: Record<string, LucideIcon> = {
   utensils: Utensils,
   mountain: Mountain,
   sun: Sun,
+  train: Train,
+  plane: Plane,
 };
+
 
 export const ICON_KEYS = Object.keys(SECTION_ICONS);
 

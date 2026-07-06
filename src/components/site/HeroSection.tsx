@@ -12,6 +12,8 @@ type HeroSectionProps = {
   trustNote?: string;
   size?: "full" | "compact";
   align?: "center" | "left";
+  /** When true, hide the background image and render a neutral placeholder instead. */
+  imageLoading?: boolean;
 };
 
 export const HeroSection = ({
@@ -24,6 +26,7 @@ export const HeroSection = ({
   trustNote,
   size = "full",
   align = "center",
+  imageLoading = false,
 }: HeroSectionProps) => {
   const isExternal = (href?: string) => !!href && /^https?:\/\//i.test(href);
   return (
@@ -33,15 +36,23 @@ export const HeroSection = ({
         size === "full" ? "min-h-[92vh]" : "min-h-[56vh] md:min-h-[64vh]"
       )}
     >
-      <img
-        src={image}
-        alt=""
-        aria-hidden
-        className="absolute inset-0 h-full w-full object-cover scale-105"
-      />
+      {imageLoading ? (
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-br from-secondary via-muted to-secondary"
+        />
+      ) : (
+        <img
+          src={image}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover scale-105"
+        />
+      )}
       {/* Layered warm overlay for readability + editorial mood */}
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/40 to-ink/80" />
       <div className="absolute inset-0 bg-gradient-to-tr from-primary/25 via-transparent to-transparent mix-blend-multiply" />
+
 
       <div
         className={cn(

@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import type { Offer } from "@/data/mock";
 
 const Index = () => {
-  const { merged: property, property: dbProp } = useProperty();
+  const { merged: property, property: dbProp, loading: propLoading } = useProperty();
   const { rooms: featuredRooms } = useFeaturedRooms(3);
   const { offers: featuredOffers } = useFeaturedOffers(3);
   const { content, lang } = useSiteContent();
@@ -50,6 +50,7 @@ const Index = () => {
     <SiteLayout>
       <HeroSection
         image={dbProp?.hero_image_url || heroHotel}
+        imageLoading={propLoading && !dbProp?.hero_image_url}
         eyebrow={get(content, "hero", "eyebrow", lang) || `${property.property_type} · ${property.city}, ${property.country}`}
         title={<>{get(content, "hero", "title_line1", lang)}<br className="hidden md:block" /> {get(content, "hero", "title_line2", lang)}</>}
         subtitle={get(content, "hero", "subtitle", lang) || property.short_description}
@@ -57,6 +58,7 @@ const Index = () => {
         secondaryCta={{ label: get(content, "hero", "secondary_cta_label", lang) || t("site.home.heroFallbackSecondary"), href: "/rooms" }}
         trustNote={get(content, "hero", "trust_note", lang) || undefined}
       />
+
 
       {/* Trust strip (admin-managed) */}
       <TrustStrip />

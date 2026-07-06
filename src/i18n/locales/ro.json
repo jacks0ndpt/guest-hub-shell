@@ -580,7 +580,10 @@
         "guest_convenience": "Confort pentru oaspeți",
         "guest_convenienceDesc": "Secțiunea care arată cum oaspeții pot cere orice, fără drum la recepție.",
         "home_cta": "CTA final",
-        "home_ctaDesc": "Apelul final la rezervare de pe pagina principală."
+        "home_ctaDesc": "Apelul final la rezervare de pe pagina principală.",
+        "location_details": "Locație — detalii",
+        "location_detailsDesc": "Informații despre cum ajungi, parcare și transport, afișate pe pagina Locație."
+
       },
       "items": {
         "add": "Adaugă element",

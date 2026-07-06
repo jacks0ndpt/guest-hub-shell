@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { rooms as mockRooms, type Room } from "@/data/mock";
 import { useLang, pickLocalized, pickLocalizedArray } from "@/lib/i18nContent";
+import { translateAmenities } from "@/lib/amenityTranslations";
+
 
 export type DBRoom = {
   id: string;
@@ -58,6 +60,8 @@ export const useRooms = () => {
           const short = pickLocalized(row, "short_description", lang) || r.short_description || fallback?.short_description || "";
           const long = pickLocalized(row, "long_description", lang) || r.long_description || fallback?.long_description || "";
           const amenities = pickLocalizedArray(row, "amenities", lang);
+          const rawAmenities =
+            amenities.length > 0 ? amenities : (r.amenities ?? fallback?.amenities ?? []);
           return {
             slug: r.slug,
             name,
@@ -72,8 +76,9 @@ export const useRooms = () => {
               r.gallery_image_urls && r.gallery_image_urls.length > 0
                 ? r.gallery_image_urls
                 : fallback?.gallery ?? [],
-            amenities: amenities.length > 0 ? amenities : (r.amenities ?? fallback?.amenities ?? []),
+            amenities: translateAmenities(rawAmenities, lang),
           };
+
         });
         setRooms(mapped);
       }

@@ -4,6 +4,7 @@ import { Users, BedDouble, Ruler, ArrowLeft, Check } from "lucide-react";
 import SiteLayout from "@/components/site/SiteLayout";
 import RoomCard from "@/components/site/RoomCard";
 import CTASection from "@/components/site/CTASection";
+import ImageLightbox from "@/components/site/ImageLightbox";
 import { Button } from "@/components/ui/button";
 import { useProperty } from "@/hooks/useProperty";
 import { useRooms } from "@/hooks/useRooms";
@@ -11,12 +12,15 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import NotFound from "./NotFound";
 import { useTranslation } from "react-i18next";
 
+
 const RoomDetail = () => {
   const { slug } = useParams();
   const { merged: property } = useProperty();
   const { rooms, loading } = useRooms();
   const [notFound, setNotFound] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const { t } = useTranslation();
+
 
   const room = rooms.find((r) => r.slug === slug);
 
@@ -44,7 +48,17 @@ const RoomDetail = () => {
   return (
     <SiteLayout>
       <section className="relative h-[70vh] min-h-[480px] w-full overflow-hidden">
-        <img src={room.image} alt={room.name} className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={room.image}
+          alt={room.name}
+          onClick={() => {
+            const idx = galleryImgs.indexOf(room.image);
+            setLightboxIndex(idx >= 0 ? idx : 0);
+          }}
+          className="absolute inset-0 h-full w-full object-cover cursor-zoom-in"
+        />
+
+
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative container-narrow h-full flex flex-col justify-end pb-12 pt-32 text-background">
           <Link to="/rooms" className="inline-flex items-center gap-1.5 text-sm mb-4 opacity-85 hover:opacity-100">
@@ -84,10 +98,24 @@ const RoomDetail = () => {
               <p className="eyebrow mb-4">{t("room.gallery")}</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {galleryImgs.map((src, i) => (
-                  <img key={i} src={src} alt={`${room.name} ${i + 1}`} loading="lazy" className="aspect-[4/3] w-full object-cover rounded-lg" />
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setLightboxIndex(i)}
+                    className="block group overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label={`${room.name} ${i + 1}`}
+                  >
+                    <img
+                      src={src}
+                      alt={`${room.name} ${i + 1}`}
+                      loading="lazy"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
+                    />
+                  </button>
                 ))}
               </div>
             </div>
+
           </div>
 
           <aside className="lg:sticky lg:top-28 h-fit rounded-lg border border-border bg-card p-6 md:p-8 shadow-card">
@@ -127,7 +155,18 @@ const RoomDetail = () => {
         primary={{ label: t("site.rooms.ctaPrimary"), href: property.booking_url }}
         secondary={{ label: t("site.rooms.ctaSecondary"), href: "/contact" }}
       />
+
+      {lightboxIndex !== null && (
+        <ImageLightbox
+          images={galleryImgs}
+          index={lightboxIndex}
+          onIndexChange={setLightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          alt={room.name}
+        />
+      )}
     </SiteLayout>
+
   );
 };
 

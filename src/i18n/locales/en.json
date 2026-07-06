@@ -581,7 +581,10 @@
         "guest_convenienceDesc": "Subtle section showing how guests can request anything without going to the front desk.",
         "home_cta": "Final CTA",
         "home_cta_Desc": "Closing booking call-to-action on the homepage.",
-        "home_ctaDesc": "Closing booking call-to-action on the homepage."
+        "home_ctaDesc": "Closing booking call-to-action on the homepage.",
+        "location_details": "Location — details",
+        "location_detailsDesc": "Getting-here, parking and transport info shown on the Location page."
+
       },
       "items": {
         "add": "Add item",

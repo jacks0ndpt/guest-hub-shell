@@ -60,19 +60,23 @@ const AdminQRCodes = () => {
                     <QRCodeImage value={url} size={160} />
                   </div>
                   <p className="text-xs text-muted-foreground break-all">{url}</p>
-                  <div className="flex gap-1.5 w-full">
-                    <Button size="sm" variant="outline" className="flex-1" onClick={() => copy(url)}>
-                      <Copy className="h-3.5 w-3.5" /> {t("common.copy")}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 w-full">
+                    <Button size="sm" variant="outline" className="w-full min-w-0" onClick={() => copy(url)}>
+                      <Copy className="h-3.5 w-3.5" />
+                      <span className="truncate">{t("common.copy")}</span>
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1" asChild>
+                    <Button size="sm" variant="outline" className="w-full min-w-0" asChild>
                       <Link to={`/r/${c.qr_code_slug}`} target="_blank">
-                        <ExternalLink className="h-3.5 w-3.5" /> {t("common.open")}
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        <span className="truncate">{t("common.open")}</span>
                       </Link>
                     </Button>
-                    <Button size="sm" className="flex-1" onClick={() => download(url, c.room_label)}>
-                      <Download className="h-3.5 w-3.5" /> PNG
+                    <Button size="sm" className="w-full min-w-0" onClick={() => download(url, c.room_label)}>
+                      <Download className="h-3.5 w-3.5" />
+                      <span className="truncate">PNG</span>
                     </Button>
                   </div>
+
                 </div>
               );
             })}
