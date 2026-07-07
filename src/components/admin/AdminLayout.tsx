@@ -159,9 +159,9 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
                   aria-label={t("admin.realtime.notifications")}
                 >
                   <Bell className="h-5 w-5" strokeWidth={1.75} />
-                  {newCount > 0 && (
+                  {bellCount > 0 && (
                     <span className="absolute -top-0.5 -right-0.5 inline-flex min-w-[1.1rem] h-[1.1rem] px-1 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold">
-                      {newCount > 9 ? "9+" : newCount}
+                      {bellCount > 9 ? "9+" : bellCount}
                     </span>
                   )}
                 </button>
@@ -170,45 +170,74 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
                 <div className="px-4 py-3 border-b border-border">
                   <p className="font-medium text-sm">{t("admin.realtime.notifications")}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {newCount > 0
-                      ? t("admin.realtime.newCount", { count: newCount })
+                    {bellCount > 0
+                      ? t("admin.realtime.bellSummary", { requests: newCount, messages: newMessagesCount })
                       : t("admin.realtime.empty")}
                   </p>
                 </div>
-                <div className="max-h-80 overflow-y-auto">
-                  {recent.length === 0 ? (
+                <div className="max-h-96 overflow-y-auto">
+                  {recent.length === 0 && recentMessages.length === 0 ? (
                     <p className="px-4 py-6 text-sm text-muted-foreground text-center">
                       {t("admin.realtime.empty")}
                     </p>
                   ) : (
-                    recent.map((r) => (
-                      <button
-                        key={r.id}
-                        onClick={() => {
-                          setBellOpen(false);
-                          navigate("/admin/requests");
-                        }}
-                        className="w-full text-left px-4 py-3 hover:bg-secondary border-b border-border last:border-0"
-                      >
-                        <p className="text-sm font-medium truncate">
-                          {t("admin.qrPage.room")} {r.room_label} — {r.service_title}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-0.5">{fmtTime(r.created_at)}</p>
-                      </button>
-                    ))
+                    <>
+                      {recent.map((r) => (
+                        <button
+                          key={r.id}
+                          onClick={() => {
+                            setBellOpen(false);
+                            navigate("/admin/requests");
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-secondary border-b border-border last:border-0"
+                        >
+                          <p className="text-sm font-medium truncate">
+                            {t("admin.qrPage.room")} {r.room_label} — {r.service_title}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{fmtTime(r.created_at)}</p>
+                        </button>
+                      ))}
+                      {recentMessages.map((m) => (
+                        <button
+                          key={m.id}
+                          onClick={() => {
+                            setBellOpen(false);
+                            navigate("/admin/messages");
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-secondary border-b border-border last:border-0"
+                        >
+                          <p className="text-sm font-medium truncate">{m.title}</p>
+                          {m.subtitle && (
+                            <p className="text-xs text-muted-foreground truncate mt-0.5">{m.subtitle}</p>
+                          )}
+                          <p className="text-xs text-muted-foreground mt-0.5">{fmtTime(m.created_at)}</p>
+                        </button>
+                      ))}
+                    </>
                   )}
                 </div>
-                <div className="p-2 border-t border-border">
+                <div className="p-2 border-t border-border flex gap-2">
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full"
+                    className="flex-1"
                     onClick={() => {
                       setBellOpen(false);
                       navigate("/admin/requests");
                     }}
                   >
-                    {t("admin.realtime.viewAll")}
+                    {t("admin.requests")}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => {
+                      setBellOpen(false);
+                      navigate("/admin/messages");
+                    }}
+                  >
+                    {t("admin.messages")}
                   </Button>
                 </div>
               </PopoverContent>
