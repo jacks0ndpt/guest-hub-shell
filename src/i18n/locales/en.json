@@ -430,7 +430,9 @@
       "eyebrow": "Messages",
       "title": "Guest inbox",
       "subtitle": "Messages submitted from the public contact page. Reply by email directly from here.",
+      "unifiedSubtitle": "Contact form messages and private guest feedback in one place.",
       "noMessages": "No messages yet.",
+      "noComment": "(no comment)",
       "selectMessage": "Select a message to read and reply.",
       "noSubject": "(no subject)",
       "from": "From",
@@ -447,7 +449,15 @@
       "statusNew": "new",
       "statusRead": "read",
       "statusReplied": "replied",
-      "statusArchived": "archived"
+      "statusArchived": "archived",
+      "sourceContact": "Contact form",
+      "sourceFeedback": "Guest feedback",
+      "needsAttention": "Needs attention",
+      "tabAll": "All",
+      "tabNew": "New",
+      "tabContact": "Contact form",
+      "tabFeedback": "Guest feedback",
+      "tabArchived": "Archived"
     },
     "servicesPage": {
       "eyebrow": "Services",
