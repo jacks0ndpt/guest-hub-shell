@@ -430,7 +430,9 @@
       "eyebrow": "Messages",
       "title": "Guest inbox",
       "subtitle": "Messages submitted from the public contact page. Reply by email directly from here.",
+      "unifiedSubtitle": "Contact form messages and private guest feedback in one place.",
       "noMessages": "No messages yet.",
+      "noComment": "(no comment)",
       "selectMessage": "Select a message to read and reply.",
       "noSubject": "(no subject)",
       "from": "From",
@@ -447,7 +449,15 @@
       "statusNew": "new",
       "statusRead": "read",
       "statusReplied": "replied",
-      "statusArchived": "archived"
+      "statusArchived": "archived",
+      "sourceContact": "Contact form",
+      "sourceFeedback": "Guest feedback",
+      "needsAttention": "Needs attention",
+      "tabAll": "All",
+      "tabNew": "New",
+      "tabContact": "Contact form",
+      "tabFeedback": "Guest feedback",
+      "tabArchived": "Archived"
     },
     "servicesPage": {
       "eyebrow": "Services",
@@ -696,11 +706,18 @@
       "notifications": "Notifications",
       "newCount": "{{count}} new requests",
       "newCount_one": "{{count}} new request",
-      "empty": "No new requests",
+      "empty": "Nothing new",
       "viewAll": "View all requests",
       "viewRequest": "View request",
+      "viewMessages": "View messages",
       "newRequestTitle": "New request from Room {{room}}: {{service}}",
-      "newRequestDescription": "Tap to open the requests list"
+      "newRequestDescription": "Tap to open the requests list",
+      "newContactTitle": "New contact form message",
+      "newContactShort": "New message from {{name}}",
+      "newFeedbackTitle": "New feedback from Room {{room}}",
+      "newFeedbackShort": "New feedback from Room {{room}}",
+      "newFeedbackAttention": "Private feedback needs attention: Room {{room}}",
+      "bellSummary": "{{requests}} requests · {{messages}} messages"
     }
   },
   "auth": {

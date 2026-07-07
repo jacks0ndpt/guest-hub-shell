@@ -430,7 +430,9 @@
       "eyebrow": "Mesaje",
       "title": "Inbox oaspeți",
       "subtitle": "Mesaje trimise din pagina publică de contact. Răspunde prin email direct de aici.",
+      "unifiedSubtitle": "Mesaje din formularul de contact și feedback privat, într-un singur loc.",
       "noMessages": "Niciun mesaj încă.",
+      "noComment": "(fără comentariu)",
       "selectMessage": "Selectează un mesaj pentru a citi și răspunde.",
       "noSubject": "(fără subiect)",
       "from": "De la",
@@ -447,7 +449,15 @@
       "statusNew": "nou",
       "statusRead": "citit",
       "statusReplied": "răspuns",
-      "statusArchived": "arhivat"
+      "statusArchived": "arhivat",
+      "sourceContact": "Formular contact",
+      "sourceFeedback": "Feedback oaspete",
+      "needsAttention": "Necesită atenție",
+      "tabAll": "Toate",
+      "tabNew": "Noi",
+      "tabContact": "Formular contact",
+      "tabFeedback": "Feedback oaspete",
+      "tabArchived": "Arhivate"
     },
     "servicesPage": {
       "eyebrow": "Servicii",
@@ -695,11 +705,18 @@
       "notifications": "Notificări",
       "newCount": "{{count}} cereri noi",
       "newCount_one": "{{count}} cerere nouă",
-      "empty": "Nicio cerere nouă",
+      "empty": "Nimic nou",
       "viewAll": "Vezi toate cererile",
       "viewRequest": "Vezi cererea",
+      "viewMessages": "Vezi mesajele",
       "newRequestTitle": "Cerere nouă din camera {{room}}: {{service}}",
-      "newRequestDescription": "Apasă pentru a deschide lista cererilor"
+      "newRequestDescription": "Apasă pentru a deschide lista cererilor",
+      "newContactTitle": "Mesaj nou din formularul de contact",
+      "newContactShort": "Mesaj nou de la {{name}}",
+      "newFeedbackTitle": "Feedback nou din camera {{room}}",
+      "newFeedbackShort": "Feedback nou din camera {{room}}",
+      "newFeedbackAttention": "Feedback privat necesită atenție: Camera {{room}}",
+      "bellSummary": "{{requests}} cereri · {{messages}} mesaje"
     }
   },
   "auth": {
