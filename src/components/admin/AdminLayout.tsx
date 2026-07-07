@@ -41,7 +41,7 @@ const Badge = ({ count }: { count: number }) => {
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { signOut, user } = useAuth();
   const { property } = useProperty();
-  const { newCount, recent } = useRealtimeRequests();
+  const { newCount, recent, newMessagesCount, recentMessages, bellCount } = useRealtimeRequests();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
   const nav = [
     { to: "/admin", label: t("admin.dashboard"), icon: LayoutDashboard, end: true },
     { to: "/admin/requests", label: t("admin.requests"), icon: Inbox, badge: newCount },
-    { to: "/admin/messages", label: t("admin.messages"), icon: Mail },
+    { to: "/admin/messages", label: t("admin.messages"), icon: Mail, badge: newMessagesCount },
     { to: "/admin/services", label: t("admin.services"), icon: ConciergeBell },
     { to: "/admin/rooms", label: t("admin.rooms"), icon: BedDouble },
     { to: "/admin/offers", label: t("admin.offers"), icon: Tag },
