@@ -706,11 +706,18 @@
       "notifications": "Notifications",
       "newCount": "{{count}} new requests",
       "newCount_one": "{{count}} new request",
-      "empty": "No new requests",
+      "empty": "Nothing new",
       "viewAll": "View all requests",
       "viewRequest": "View request",
+      "viewMessages": "View messages",
       "newRequestTitle": "New request from Room {{room}}: {{service}}",
-      "newRequestDescription": "Tap to open the requests list"
+      "newRequestDescription": "Tap to open the requests list",
+      "newContactTitle": "New contact form message",
+      "newContactShort": "New message from {{name}}",
+      "newFeedbackTitle": "New feedback from Room {{room}}",
+      "newFeedbackShort": "New feedback from Room {{room}}",
+      "newFeedbackAttention": "Private feedback needs attention: Room {{room}}",
+      "bellSummary": "{{requests}} requests · {{messages}} messages"
     }
   },
   "auth": {
