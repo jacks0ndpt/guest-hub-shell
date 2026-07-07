@@ -430,7 +430,9 @@
       "eyebrow": "Mesaje",
       "title": "Inbox oaspeți",
       "subtitle": "Mesaje trimise din pagina publică de contact. Răspunde prin email direct de aici.",
+      "unifiedSubtitle": "Mesaje din formularul de contact și feedback privat, într-un singur loc.",
       "noMessages": "Niciun mesaj încă.",
+      "noComment": "(fără comentariu)",
       "selectMessage": "Selectează un mesaj pentru a citi și răspunde.",
       "noSubject": "(fără subiect)",
       "from": "De la",
@@ -447,7 +449,15 @@
       "statusNew": "nou",
       "statusRead": "citit",
       "statusReplied": "răspuns",
-      "statusArchived": "arhivat"
+      "statusArchived": "arhivat",
+      "sourceContact": "Formular contact",
+      "sourceFeedback": "Feedback oaspete",
+      "needsAttention": "Necesită atenție",
+      "tabAll": "Toate",
+      "tabNew": "Noi",
+      "tabContact": "Formular contact",
+      "tabFeedback": "Feedback oaspete",
+      "tabArchived": "Arhivate"
     },
     "servicesPage": {
       "eyebrow": "Servicii",
