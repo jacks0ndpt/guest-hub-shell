@@ -37,7 +37,7 @@ export type PropertySettings = {
 };
 
 export const property: PropertySettings = {
-  property_name: "Hotel Aurora",
+  property_name: "Motel Dalia",
   property_type: "Motel Boutique",
   tagline: "O ședere caldă între munți și centrul vechi.",
   short_description:
@@ -153,7 +153,7 @@ export const gallery: GalleryItem[] = [
   { src: roomDeluxe, alt: "Cameră Deluxe cu Vedere la Munte", category: "rooms" },
   { src: roomFamily, alt: "Cameră Familială", category: "rooms" },
   { src: roomBusiness, alt: "Cameră Twin Business", category: "rooms" },
-  { src: lobby, alt: "Lobby-ul Hotel Aurora", category: "lobby" },
+  { src: lobby, alt: "Lobby-ul Motel Dalia", category: "lobby" },
   { src: breakfast, alt: "Mic dejun servit", category: "breakfast" },
   { src: exterior, alt: "Exteriorul hotelului la apus", category: "exterior" },
   { src: surroundings, alt: "Centrul vechi din Brașov", category: "surroundings" },
