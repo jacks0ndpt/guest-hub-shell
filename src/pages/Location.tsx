@@ -62,20 +62,28 @@ const Location = () => {
           <div className="space-y-8">
             <div>
               <p className="eyebrow mb-3">{t("site.location.address")}</p>
-              <p className="font-serif text-2xl">{property.address}</p>
+              <p className="font-serif text-2xl">{property.property_name}</p>
+              <p className="text-muted-foreground">{property.address}</p>
               <p className="text-muted-foreground">{property.city}, {property.country}</p>
             </div>
-            <div>
-              <p className="eyebrow mb-3 flex items-center gap-2"><MapPin className="h-4 w-4" /> {t("site.location.nearby")}</p>
-              <ul className="divide-y divide-border border-t border-b border-border">
-                {nearbyAttractions.map((n) => (
-                  <li key={n.name} className="py-3 flex justify-between text-sm">
-                    <span>{n.name}</span>
-                    <span className="text-muted-foreground">{n.distance}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {transportRows.length > 0 && (
+              <div>
+                <p className="eyebrow mb-3 flex items-center gap-2"><MapPin className="h-4 w-4" /> {t("site.location.nearby")}</p>
+                <ul className="divide-y divide-border border-t border-b border-border">
+                  {transportRows.map((row, i) => {
+                    const label = pickL(row as Record<string, unknown>, "label");
+                    const time = pickL(row as Record<string, unknown>, "time");
+                    if (!label) return null;
+                    return (
+                      <li key={i} className="py-3 flex justify-between gap-3 text-sm">
+                        <span>{label}</span>
+                        <span className="text-muted-foreground shrink-0">{time}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
           </div>
           <MapPlaceholder />
         </div>
@@ -88,6 +96,7 @@ const Location = () => {
               <Train className="h-4 w-4" /> {transportHeading}
             </p>
             <ul className="space-y-3">
+
               {transportRows.map((row, i) => {
                 const label = pickL(row as Record<string, unknown>, "label");
                 const time = pickL(row as Record<string, unknown>, "time");
