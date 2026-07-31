@@ -47,7 +47,9 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <RealtimeRequestsProvider>
+          <ScrollToTop />
           <Routes>
+
             {/* Public site */}
             <Route path="/" element={<Index />} />
             <Route path="/rooms" element={<Rooms />} />
