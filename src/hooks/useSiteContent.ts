@@ -64,12 +64,12 @@ export const DEFAULT_CONTENT: SiteContentMap = {
   location: {
     eyebrow_ro: "Locație",
     eyebrow_en: "Location",
-    title_ro: "La doi pași de centrul vechi.",
-    title_en: "Steps from Brașov old town.",
+    title_ro: "Motel Dalia în Gilău",
+    title_en: "Motel Dalia in Gilău",
     description_ro:
-      "6 minute pe jos până în Piața Sfatului, 20 de minute cu mașina până în Poiana Brașov și creasta Carpaților vizibilă din majoritatea camerelor.",
+      "Motel Dalia este situat în Gilău, județul Cluj, într-o zonă practică pentru oaspeți aflați în tranzit sau pentru cei care au drum în Cluj-Napoca și împrejurimi.",
     description_en:
-      "6 minutes to Piața Sfatului on foot, 20 minutes to Poiana Brașov ski slopes by car, and the Carpathian ridge visible from most of our rooms.",
+      "Motel Dalia is located in Gilău, Cluj County, a practical area for guests in transit or travelling to Cluj-Napoca and nearby destinations.",
   },
   contact: {
     eyebrow_ro: "Salut",
@@ -77,9 +77,9 @@ export const DEFAULT_CONTENT: SiteContentMap = {
     title_ro: "Suntem mereu bucuroși să ajutăm.",
     title_en: "We're always happy to help.",
     description_ro:
-      "Ai o întrebare despre sejur, o cerință specială sau vrei o recomandare în Brașov? Ne poți contacta cum preferi.",
+      "Ai o întrebare despre sejur, o cerință specială sau vrei informații despre disponibilitate? Ne poți contacta cum preferi.",
     description_en:
-      "Have a question about your stay, a special request, or need a recommendation in Brașov? Reach us any way you like.",
+      "Have a question about your stay, a special request or need availability details? Reach us any way you like.",
   },
   footer: {
     tagline_ro: "Un hotel boutique — camere liniștite, servicii sincere, totul la un click distanță.",
@@ -172,15 +172,16 @@ export const DEFAULT_CONTENT: SiteContentMap = {
     getting_around_heading_ro: "Cum te deplasezi",
     getting_around_heading_en: "Getting around",
     getting_around_body_ro:
-      "Cea mai mare parte a centrului vechi se poate parcurge pe jos. Taxi-urile sunt ieftine, iar Uber/Bolt funcționează bine. Pentru munte, îți putem organiza mașină de închiriere sau șofer privat.",
+      "Gilău este ușor accesibil cu mașina, pe DN1/E60, iar Cluj-Napoca și împrejurimile sunt la scurtă distanță.",
     getting_around_body_en:
-      "Most of the old town is easily walkable. Taxis are inexpensive, and Uber/Bolt work well. For the mountains, we can help arrange a rental car or a private driver.",
+      "Gilău is easy to reach by car via DN1/E60, with Cluj-Napoca and the surrounding area a short drive away.",
     items_json: [
-      { icon_key: "train", label_ro: "Gara Brașov", label_en: "Brașov train station", time_ro: "10 min cu taxiul", time_en: "10 min by taxi", is_active: true, sort_order: 0 },
-      { icon_key: "car", label_ro: "Aeroportul București Otopeni", label_en: "Bucharest Otopeni Airport", time_ro: "2h 30 min cu mașina", time_en: "2h 30 min by car", is_active: true, sort_order: 1 },
-      { icon_key: "car", label_ro: "Aeroportul Sibiu", label_en: "Sibiu Airport", time_ro: "2h 15 min cu mașina", time_en: "2h 15 min by car", is_active: true, sort_order: 2 },
-      { icon_key: "map-pin", label_ro: "Domeniul schiabil Poiana Brașov", label_en: "Poiana Brașov ski area", time_ro: "20 min cu mașina", time_en: "20 min by car", is_active: true, sort_order: 3 },
-      { icon_key: "map-pin", label_ro: "Castelul Bran", label_en: "Bran Castle", time_ro: "35 min cu mașina", time_en: "35 min by car", is_active: true, sort_order: 4 },
+      { icon_key: "map-pin", label_ro: "VIVO! Cluj", label_en: "VIVO! Cluj", time_ro: "aprox. 15 min cu mașina", time_en: "approx. 15 min by car", is_active: true, sort_order: 0 },
+      { icon_key: "map-pin", label_ro: "Cluj-Napoca", label_en: "Cluj-Napoca", time_ro: "aprox. 20–25 min cu mașina", time_en: "approx. 20–25 min by car", is_active: true, sort_order: 1 },
+      { icon_key: "map-pin", label_ro: "BT Arena", label_en: "BT Arena", time_ro: "aprox. 25 min cu mașina", time_en: "approx. 25 min by car", is_active: true, sort_order: 2 },
+      { icon_key: "map-pin", label_ro: "Cluj Arena", label_en: "Cluj Arena", time_ro: "aprox. 25 min cu mașina", time_en: "approx. 25 min by car", is_active: true, sort_order: 3 },
+      { icon_key: "car", label_ro: "Aeroportul Internațional Avram Iancu Cluj", label_en: "Avram Iancu Cluj International Airport", time_ro: "aprox. 35–40 min cu mașina", time_en: "approx. 35–40 min by car", is_active: true, sort_order: 4 },
+      { icon_key: "map-pin", label_ro: "Lacul Tarnița", label_en: "Tarnița Lake", time_ro: "aprox. 25–30 min cu mașina", time_en: "approx. 25–30 min by car", is_active: true, sort_order: 5 },
     ],
   },
 };

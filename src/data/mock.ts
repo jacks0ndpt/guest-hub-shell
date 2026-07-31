@@ -45,7 +45,7 @@ export const property: PropertySettings = {
   logo_placeholder: "MD",
   primary_color: "#8b7355",
   secondary_color: "#c9b99a",
-  address: "Gilău",
+  address: "DN1 / E60, Gilău, județul Cluj, România",
   city: "Gilău",
   country: "România",
   phone: "",
@@ -216,17 +216,17 @@ export const offers: Offer[] = [
 ];
 
 export const nearbyAttractions = [
-  { name: "Piața Sfatului", distance: "6 min pe jos" },
-  { name: "Biserica Neagră", distance: "8 min pe jos" },
-  { name: "Telecabina Tâmpa", distance: "12 min pe jos" },
-  { name: "Domeniul schiabil Poiana Brașov", distance: "20 min cu mașina" },
-  { name: "Castelul Bran", distance: "35 min cu mașina" },
+  { name: "VIVO! Cluj", distance: "aprox. 15 min cu mașina" },
+  { name: "Cluj-Napoca", distance: "aprox. 20–25 min cu mașina" },
+  { name: "BT Arena", distance: "aprox. 25 min cu mașina" },
+  { name: "Cluj Arena", distance: "aprox. 25 min cu mașina" },
+  { name: "Aeroportul Internațional Avram Iancu Cluj", distance: "aprox. 35–40 min cu mașina" },
+  { name: "Lacul Tarnița", distance: "aprox. 25–30 min cu mașina" },
 ];
 
 export const transport = [
-  { label: "Gara Brașov", detail: "10 min cu taxiul" },
-  { label: "Aeroportul București Otopeni", detail: "2h 30 min cu mașina" },
-  { label: "Aeroportul Sibiu", detail: "2h 15 min cu mașina" },
+  { label: "Cluj-Napoca", detail: "aprox. 20–25 min cu mașina" },
+  { label: "Aeroportul Internațional Avram Iancu Cluj", detail: "aprox. 35–40 min cu mașina" },
 ];
 
 export { heroHotel };
