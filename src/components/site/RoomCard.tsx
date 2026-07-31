@@ -32,7 +32,7 @@ export const RoomCard = ({ room }: { room: Room }) => {
           </div>
           <div className="text-right shrink-0">
             <p className="eyebrow">From</p>
-            <p className="font-serif text-xl">€{room.price_from}</p>
+            <p className="font-serif text-xl">{formatPrice(room.price_from)}</p>
           </div>
         </div>
 
