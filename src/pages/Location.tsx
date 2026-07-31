@@ -84,7 +84,11 @@ const Location = () => {
         </div>
       </section>
 
+      <section className="section bg-secondary/40">
+        <div className="container-narrow grid md:grid-cols-2 gap-10">
+          <div className="space-y-4">
             <p className="eyebrow flex items-center gap-2">
+
               <ParkingCircle className="h-4 w-4" /> {parkingHeading}
             </p>
             {parkingBody && <p className="text-muted-foreground">{parkingBody}</p>}
