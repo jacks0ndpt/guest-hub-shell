@@ -22,6 +22,7 @@ type Props = {
 
 const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }: Props) => {
   const { t } = useTranslation();
+  const { format: formatPrice } = useCurrency();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [note, setNote] = useState("");

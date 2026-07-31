@@ -42,6 +42,7 @@ type Props = { initialRoom?: RoomCode | null };
 
 const GuestHub = ({ initialRoom = null }: Props) => {
   const { t } = useTranslation();
+  const { format: formatPrice } = useCurrency();
   usePageMeta(t("guest.metaTitle"), t("guest.metaDesc"));
   const [searchParams, setSearchParams] = useSearchParams();
   const { categories, items } = useGuestHub();
