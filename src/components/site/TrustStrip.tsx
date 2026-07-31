@@ -27,19 +27,20 @@ export const TrustStrip = () => {
             return (
               <li
                 key={idx}
-                className="snap-start shrink-0 w-[70%] sm:w-[45%] md:w-auto flex items-start gap-3 rounded-lg bg-background/80 md:bg-transparent border border-border md:border-0 p-4 md:p-0"
+                className="snap-start shrink-0 w-[70%] sm:w-[45%] md:w-auto flex items-center gap-3 rounded-lg bg-background/80 md:bg-transparent border border-border md:border-0 p-4 md:p-0"
               >
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary shrink-0">
                   <Icon className="h-4 w-4" strokeWidth={1.75} />
                 </span>
-                <div className="min-w-0">
-                  <p className="font-medium text-sm leading-tight">{it.title}</p>
+                <div className="min-w-0 flex flex-col justify-center">
+                  <p className="font-medium text-sm leading-snug">{it.title}</p>
                   {it.description && (
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-xs leading-snug text-muted-foreground mt-1 line-clamp-2">
                       {it.description}
                     </p>
                   )}
                 </div>
+
               </li>
             );
           })}
