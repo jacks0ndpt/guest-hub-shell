@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
 import { RealtimeRequestsProvider } from "@/context/RealtimeRequestsContext";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
+import ScrollToTop from "@/components/ScrollToTop";
+
 
 import Index from "./pages/Index.tsx";
 import Rooms from "./pages/Rooms.tsx";
