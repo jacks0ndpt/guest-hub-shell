@@ -701,7 +701,9 @@
       "soundAlerts": "Sound alert on new request",
       "soundAlertsHint": "Plays a short tone in this browser when a new request comes in.",
       "notificationEmail": "Notification email",
-      "emailAlerts": "Email me on new requests"
+      "emailAlerts": "Email me on new requests",
+      "mapEmbedUrl": "Map embed URL",
+      "mapsUrl": "Google Maps link"
     },
     "realtime": {
       "notifications": "Notifications",

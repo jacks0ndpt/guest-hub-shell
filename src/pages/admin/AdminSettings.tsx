@@ -30,6 +30,8 @@ type Settings = {
   logo_url: string;
   notification_email: string;
   enable_request_email_alerts: boolean;
+  map_embed_url: string;
+  maps_url: string;
 };
 
 const empty: Settings = {
@@ -44,13 +46,15 @@ const empty: Settings = {
   country: "",
   checkin_time: "",
   checkout_time: "",
-  currency: "EUR",
-  language_default: "en",
+  currency: "RON",
+  language_default: "ro",
   primary_color: "#8b7355",
   secondary_color: "#c9b99a",
   logo_url: "",
   notification_email: "",
   enable_request_email_alerts: false,
+  map_embed_url: "",
+  maps_url: "",
 };
 
 const AdminSettings = () => {
@@ -77,13 +81,15 @@ const AdminSettings = () => {
           country: data.country ?? "",
           checkin_time: data.checkin_time ?? "",
           checkout_time: data.checkout_time ?? "",
-          currency: data.currency ?? "EUR",
-          language_default: data.language_default ?? "en",
+          currency: data.currency ?? "RON",
+          language_default: data.language_default ?? "ro",
           primary_color: data.primary_color ?? "#8b7355",
           secondary_color: data.secondary_color ?? "#c9b99a",
           logo_url: data.logo_url ?? "",
           notification_email: (data as { notification_email?: string }).notification_email ?? "",
           enable_request_email_alerts: (data as { enable_request_email_alerts?: boolean }).enable_request_email_alerts ?? false,
+          map_embed_url: (data as { map_embed_url?: string }).map_embed_url ?? "",
+          maps_url: (data as { maps_url?: string }).maps_url ?? "",
         });
       }
       setLoading(false);
@@ -163,11 +169,24 @@ const AdminSettings = () => {
                 <div className="grid sm:grid-cols-4 gap-4">
                   {field("checkin_time", t("admin.settingsPage.checkin"), "text", "15:00")}
                   {field("checkout_time", t("admin.settingsPage.checkout"), "text", "11:00")}
-                  {field("currency", t("admin.settingsPage.currency"))}
+                  <div className="space-y-2">
+                    <Label htmlFor="currency">{t("admin.settingsPage.currency")}</Label>
+                    <select
+                      id="currency"
+                      value={form.currency || "RON"}
+                      onChange={(e) => set("currency", e.target.value)}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    >
+                      <option value="RON">RON</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </div>
                   {field("language_default", t("admin.settingsPage.defaultLanguage"))}
                 </div>
 
                 {field("logo_url", t("admin.settingsPage.logoUrl"))}
+                {field("map_embed_url", t("admin.settingsPage.mapEmbedUrl"), "text", "https://www.google.com/maps?q=...&output=embed")}
+                {field("maps_url", t("admin.settingsPage.mapsUrl"), "text", "https://www.google.com/maps/search/?api=1&query=...")}
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
