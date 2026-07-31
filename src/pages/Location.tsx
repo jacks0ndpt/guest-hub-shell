@@ -1,14 +1,12 @@
 import SiteLayout from "@/components/site/SiteLayout";
 import MapPlaceholder from "@/components/site/MapPlaceholder";
 import CTASection from "@/components/site/CTASection";
-import { MapPin, Car, Train, ParkingCircle } from "lucide-react";
-import { nearbyAttractions } from "@/data/mock";
+import { MapPin, Car, ParkingCircle } from "lucide-react";
 import { useProperty } from "@/hooks/useProperty";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useTranslation } from "react-i18next";
 import { useSiteContent, get, getItems } from "@/hooks/useSiteContent";
 import { useLang } from "@/lib/i18nContent";
-import { resolveSectionIcon } from "@/lib/sectionIcons";
 
 const Location = () => {
   const { merged: property } = useProperty();
@@ -22,9 +20,6 @@ const Location = () => {
   );
 
   const transportRows = getItems(content, "location_details");
-  const transportHeading =
-    get(content, "location_details", "transport_heading", lang) ||
-    t("site.location.gettingHere");
   const parkingHeading =
     get(content, "location_details", "parking_heading", lang) ||
     t("site.location.parking");
@@ -89,32 +84,6 @@ const Location = () => {
         </div>
       </section>
 
-      <section className="section bg-secondary/40">
-        <div className="container-narrow grid md:grid-cols-2 gap-10">
-          <div>
-            <p className="eyebrow mb-3 flex items-center gap-2">
-              <Train className="h-4 w-4" /> {transportHeading}
-            </p>
-            <ul className="space-y-3">
-
-              {transportRows.map((row, i) => {
-                const label = pickL(row as Record<string, unknown>, "label");
-                const time = pickL(row as Record<string, unknown>, "time");
-                if (!label) return null;
-                const Icon = resolveSectionIcon(row.icon_key) || MapPin;
-                return (
-                  <li key={i} className="flex items-start justify-between gap-3 border-b border-border pb-3 text-sm">
-                    <span className="flex items-center gap-2 min-w-0">
-                      <Icon className="h-4 w-4 text-primary shrink-0" />
-                      <span className="truncate">{label}</span>
-                    </span>
-                    {time && <span className="text-muted-foreground shrink-0">{time}</span>}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="space-y-4">
             <p className="eyebrow flex items-center gap-2">
               <ParkingCircle className="h-4 w-4" /> {parkingHeading}
             </p>
