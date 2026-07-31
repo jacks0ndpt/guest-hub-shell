@@ -65,17 +65,18 @@ const Index = () => {
 
       {/* Positioning */}
       <section className="section">
-        <div className="container-narrow grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-          <div>
+        <div className="container-narrow">
+          <div className="mx-auto max-w-3xl text-center md:text-left">
             <p className="eyebrow mb-3">{get(content, "about", "eyebrow", lang)} {property.property_name}</p>
-            <h2 className="text-4xl md:text-5xl">{get(content, "about", "title", lang)}</h2>
-          </div>
-          <div className="space-y-5 text-muted-foreground">
-            <p>{get(content, "about", "paragraph1", lang)}</p>
-            <p>{get(content, "about", "paragraph2", lang)}</p>
+            <h2 className="text-4xl md:text-5xl max-w-[800px]">{get(content, "about", "title", lang)}</h2>
+            <div className="mt-6 space-y-5 text-muted-foreground max-w-[820px]">
+              <p>{get(content, "about", "paragraph1", lang)}</p>
+              <p>{get(content, "about", "paragraph2", lang)}</p>
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Rooms (featured) */}
       {featuredRooms.length > 0 && (
