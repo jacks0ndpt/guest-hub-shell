@@ -47,9 +47,9 @@ export const DEFAULT_CONTENT: SiteContentMap = {
     title_ro: "24 de camere liniștite. O ospitalitate sinceră.",
     title_en: "24 quiet rooms. One honest kind of hospitality.",
     paragraph1_ro:
-      "Suntem un mic hotel boutique la câteva minute de centrul vechi al Brașovului — construit în jurul ideii că un sejur bun e simplu: o cameră liniștită, cafea bună și oameni care chiar cunosc orașul.",
+      "Motel Dalia este un popas primitor în Gilău, județul Cluj — construit în jurul ideii că un sejur bun e simplu: o cameră liniștită, cafea bună și oameni care chiar cunosc orașul.",
     paragraph1_en:
-      "We're a small boutique hotel a few minutes from Brașov's old town — built around the idea that a good stay is simple: a quiet room, good coffee, and people who actually know the city.",
+      "Motel Dalia is a welcoming stop in Gilău, Cluj County — built around the idea that a good stay is simple: a quiet room, good coffee, and people who actually know the city.",
     paragraph2_ro:
       "Fără ornamente inutile. Doar detaliile care contează, făcute bine — de la sosire până în ultima dimineață.",
     paragraph2_en:
