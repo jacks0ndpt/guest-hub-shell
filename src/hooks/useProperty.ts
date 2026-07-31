@@ -8,7 +8,10 @@ export type DBPropertySettings = {
   property_type: string | null;
   logo_url?: string | null;
   hero_image_url?: string | null;
+  map_embed_url?: string | null;
+  maps_url?: string | null;
   offers_page_enabled?: boolean | null;
+
   primary_color: string | null;
   secondary_color: string | null;
   address: string | null;

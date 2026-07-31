@@ -202,7 +202,9 @@
       "title": "Kind words from recent stays."
     },
     "map": {
-      "comingSoon": "Interactive map coming soon"
+      "comingSoon": "Interactive map coming soon",
+      "title": "Map of {{name}}",
+      "openInMaps": "Open in Google Maps"
     }
   },
   "guest": {
@@ -594,7 +596,6 @@
         "home_ctaDesc": "Closing booking call-to-action on the homepage.",
         "location_details": "Location — details",
         "location_detailsDesc": "Getting-here, parking and transport info shown on the Location page."
-
       },
       "items": {
         "add": "Add item",
@@ -700,7 +701,9 @@
       "soundAlerts": "Sound alert on new request",
       "soundAlertsHint": "Plays a short tone in this browser when a new request comes in.",
       "notificationEmail": "Notification email",
-      "emailAlerts": "Email me on new requests"
+      "emailAlerts": "Email me on new requests",
+      "mapEmbedUrl": "Map embed URL",
+      "mapsUrl": "Google Maps link"
     },
     "realtime": {
       "notifications": "Notifications",

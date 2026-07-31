@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import type { RoomCode, ServiceItem, ServiceCategory } from "@/hooks/useGuestHub";
 import { toast } from "@/hooks/use-toast";
+import { useCurrency } from "@/hooks/useCurrency";
 import { CheckCircle2 } from "lucide-react";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 
 const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }: Props) => {
   const { t } = useTranslation();
+  const { format: formatPrice } = useCurrency();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [note, setNote] = useState("");
@@ -93,7 +95,7 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
               <p><span className="text-muted-foreground">{t("guest.request.roomField")}</span> {room?.room_label}</p>
               <p><span className="text-muted-foreground">{t("guest.request.serviceField")}</span> {item.title}</p>
               {item.is_paid_extra && (
-                <p><span className="text-muted-foreground">{t("guest.request.estimatedField")}</span> €{Number(item.price_estimate ?? 0).toFixed(2)}</p>
+                <p><span className="text-muted-foreground">{t("guest.request.estimatedField")}</span> {formatPrice(Number(item.price_estimate ?? 0).toFixed(2))}</p>
               )}
             </div>
             <div className="mt-6 flex flex-col gap-2">
@@ -109,7 +111,7 @@ const RequestDialog = ({ open, onOpenChange, item, category, room, onSubmitted }
                 {t("guest.roomLabel", { label: room?.room_label ?? "—" })}
                 {item.is_paid_extra && (
                   <span className="block mt-2 text-foreground">
-                    {t("guest.request.estimated")} <strong>€{Number(item.price_estimate ?? 0).toFixed(2)}</strong>
+                    {t("guest.request.estimated")} <strong>{formatPrice(Number(item.price_estimate ?? 0).toFixed(2))}</strong>
                     <span className="block text-xs text-muted-foreground mt-1">
                       {t("guest.request.subjectAvailability")}
                     </span>

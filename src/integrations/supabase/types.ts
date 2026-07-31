@@ -286,6 +286,8 @@ export type Database = {
           id: string
           language_default: string | null
           logo_url: string | null
+          map_embed_url: string | null
+          maps_url: string | null
           notification_email: string | null
           offers_page_enabled: boolean
           phone: string | null
@@ -313,6 +315,8 @@ export type Database = {
           id?: string
           language_default?: string | null
           logo_url?: string | null
+          map_embed_url?: string | null
+          maps_url?: string | null
           notification_email?: string | null
           offers_page_enabled?: boolean
           phone?: string | null
@@ -340,6 +344,8 @@ export type Database = {
           id?: string
           language_default?: string | null
           logo_url?: string | null
+          map_embed_url?: string | null
+          maps_url?: string | null
           notification_email?: string | null
           offers_page_enabled?: boolean
           phone?: string | null

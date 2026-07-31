@@ -7,6 +7,7 @@ import CTASection from "@/components/site/CTASection";
 import ImageLightbox from "@/components/site/ImageLightbox";
 import { Button } from "@/components/ui/button";
 import { useProperty } from "@/hooks/useProperty";
+import { useCurrency } from "@/hooks/useCurrency";
 import { useRooms } from "@/hooks/useRooms";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import NotFound from "./NotFound";
@@ -20,6 +21,7 @@ const RoomDetail = () => {
   const [notFound, setNotFound] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const { t } = useTranslation();
+  const { format: formatPrice } = useCurrency();
 
 
   const room = rooms.find((r) => r.slug === slug);
@@ -122,7 +124,7 @@ const RoomDetail = () => {
             {room.price_from > 0 && (
               <>
                 <p className="eyebrow">{t("common.from")}</p>
-                <p className="font-serif text-4xl mt-1">€{room.price_from}<span className="text-base text-muted-foreground">{t("common.perNight")}</span></p>
+                <p className="font-serif text-4xl mt-1">{formatPrice(room.price_from)}<span className="text-base text-muted-foreground">{t("common.perNight")}</span></p>
               </>
             )}
             <div className="mt-6 space-y-2 text-sm text-muted-foreground">

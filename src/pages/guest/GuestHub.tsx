@@ -17,6 +17,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const ICONS: Record<string, LucideIcon> = {
   Sparkles,
@@ -41,6 +42,7 @@ type Props = { initialRoom?: RoomCode | null };
 
 const GuestHub = ({ initialRoom = null }: Props) => {
   const { t } = useTranslation();
+  const { format: formatPrice } = useCurrency();
   usePageMeta(t("guest.metaTitle"), t("guest.metaDesc"));
   const [searchParams, setSearchParams] = useSearchParams();
   const { categories, items } = useGuestHub();
@@ -168,7 +170,7 @@ const GuestHub = ({ initialRoom = null }: Props) => {
                     <div className="flex items-center gap-3 shrink-0">
                       {item.is_paid_extra && (
                         <span className="text-sm font-medium text-accent">
-                          €{Number(item.price_estimate ?? 0).toFixed(0)}
+                          {formatPrice(Number(item.price_estimate ?? 0).toFixed(0))}
                         </span>
                       )}
                       <ChevronRight className="h-4 w-4 text-muted-foreground" />

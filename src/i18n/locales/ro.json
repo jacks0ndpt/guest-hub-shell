@@ -202,7 +202,9 @@
       "title": "Cuvinte frumoase de la șederi recente."
     },
     "map": {
-      "comingSoon": "Hartă interactivă în curând"
+      "comingSoon": "Hartă interactivă în curând",
+      "title": "Harta {{name}}",
+      "openInMaps": "Deschide în Google Maps"
     }
   },
   "guest": {
@@ -593,7 +595,6 @@
         "home_ctaDesc": "Apelul final la rezervare de pe pagina principală.",
         "location_details": "Locație — detalii",
         "location_detailsDesc": "Informații despre cum ajungi, parcare și transport, afișate pe pagina Locație."
-
       },
       "items": {
         "add": "Adaugă element",
@@ -699,7 +700,9 @@
       "soundAlerts": "Alertă sonoră la cerere nouă",
       "soundAlertsHint": "Redă un sunet scurt în acest browser când sosește o cerere nouă.",
       "notificationEmail": "Email pentru notificări",
-      "emailAlerts": "Trimite-mi email la cereri noi"
+      "emailAlerts": "Trimite-mi email la cereri noi",
+      "mapEmbedUrl": "URL hartă (embed)",
+      "mapsUrl": "Link Google Maps"
     },
     "realtime": {
       "notifications": "Notificări",

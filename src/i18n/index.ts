@@ -12,14 +12,16 @@ i18n
       en: { translation: en },
       ro: { translation: ro },
     },
-    fallbackLng: "en",
+    fallbackLng: "ro",
     supportedLngs: ["en", "ro"],
     interpolation: { escapeValue: false },
     detection: {
-      order: ["localStorage", "navigator"],
+      // New visitors default to Romanian; a manual switch is remembered.
+      order: ["localStorage"],
       caches: ["localStorage"],
       lookupLocalStorage: "guesthub_lang",
     },
+
   });
 
 export default i18n;

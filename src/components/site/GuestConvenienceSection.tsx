@@ -20,11 +20,16 @@ export const GuestConvenienceSection = () => {
           {body && <p className="mt-4 text-muted-foreground max-w-md">{body}</p>}
           {primaryCta.label && (
             <Button asChild className="mt-8" variant="outline">
-              <a href={primaryCta.url || "/guest"}>
+              <a
+                href={primaryCta.url || "/guest"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {primaryCta.label} <ArrowRight className="ml-1.5 h-4 w-4" />
               </a>
             </Button>
           )}
+
         </div>
         <div>
           {imageUrl ? (

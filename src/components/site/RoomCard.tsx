@@ -3,11 +3,14 @@ import { Users, BedDouble, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Room } from "@/data/mock";
 import { useProperty } from "@/hooks/useProperty";
+import { useCurrency } from "@/hooks/useCurrency";
 import { useTranslation } from "react-i18next";
 
 export const RoomCard = ({ room }: { room: Room }) => {
   const { merged: property } = useProperty();
+  const { format: formatPrice } = useCurrency();
   const { t } = useTranslation();
+
   return (
     <article className="group overflow-hidden rounded-lg bg-card shadow-card transition-shadow hover:shadow-soft">
       <Link to={`/rooms/${room.slug}`} className="block relative aspect-[4/3] overflow-hidden">
@@ -32,7 +35,7 @@ export const RoomCard = ({ room }: { room: Room }) => {
           </div>
           <div className="text-right shrink-0">
             <p className="eyebrow">From</p>
-            <p className="font-serif text-xl">€{room.price_from}</p>
+            <p className="font-serif text-xl">{formatPrice(room.price_from)}</p>
           </div>
         </div>
 
