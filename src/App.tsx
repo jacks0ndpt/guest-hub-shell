@@ -60,7 +60,11 @@ const App = () => (
             <Route path="/offers" element={<Offers />} />
             <Route path="/contact" element={<Contact />} />
 
+            {/* Hidden marketing brochure (public, unlinked) */}
+            <Route path="/brochure" element={<Brochure />} />
+
             {/* Guest QR hub (no auth) */}
+
             <Route path="/guest" element={<GuestHub />} />
             <Route path="/r/:qrCodeSlug" element={<RoomQR />} />
 
