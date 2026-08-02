@@ -17,6 +17,7 @@ import Location from "./pages/Location.tsx";
 import Contact from "./pages/Contact.tsx";
 import Offers from "./pages/Offers.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Brochure from "./pages/Brochure.tsx";
 
 import GuestHub from "./pages/guest/GuestHub.tsx";
 import RoomQR from "./pages/guest/RoomQR.tsx";
