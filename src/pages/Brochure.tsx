@@ -349,7 +349,7 @@ const Brochure = () => {
             {benefits.map((b) => (
               <div key={b.title} className="b-card p-4">
                 <div className="h-9 w-9 rounded-lg grid place-items-center mb-3" style={{ background: "rgba(169,116,63,0.12)", color: "var(--bronze)" }}>
-                  <b.icon className="h-4.5 w-4.5" strokeWidth={1.4} />
+                  <b.icon className="h-5 w-5" strokeWidth={1.4} />
                 </div>
                 <p className="serif text-lg leading-snug" style={{ color: "var(--forest)" }}>{b.title}</p>
                 <p className="mt-1.5 text-[12.5px] leading-relaxed opacity-75">{b.body}</p>
