@@ -17,6 +17,7 @@ import Location from "./pages/Location.tsx";
 import Contact from "./pages/Contact.tsx";
 import Offers from "./pages/Offers.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Brochure from "./pages/Brochure.tsx";
 
 import GuestHub from "./pages/guest/GuestHub.tsx";
 import RoomQR from "./pages/guest/RoomQR.tsx";
@@ -59,7 +60,11 @@ const App = () => (
             <Route path="/offers" element={<Offers />} />
             <Route path="/contact" element={<Contact />} />
 
+            {/* Hidden marketing brochure (public, unlinked) */}
+            <Route path="/brochure" element={<Brochure />} />
+
             {/* Guest QR hub (no auth) */}
+
             <Route path="/guest" element={<GuestHub />} />
             <Route path="/r/:qrCodeSlug" element={<RoomQR />} />
 
