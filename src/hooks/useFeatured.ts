@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
+import { usePropertySettingsQuery, useOffersQuery } from "@/lib/publicQueries";
 import { useRooms } from "@/hooks/useRooms";
 import type { Room } from "@/data/mock";
 import { useLang, pickLocalized } from "@/lib/i18nContent";
@@ -32,18 +32,11 @@ const readIds = (raw: unknown): string[] => (Array.isArray(raw) ? (raw as string
  */
 export const useFeaturedRooms = (fallbackCount = 3) => {
   const { rooms, dbRooms, loading } = useRooms();
-  const [ids, setIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from("property_settings")
-        .select("home_featured_rooms")
-        .limit(1)
-        .maybeSingle();
-      setIds(readIds((data as { home_featured_rooms?: unknown } | null)?.home_featured_rooms));
-    })();
-  }, []);
+  const { data: prop } = usePropertySettingsQuery();
+  const ids = useMemo(
+    () => readIds((prop as { home_featured_rooms?: unknown } | null)?.home_featured_rooms),
+    [prop],
+  );
 
   const featured = useMemo<Room[]>(() => {
     if (ids.length === 0) return rooms.slice(0, fallbackCount);
@@ -66,24 +59,13 @@ export const useFeaturedRooms = (fallbackCount = 3) => {
  */
 export const useFeaturedOffers = (fallbackCount = 3) => {
   const lang = useLang();
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [ids, setIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const [{ data: offerData }, { data: prop }] = await Promise.all([
-        supabase.from("offers").select("*").eq("is_active", true).order("sort_order"),
-        supabase.from("property_settings").select("home_featured_offers").limit(1).maybeSingle(),
-      ]);
-      if (cancelled) return;
-      setOffers((offerData as Offer[]) ?? []);
-      setIds(readIds((prop as { home_featured_offers?: unknown } | null)?.home_featured_offers));
-      setLoading(false);
-    })();
-    return () => { cancelled = true; };
-  }, []);
+  const { data: offerData, isLoading: loading } = useOffersQuery();
+  const { data: prop } = usePropertySettingsQuery();
+  const offers = useMemo(() => (offerData as unknown as Offer[] | undefined) ?? [], [offerData]);
+  const ids = useMemo(
+    () => readIds((prop as { home_featured_offers?: unknown } | null)?.home_featured_offers),
+    [prop],
+  );
 
   const featured = useMemo(() => {
     const source = ids.length === 0

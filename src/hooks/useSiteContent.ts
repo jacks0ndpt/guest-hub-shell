@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSiteContentQuery } from "@/lib/publicQueries";
 import { pickLocalizedJson, useLang, type Lang } from "@/lib/i18nContent";
 
 // Section content can hold bilingual strings AND repeatable item arrays (items_json),
@@ -325,27 +326,24 @@ export const SECTION_FIELDS: Record<string, SectionFieldSpec[]> = {
 
 
 export const useSiteContent = () => {
-  const [content, setContent] = useState<SiteContentMap>(DEFAULT_CONTENT);
-  const [loading, setLoading] = useState(true);
   const lang = useLang();
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useSiteContentQuery();
 
-  const load = async () => {
-    const { data } = await supabase.from("site_content").select("section_key, content");
-    if (data) {
-      const map: SiteContentMap = { ...DEFAULT_CONTENT };
-      for (const row of data as { section_key: string; content: Record<string, SiteContentValue> }[]) {
-        map[row.section_key] = { ...(DEFAULT_CONTENT[row.section_key] ?? {}), ...(row.content ?? {}) };
-      }
-      setContent(map);
+  const content = useMemo<SiteContentMap>(() => {
+    if (!data) return DEFAULT_CONTENT;
+    const map: SiteContentMap = { ...DEFAULT_CONTENT };
+    for (const row of data as { section_key: string; content: Record<string, SiteContentValue> }[]) {
+      map[row.section_key] = { ...(DEFAULT_CONTENT[row.section_key] ?? {}), ...(row.content ?? {}) };
     }
-    setLoading(false);
+    return map;
+  }, [data]);
+
+  const reload = async () => {
+    await queryClient.invalidateQueries({ queryKey: ["public", "site_content"] });
   };
 
-  useEffect(() => {
-    load();
-  }, []);
-
-  return { content, loading, reload: load, lang };
+  return { content, loading: isLoading, reload, lang };
 };
 
 /** Read a localized scalar string from a section. */

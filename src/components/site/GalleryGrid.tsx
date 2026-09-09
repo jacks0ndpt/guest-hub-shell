@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { gallery as mockImages, type GalleryItem } from "@/data/mock";
-import { supabase } from "@/integrations/supabase/client";
+import { useGalleryQuery } from "@/lib/publicQueries";
 import { useLang, pickLocalized } from "@/lib/i18nContent";
 
 type Category = GalleryItem["category"] | "all";
@@ -17,35 +17,20 @@ export const GalleryGrid = ({ items, filterable = true, limit }: Props) => {
   const { t } = useTranslation();
   const lang = useLang();
   const [active, setActive] = useState<Category>("all");
-  const [fetched, setFetched] = useState<GalleryItem[] | null>(items ? null : null);
+  const { data } = useGalleryQuery(!items);
 
-  useEffect(() => {
-    if (items) return;
-    let cancelled = false;
-    (async () => {
-      const { data } = await supabase
-        .from("site_gallery")
-        .select("image_url, alt, alt_ro, alt_en, category")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: true });
-      if (cancelled) return;
-      if (data && data.length > 0) {
-        setFetched(
-          data.map((d) => ({
-            src: d.image_url,
-            alt: pickLocalized(d as unknown as Record<string, unknown>, "alt", lang) || d.alt || "",
-            category: (d.category ?? "rooms") as GalleryItem["category"],
-          })),
-        );
-      } else {
-        setFetched(mockImages);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [items, lang]);
+  const fetched = useMemo<GalleryItem[] | null>(() => {
+    if (items || !data) return null;
+    if (data.length === 0) return mockImages;
+    return data.map((d) => {
+      const row = d as Record<string, unknown>;
+      return {
+        src: String(row.image_url ?? ""),
+        alt: pickLocalized(row, "alt", lang) || String(row.alt ?? ""),
+        category: ((row.category as string) ?? "rooms") as GalleryItem["category"],
+      };
+    });
+  }, [items, data, lang]);
 
   const source = items ?? fetched ?? [];
 
