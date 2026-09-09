@@ -45,27 +45,9 @@ const fromMock = (): DBPropertySettings => ({
 });
 
 export const useProperty = () => {
-  const [property, setProperty] = useState<DBPropertySettings | null>(fromMock());
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data, error } = await supabase
-        .from("property_settings")
-        .select("*")
-        .limit(1)
-        .maybeSingle();
-      if (cancelled) return;
-      if (!error && data) {
-        setProperty(data as DBPropertySettings);
-      }
-      setLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { data, isLoading } = usePropertySettingsQuery();
+  const property = (data as DBPropertySettings | null) ?? fromMock();
+  const loading = isLoading;
 
   // Helpers used elsewhere in the app
   const merged: PropertySettings = {
