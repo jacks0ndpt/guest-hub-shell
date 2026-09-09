@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
+import { useRoomsQuery } from "@/lib/publicQueries";
 import { rooms as mockRooms, type Room } from "@/data/mock";
 import { useLang, pickLocalized, pickLocalizedArray } from "@/lib/i18nContent";
 import { translateAmenities } from "@/lib/amenityTranslations";
@@ -65,17 +65,9 @@ export const useRooms = () => {
                 ? r.gallery_image_urls
                 : fallback?.gallery ?? [],
             amenities: translateAmenities(rawAmenities, lang),
-          };
-
-        });
-        setRooms(mapped);
-      }
-      setLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [lang]);
+      };
+    });
+  }, [dbRooms, lang]);
 
   return { rooms, dbRooms, loading };
 };
