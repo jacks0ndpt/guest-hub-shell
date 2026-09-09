@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { gallery as mockImages, type GalleryItem } from "@/data/mock";
-import { supabase } from "@/integrations/supabase/client";
+import { useGalleryQuery } from "@/lib/publicQueries";
 import { useLang, pickLocalized } from "@/lib/i18nContent";
 
 type Category = GalleryItem["category"] | "all";
