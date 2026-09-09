@@ -59,24 +59,13 @@ export const useFeaturedRooms = (fallbackCount = 3) => {
  */
 export const useFeaturedOffers = (fallbackCount = 3) => {
   const lang = useLang();
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [ids, setIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const [{ data: offerData }, { data: prop }] = await Promise.all([
-        supabase.from("offers").select("*").eq("is_active", true).order("sort_order"),
-        supabase.from("property_settings").select("home_featured_offers").limit(1).maybeSingle(),
-      ]);
-      if (cancelled) return;
-      setOffers((offerData as Offer[]) ?? []);
-      setIds(readIds((prop as { home_featured_offers?: unknown } | null)?.home_featured_offers));
-      setLoading(false);
-    })();
-    return () => { cancelled = true; };
-  }, []);
+  const { data: offerData, isLoading: loading } = useOffersQuery();
+  const { data: prop } = usePropertySettingsQuery();
+  const offers = useMemo(() => (offerData as unknown as Offer[] | undefined) ?? [], [offerData]);
+  const ids = useMemo(
+    () => readIds((prop as { home_featured_offers?: unknown } | null)?.home_featured_offers),
+    [prop],
+  );
 
   const featured = useMemo(() => {
     const source = ids.length === 0
