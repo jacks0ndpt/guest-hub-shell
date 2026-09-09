@@ -55,26 +55,11 @@ const mockAsDisplay = (): DisplayTestimonial[] =>
 /** Public hook: returns active testimonials, falls back to mock data when empty. */
 export const useTestimonials = () => {
   const lang = useLang();
-  const [rows, setRows] = useState<TestimonialRow[] | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data } = await supabase
-        .from("testimonials")
-        .select("*")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: true });
-      if (!cancelled) setRows((data as TestimonialRow[]) ?? []);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { data, isLoading } = useTestimonialsQuery();
+  const rows = (data as TestimonialRow[] | undefined) ?? null;
 
   const items: DisplayTestimonial[] =
     rows === null ? [] : rows.length > 0 ? rows.map((r) => toDisplay(r, lang)) : mockAsDisplay();
 
-  return { items, loading: rows === null, isFallback: rows !== null && rows.length === 0 };
+  return { items, loading: isLoading, isFallback: rows !== null && rows.length === 0 };
 };
