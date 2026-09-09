@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useTestimonialsQuery } from "@/lib/publicQueries";
 import { useLang, pickLocalized, type Lang } from "@/lib/i18nContent";
 import { testimonials as mockTestimonials } from "@/data/mock";
 
