@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
+import { useAmenitiesQuery } from "@/lib/publicQueries";
 import { useLang } from "@/lib/i18nContent";
 
 export type DBAmenity = {
@@ -30,25 +30,8 @@ type Options = {
 
 export const useAmenities = ({ scope = "all" }: Options = {}) => {
   const lang = useLang();
-  const [rows, setRows] = useState<DBAmenity[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data, error } = await supabase
-        .from("amenities")
-        .select("*")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true });
-      if (cancelled) return;
-      if (!error && data) setRows(data as DBAmenity[]);
-      setLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { data, isLoading: loading } = useAmenitiesQuery();
+  const rows = (data as DBAmenity[] | undefined) ?? [];
 
   const items = useMemo<LocalizedAmenity[]>(() => {
     return rows
