@@ -35,25 +35,13 @@ export type DBRoom = {
  */
 export const useRooms = () => {
   const lang = useLang();
-  const [rooms, setRooms] = useState<Room[]>(mockRooms);
-  const [dbRooms, setDbRooms] = useState<DBRoom[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading: loading } = useRoomsQuery();
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data, error } = await supabase
-        .from("rooms")
-        .select("*")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true });
+  const dbRooms = useMemo(() => (data as unknown as DBRoom[] | undefined) ?? [], [data]);
 
-      if (cancelled) return;
-
-      if (!error && data && data.length > 0) {
-        const rows = data as unknown as DBRoom[];
-        setDbRooms(rows);
-        const mapped: Room[] = rows.map((r) => {
+  const rooms = useMemo<Room[]>(() => {
+    if (dbRooms.length === 0) return mockRooms;
+    return dbRooms.map((r) => {
           const fallback = mockRooms.find((m) => m.slug === r.slug);
           const row = r as unknown as Record<string, unknown>;
           const name = pickLocalized(row, "name", lang) || r.name;
