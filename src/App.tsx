@@ -38,7 +38,17 @@ import AdminUsers from "./pages/admin/AdminUsers.tsx";
 import AdminTestimonials from "./pages/admin/AdminTestimonials.tsx";
 import AdminAmenities from "./pages/admin/AdminAmenities.tsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 30 * 60 * 1000,
+      retry: 1,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
