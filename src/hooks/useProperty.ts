@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { usePropertySettingsQuery } from "@/lib/publicQueries";
 import { property as mockProperty, type PropertySettings } from "@/data/mock";
 
 export type DBPropertySettings = {
