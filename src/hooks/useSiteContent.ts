@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSiteContentQuery } from "@/lib/publicQueries";
 import { pickLocalizedJson, useLang, type Lang } from "@/lib/i18nContent";
 
 // Section content can hold bilingual strings AND repeatable item arrays (items_json),
