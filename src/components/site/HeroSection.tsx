@@ -46,6 +46,12 @@ export const HeroSection = ({
           src={image}
           alt=""
           aria-hidden
+          width={1920}
+          height={1280}
+          loading="eager"
+          decoding="async"
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {...({ fetchpriority: "high" } as any)}
           className="absolute inset-0 h-full w-full object-cover scale-105"
         />
       )}
