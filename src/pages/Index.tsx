@@ -153,15 +153,15 @@ const Index = () => {
 
       {/* Location + contact preview */}
       <section className="section">
-        <div className="container-narrow grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div>
+        <div className="container-narrow grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="min-w-0">
             <p className="eyebrow mb-3">{get(content, "location", "eyebrow", lang)}</p>
             <h2 className="text-4xl md:text-5xl">{get(content, "location", "title", lang)}</h2>
             <p className="mt-5 text-muted-foreground max-w-md">
               {get(content, "location", "description", lang)}
             </p>
 
-            <dl className="mt-8 grid sm:grid-cols-2 gap-3 max-w-md">
+            <dl className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md [&>*]:min-w-0">
               {property.address && (
                 <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
                   <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
