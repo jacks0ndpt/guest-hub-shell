@@ -71,7 +71,7 @@ const Location = () => {
                     if (!label) return null;
                     return (
                       <li key={i} className="py-3 flex justify-between gap-3 text-sm">
-                        <span>{label}</span>
+                        <span className="min-w-0 break-words">{label}</span>
                         <span className="text-muted-foreground shrink-0">{time}</span>
                       </li>
                     );
